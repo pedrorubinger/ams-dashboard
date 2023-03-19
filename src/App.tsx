@@ -1,8 +1,16 @@
+import { ChakraProvider } from "@chakra-ui/react"
+import { BrowserRouter } from "react-router-dom"
+
+import { DefaultTheme } from "~/styles/theme"
+import { Router } from "~/Router"
+
 const App = () => {
 	return (
-		<div>
-			<h1>Hello, World!</h1>
-		</div>
+		<ChakraProvider theme={DefaultTheme}>
+			<BrowserRouter>
+				<Router />
+			</BrowserRouter>
+		</ChakraProvider>
 	)
 }
 
