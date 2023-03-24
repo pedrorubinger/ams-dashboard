@@ -42,6 +42,7 @@ export const LoginForm = () => {
 					type="email"
 					placeholder="Seu email"
 					{...register("email")}
+					autoFocus
 				/>
 				<FormErrorMessage>
 					{errors.email && errors.email.message}
