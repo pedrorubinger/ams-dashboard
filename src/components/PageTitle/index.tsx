@@ -7,7 +7,7 @@ interface Props extends HeadingProps {
 
 export const PageTitle: React.FC<Props> = ({ children, ...rest }) => {
 	return (
-		<Heading color="gray.600" size="lg" mb="5" {...rest}>
+		<Heading color="gray.600" size="md" mb="3" {...rest}>
 			{children}
 		</Heading>
 	)
