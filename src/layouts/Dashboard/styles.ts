@@ -37,7 +37,7 @@ export const DashboardContentContainer = styled(Flex).attrs(() => ({
 
 export const DashboardOutletContainer = styled(Flex).attrs(() => ({
 	h: "fit-content",
-	px: 8,
+	px: 10,
 	py: 5,
 	borderRadius: 8,
 	boxShadow: "0 4px 12px 0 rgba(0, 0, 0, 0.05)",
