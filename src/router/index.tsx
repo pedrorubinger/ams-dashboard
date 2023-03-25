@@ -4,7 +4,7 @@ import { Progress, Stack } from "@chakra-ui/react"
 
 import { RouteItem } from "~/interfaces"
 import { privateRoutes, publicRoutes } from "~/router/routes"
-import { useValidateToken } from "~/hooks/useValidateToken"
+import { useValidateToken } from "~/hooks"
 import { DashboardLayout } from "~/layouts/Dashboard"
 
 export function Router() {
