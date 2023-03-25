@@ -1,9 +1,11 @@
-import { Heading, Text } from "@chakra-ui/react"
+import { Text } from "@chakra-ui/react"
+
+import { PageTitle } from "~/components"
 
 export const Settings: React.FC = () => {
 	return (
 		<div>
-			<Heading>Settings Page</Heading>
+			<PageTitle>Settings Page</PageTitle>
 
 			<Text>
 				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit, impedit,
