@@ -1,4 +1,4 @@
-import { Text } from "@chakra-ui/react"
+import { Box, Text } from "@chakra-ui/react"
 
 import { useUserStore } from "~/store"
 import { PageTitle } from "~/components"
@@ -8,7 +8,7 @@ export const Home: React.FC = () => {
 	const name = user?.name?.split(" ")?.[0] || "usuário"
 
 	return (
-		<div>
+		<Box>
 			<PageTitle>Olá, {name}!</PageTitle>
 
 			<Text>
@@ -16,6 +16,6 @@ export const Home: React.FC = () => {
 				<strong>Ajuda</strong> estará disponível em breve. Algumas das
 				funcionalidades ainda estão em desenvolvimento.
 			</Text>
-		</div>
+		</Box>
 	)
 }
