@@ -7,12 +7,13 @@ import { MenuStatus } from "~/interfaces"
 import { sideMenuItems } from "~/router/routes"
 import { useWindowWidth } from "~/hooks"
 import {
+	DashboardContentContainer,
 	DashboardFlexContainer,
 	DashboardMenuListContainer,
 	DashboardOutletContainer,
 	DashboardSideMenuContainer,
 } from "~/layouts/Dashboard/styles"
-import { SideMenuItem } from "~/layouts/Dashboard/components"
+import { DashboardFooter, SideMenuItem } from "~/layouts/Dashboard/components"
 
 const CONTENT_HORIZONTAL_GAP = 40
 const EXPANDED_MENU_MAX_WIDTH = 640
@@ -73,12 +74,16 @@ export function DashboardLayout() {
 				</DashboardMenuListContainer>
 			</DashboardSideMenuContainer>
 
-			<DashboardOutletContainer
+			<DashboardContentContainer
 				ml={`calc(${sideMenuWidth || 0}px + ${CONTENT_HORIZONTAL_GAP}px)`}
 				mr={`${CONTENT_HORIZONTAL_GAP}px`}
 			>
-				<Outlet />
-			</DashboardOutletContainer>
+				<DashboardOutletContainer>
+					<Outlet />
+				</DashboardOutletContainer>
+
+				<DashboardFooter />
+			</DashboardContentContainer>
 		</DashboardFlexContainer>
 	)
 }

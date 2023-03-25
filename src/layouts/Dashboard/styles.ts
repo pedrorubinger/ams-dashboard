@@ -1,15 +1,17 @@
 import { Flex } from "@chakra-ui/react"
 import styled from "styled-components"
 
+const CONTENT_HEIGHT = "95vh"
+
 export const DashboardFlexContainer = styled(Flex).attrs(() => ({
 	py: "2.5vh",
-	ml: 5,
 	minHeight: "100vh",
+	ml: 5,
 }))``
 
 export const DashboardSideMenuContainer = styled(Flex).attrs(() => ({
 	pos: "fixed",
-	h: "95vh",
+	h: CONTENT_HEIGHT,
 	px: 5,
 	py: 5,
 	borderRadius: 8,
@@ -26,6 +28,11 @@ export const DashboardMenuListContainer = styled(Flex).attrs(() => ({
 	p: 0,
 	flexDir: "column",
 	gap: 2,
+}))``
+
+export const DashboardContentContainer = styled(Flex).attrs(() => ({
+	flexDirection: "column",
+	minHeight: CONTENT_HEIGHT,
 }))``
 
 export const DashboardOutletContainer = styled(Flex).attrs(() => ({
