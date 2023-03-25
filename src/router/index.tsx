@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Navigate, Route, Routes } from "react-router-dom"
-import { Text } from "@chakra-ui/react"
+import { Progress, Stack } from "@chakra-ui/react"
 
 import { RouteItem } from "~/interfaces"
 import { privateRoutes, publicRoutes } from "~/router/routes"
@@ -9,8 +9,8 @@ import { useValidateToken } from "~/hooks/useValidateToken"
 export function Router() {
 	const [isMounted, setIsMounted] = useState(false)
 	const { isValidating, isAuthenticated } = useValidateToken()
-	const routes: RouteItem[] = isAuthenticated ? privateRoutes : publicRoutes
 
+	const routes: RouteItem[] = isAuthenticated ? privateRoutes : publicRoutes
 	const isLoading = !isMounted || isValidating
 
 	useEffect(() => {
@@ -19,7 +19,19 @@ export function Router() {
 		return () => setIsMounted(false)
 	}, [])
 
-	if (isLoading) return <Text>Carregando...</Text>
+	if (isLoading) {
+		return (
+			<Stack spacing={5}>
+				<Progress
+					colorScheme="primary"
+					size="sm"
+					value={20}
+					height={2}
+					isIndeterminate
+				/>
+			</Stack>
+		)
+	}
 
 	return (
 		<Routes>
