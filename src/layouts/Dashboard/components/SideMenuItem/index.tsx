@@ -26,7 +26,7 @@ export const SideMenuItem: React.FC<Props> = ({
 
 	return (
 		<>
-			{!!isLogout && <Divider />}
+			{!!isLogout && <Divider mt={2} />}
 			<Flex w="100%" m={0} p={0}>
 				<Link
 					backgroundColor={active ? theme.colors.gray[200] : "none"}
