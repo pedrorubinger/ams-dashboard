@@ -7,6 +7,7 @@ export const DashboardFlexContainer = styled(Flex).attrs(() => ({
 	py: "2.5vh",
 	minHeight: "100vh",
 	ml: 5,
+	overflowX: "hidden",
 }))``
 
 export const DashboardSideMenuContainer = styled(Flex).attrs(() => ({
@@ -34,6 +35,7 @@ export const DashboardContentContainer = styled(Flex).attrs(() => ({
 	flexDirection: "column",
 	w: "100%",
 	minHeight: CONTENT_HEIGHT,
+	overflow: "auto",
 }))``
 
 export const DashboardOutletContainer = styled(Flex).attrs(() => ({
