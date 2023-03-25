@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import {
 	Button,
 	FormControl,
@@ -11,25 +12,40 @@ import { Eye, EyeClosed } from "phosphor-react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 
-import { LoginFormValues as FormValues } from "~/pages/Login/interfaces"
+import { useUserStore } from "~/store"
+import { LoginFormValues as FormValues } from "~/interfaces"
+import { createSession } from "~/services/requests"
 import { LoginSchema } from "~/pages/Login/components/Form/schema"
 import { Form, InputLabel } from "~/components"
 
 export const LoginForm = () => {
-	const [showPassword, setShowPassword] = useState(false)
-
+	const navigate = useNavigate()
+	const { setUser } = useUserStore()
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+	const [isSubmitting, setIsSubmitting] = useState(false)
 	const {
 		handleSubmit,
 		register,
 		watch,
-		formState: { errors, isSubmitting },
+		formState: { errors },
 	} = useForm<FormValues>({
 		resolver: yupResolver(LoginSchema),
 	})
 	const watchedPassword = watch("password")
 
-	const onSubmit = (values: FormValues) => {
-		console.log("submitted values:", values)
+	const onSubmit = async ({ email, password }: FormValues) => {
+		setIsSubmitting(true)
+
+		const { data } = await createSession({ email, password })
+
+		setIsSubmitting(false)
+
+		if (data) {
+			setUser({ email: data.user.email, name: data?.user?.name, role: data.user.role, id: data.user.id })
+			navigate("/")
+		}
+
+		/** TO DO: Handle error properly... */
 	}
 
 	return (
@@ -54,7 +70,7 @@ export const LoginForm = () => {
 
 				<InputGroup>
 					<Input
-						type={showPassword ? "text" : "password"}
+						type={isPasswordVisible ? "text" : "password"}
 						id="password"
 						placeholder="Sua senha"
 						{...register("password")}
@@ -64,9 +80,9 @@ export const LoginForm = () => {
 							<Button
 								h="1.75rem"
 								size="sm"
-								onClick={() => setShowPassword((prev) => !prev)}
+								onClick={() => setIsPasswordVisible((prev) => !prev)}
 							>
-								{showPassword ? <EyeClosed /> : <Eye />}
+								{isPasswordVisible ? <EyeClosed /> : <Eye />}
 							</Button>
 						</InputRightElement>
 					)}
@@ -82,6 +98,7 @@ export const LoginForm = () => {
 				type="submit"
 				title="Clique para fazer login e acessar sua conta"
 				isLoading={isSubmitting}
+				isDisabled={isSubmitting}
 				mt={6}
 			>
 				Entrar
