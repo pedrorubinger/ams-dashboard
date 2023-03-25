@@ -13,7 +13,7 @@ export const Home: React.FC = () => {
 
 			<Text>
 				Utilize o menu lateral para navegar pelo sistema. Uma seção de&nbsp;
-				<strong>Ajuda</strong> estará disponível em breve. Algumas das
+				<strong>Ajuda</strong> estará disponível em breve! <br /> Algumas das
 				funcionalidades ainda estão em desenvolvimento.
 			</Text>
 		</Box>
