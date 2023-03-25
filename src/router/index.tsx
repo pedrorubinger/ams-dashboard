@@ -5,12 +5,11 @@ import { Progress, Stack } from "@chakra-ui/react"
 import { RouteItem } from "~/interfaces"
 import { privateRoutes, publicRoutes } from "~/router/routes"
 import { useValidateToken } from "~/hooks/useValidateToken"
+import { DashboardLayout } from "~/layouts/Dashboard"
 
 export function Router() {
 	const [isMounted, setIsMounted] = useState(false)
 	const { isValidating, isAuthenticated } = useValidateToken()
-
-	const routes: RouteItem[] = isAuthenticated ? privateRoutes : publicRoutes
 	const isLoading = !isMounted || isValidating
 
 	useEffect(() => {
@@ -33,11 +32,26 @@ export function Router() {
 		)
 	}
 
+	const renderRoutes = (): JSX.Element | JSX.Element[] => {
+		const list: RouteItem[] = isAuthenticated ? privateRoutes : publicRoutes
+		const routes = list.map((route) => (
+			<Route path={route.path} element={route.element} key={route.id} />
+		))
+
+		if (isAuthenticated) {
+			return (
+				<Route path="/" element={<DashboardLayout />}>
+					{routes}
+				</Route>
+			)
+		}
+
+		return routes
+	}
+
 	return (
 		<Routes>
-			{routes.map((route) => (
-				<Route path={route.path} element={route.element} key={route.key} />
-			))}
+			{renderRoutes()}
 
 			{isAuthenticated ? (
 				<Route path="*" element={<Navigate to="/" />} />
