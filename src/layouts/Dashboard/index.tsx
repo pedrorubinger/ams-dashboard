@@ -50,6 +50,7 @@ export function DashboardLayout() {
 						<IconButton
 							background="none"
 							aria-label="menu"
+							title="Clique para expandir ou diminuir o menu lateral"
 							_hover={{ background: "none" }}
 							icon={<MenuIcon size={18} cursor="pointer" />}
 							onClick={toggleMenuStatus}
