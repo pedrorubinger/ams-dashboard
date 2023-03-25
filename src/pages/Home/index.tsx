@@ -1,12 +1,8 @@
 import { Button, Heading } from "@chakra-ui/react"
 
-import { useUserStore } from "~/store"
+import { logout } from "~/utils"
 
 export const Home: React.FC = () => {
-	const { setUser } = useUserStore()
-
-	const logout = () => setUser(null)
-
 	return (
 		<div>
 			<Heading>Home Page</Heading>
