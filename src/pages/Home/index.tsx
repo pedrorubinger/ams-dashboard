@@ -1,5 +1,18 @@
-import { Heading } from "@chakra-ui/react"
+import { Button, Heading } from "@chakra-ui/react"
+
+import { useUserStore } from "~/store"
 
 export const Home = () => {
-	return <Heading>Home Page</Heading>
+	const { setUser } = useUserStore()
+
+	const logout = () => setUser(null)
+
+	return (
+		<div>
+			<Heading>Home Page</Heading>
+			<Button type="button" variant="link" onClick={logout}>
+				Logout
+			</Button>
+		</div>
+	)
 }
