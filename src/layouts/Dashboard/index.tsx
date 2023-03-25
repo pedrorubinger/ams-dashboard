@@ -6,6 +6,12 @@ import { List as MenuIcon } from "phosphor-react"
 import { MenuStatus } from "~/interfaces"
 import { sideMenuItems } from "~/router/routes"
 import { SideMenuItem } from "~/layouts/Dashboard/components"
+import {
+	DashboardFlexContainer,
+	DashboardMenuListContainer,
+	DashboardOutletContainer,
+	DashboardSideMenuContainer,
+} from "~/layouts/Dashboard/styles"
 
 const CONTENT_HORIZONTAL_GAP = 40
 
@@ -24,20 +30,8 @@ export function DashboardLayout() {
 	}
 
 	return (
-		<Flex py="2.5vh" ml="5" minHeight="100vh">
-			<Flex
-				pos="fixed"
-				h="95vh"
-				px="5"
-				py="5"
-				borderRadius="8"
-				boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
-				bg="whiteAlpha.800"
-				flexDir="column"
-				overflow="auto"
-				width="fit-content"
-				ref={sideMenuRef}
-			>
+		<DashboardFlexContainer>
+			<DashboardSideMenuContainer ref={sideMenuRef}>
 				<Flex mb={5}>
 					<IconButton
 						background="none"
@@ -49,7 +43,7 @@ export function DashboardLayout() {
 				</Flex>
 
 				{/* ITEMS */}
-				<Flex w="100%" m={0} p={0} flexDir="column" gap="2">
+				<DashboardMenuListContainer>
 					{sideMenuItems.map(({ id, path, ...rest }) => (
 						<SideMenuItem
 							key={id}
@@ -60,22 +54,15 @@ export function DashboardLayout() {
 							{...rest}
 						/>
 					))}
-				</Flex>
-			</Flex>
+				</DashboardMenuListContainer>
+			</DashboardSideMenuContainer>
 
-			<Flex
-				h="fit-content"
-				px="8"
-				py="5"
-				borderRadius="8"
-				boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
-				bg="whiteAlpha.800"
-				overflow="auto"
+			<DashboardOutletContainer
 				ml={`calc(${sideMenuWidth || 0}px + ${CONTENT_HORIZONTAL_GAP}px)`}
 				mr={`${CONTENT_HORIZONTAL_GAP}px`}
 			>
 				<Outlet />
-			</Flex>
-		</Flex>
+			</DashboardOutletContainer>
+		</DashboardFlexContainer>
 	)
 }
