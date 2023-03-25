@@ -49,11 +49,13 @@ export function DashboardLayout() {
 				{!isWindowWidthSmall && (
 					<Flex mb={5}>
 						<IconButton
-							background="none"
+							background="gray.50"
+							color="blackAlpha.700"
+							borderRadius="50%"
 							aria-label="menu"
 							title="Clique para expandir ou diminuir o menu lateral"
-							_hover={{ background: "none" }}
-							icon={<MenuIcon size={18} cursor="pointer" />}
+							_hover={{ background: "gray.100" }}
+							icon={<MenuIcon size={16} cursor="pointer" />}
 							onClick={toggleMenuStatus}
 						/>
 					</Flex>
