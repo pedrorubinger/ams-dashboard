@@ -1,5 +1,4 @@
 import { create } from "zustand"
-import { devtools, persist } from "zustand/middleware"
 
 import { User as UserData } from "~/interfaces"
 
@@ -10,16 +9,7 @@ interface UserState {
 	setUser: (user: User) => void
 }
 
-export const useUserStore = create<UserState>()(
-	devtools(
-		persist(
-			(set) => ({
-				user: null,
-				setUser: (user: User) => set(() => ({ user })),
-			}),
-			{
-				name: "user-storage",
-			}
-		)
-	)
-)
+export const useUserStore = create<UserState>()((set) => ({
+	user: null,
+	setUser: (user: User) => set(() => ({ user })),
+}))
