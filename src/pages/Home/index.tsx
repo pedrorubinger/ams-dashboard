@@ -5,7 +5,7 @@ import { PageTitle } from "~/components"
 
 export const Home: React.FC = () => {
 	const { user } = useUserStore()
-	const name = user?.name || "usuário"
+	const name = user?.name?.split(" ")?.[0] || "usuário"
 
 	return (
 		<div>
