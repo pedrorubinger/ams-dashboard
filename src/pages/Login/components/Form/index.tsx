@@ -41,7 +41,12 @@ export const LoginForm = () => {
 		setIsSubmitting(false)
 
 		if (data) {
-			setUser({ email: data.user.email, name: data?.user?.name, role: data.user.role, id: data.user.id })
+			setUser({
+				email: data.user.email,
+				name: data.user.name,
+				role: data.user.role,
+				id: data.user.id,
+			})
 			navigate("/")
 		}
 
