@@ -1,7 +1,7 @@
 import { Box, Card, Container, Divider, Heading, Image } from "@chakra-ui/react"
 
 import LogoSvg from "~/assets/vector/Logo.svg"
-import { LoginForm } from "./components"
+import { LoginForm } from "~/pages/Login/components"
 
 export const Login = () => {
 	return (
