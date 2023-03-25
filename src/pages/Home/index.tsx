@@ -2,7 +2,7 @@ import { Button, Heading } from "@chakra-ui/react"
 
 import { useUserStore } from "~/store"
 
-export const Home = () => {
+export const Home: React.FC = () => {
 	const { setUser } = useUserStore()
 
 	const logout = () => setUser(null)
