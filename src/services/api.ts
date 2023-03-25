@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/named
 import Axios, { AxiosError, AxiosHeaders, AxiosRequestConfig } from "axios"
+
 import { getToken } from "~/utils"
 
 export const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL
