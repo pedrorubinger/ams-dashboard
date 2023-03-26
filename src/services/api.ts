@@ -18,8 +18,6 @@ Api.interceptors.request.use((config: AxiosRequestConfig) => {
 Api.interceptors.response.use(
 	(response) => response,
 	async (error: AxiosError) => {
-		if (error?.response) return Promise.reject(error.response)
-
 		return Promise.reject(error)
 	}
 )

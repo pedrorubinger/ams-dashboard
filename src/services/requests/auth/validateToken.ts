@@ -1,10 +1,5 @@
 import { Api } from "~/services"
-import {
-	ValidateTokenResponse,
-	ServerResponse,
-	User,
-	RawError,
-} from "~/interfaces"
+import { ValidateTokenResponse, ServerResponse } from "~/interfaces"
 import { handleError } from "~/utils"
 
 export const validateToken = async (): Promise<
@@ -14,7 +9,7 @@ export const validateToken = async (): Promise<
 		const { data } = await Api.get<ValidateTokenResponse>("/sessions/validate")
 
 		return { success: true, data }
-	} catch (err: RawError) {
+	} catch (err) {
 		return { success: false, error: handleError(err) }
 	}
 }

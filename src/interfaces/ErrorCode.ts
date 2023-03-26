@@ -11,7 +11,7 @@ enum ErrorCode {
 	"404_USER_NOT_FOUND" = "Não encontramos este usuário.",
 	/** 400 */
 	"400_EMAIL_ALREADY_REGISTERED" = "Este email já está sendo utilizado.",
-	"400_INVALID_CREDENTIALS" = "Credenciais inválidas.",
+	"400_INVALID_CREDENTIALS" = "Usuário ou senha incorretos.",
 	"400_NAME_MUST_BE_TEXT" = "O seu nome deve ser um texto.",
 	"400_NAME_EXCEEDS_LENGTH_80" = "O nome não pode exceder 80 caracteres!",
 	"400_NAME_IS_REQUIRED" = "Informe o nome.",

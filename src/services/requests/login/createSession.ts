@@ -1,10 +1,5 @@
 import { Api } from "~/services"
-import {
-	CreateSesssionResponse,
-	ServerResponse,
-	User,
-	RawError,
-} from "~/interfaces"
+import { CreateSesssionResponse, ServerResponse, User } from "~/interfaces"
 import { handleError, setToken } from "~/utils"
 
 type Payload = Pick<User, "email" | "password">
@@ -22,7 +17,7 @@ export const createSession = async ({
 
 		setToken(data.token)
 		return { success: true, data }
-	} catch (err: RawError) {
+	} catch (err) {
 		return { success: false, error: handleError(err) }
 	}
 }
