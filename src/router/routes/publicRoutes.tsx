@@ -1,6 +1,15 @@
+import { User } from "phosphor-react"
+
 import { RouteItem } from "~/interfaces"
 import { Login } from "~/pages"
 
 export const publicRoutes: RouteItem[] = [
-	{ key: "login", element: <Login />, path: "/login" },
+	{
+		id: "login",
+		path: "/login",
+		label: "Login",
+		permissions: ["*"],
+		Icon: User,
+		element: <Login />,
+	},
 ]
