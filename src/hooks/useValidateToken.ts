@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 
 import { useUserStore } from "~/store"
-import { validateToken } from "~/services/requests"
+import { validateToken } from "~/services"
 import { getToken } from "~/utils"
 
 interface ValidateTokenHookResponse {
