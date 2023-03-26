@@ -14,11 +14,10 @@ import { yupResolver } from "@hookform/resolvers/yup"
 
 import { useUserStore } from "~/store"
 import { ErrorCode, LoginFormValues as FormValues } from "~/interfaces"
-import { createSession } from "~/services/requests"
+import { createSession } from "~/services"
 import { LOGIN_BAD_REQUEST_ERRORS } from "~/utils"
 import { LoginSchema } from "~/pages/Login/components/Form/schema"
-import { LoginErrorAlert } from "~/pages/Login/components/ErrorAlert"
-import { Form, InputLabel } from "~/components"
+import { DefaultAlert, Form, InputLabel } from "~/components"
 
 export const LoginForm = () => {
 	const navigate = useNavigate()
@@ -76,7 +75,9 @@ export const LoginForm = () => {
 
 	return (
 		<Form onSubmit={handleSubmit(onSubmit)}>
-			<LoginErrorAlert
+			<DefaultAlert
+				status="error"
+				mb="5"
 				isVisible={!!errorAlertMessage}
 				message={errorAlertMessage}
 				onClose={onCloseErrorAlert}
