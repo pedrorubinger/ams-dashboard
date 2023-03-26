@@ -155,6 +155,7 @@ export const SettingsForm = () => {
 				</FormControl>
 
 				<Button
+					size="sm"
 					colorScheme="primary"
 					type="submit"
 					title="Clique para atualizar os dados da sua conta"
