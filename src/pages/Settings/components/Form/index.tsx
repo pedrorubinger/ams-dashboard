@@ -13,26 +13,34 @@ import { Eye, EyeClosed } from "phosphor-react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 
-import { AccountFormValues as FormValues } from "~/interfaces"
+import { AccountFormValues as FormValues, ErrorCode } from "~/interfaces"
 import { useUserStore } from "~/store"
+import { updateAccount } from "~/services"
+import { UPDATE_ACCOUNT_BAD_REQUEST_ERRORS } from "~/utils"
 import { AccountSchema } from "~/pages/Settings/components/Form/schema"
-import { Form, InputLabel } from "~/components"
+import { DefaultAlert, Form, InputLabel } from "~/components"
+
+type AlertData = { status: "success" | "error"; message: string } | null
 
 export const SettingsForm = () => {
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 	const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false)
 	const [isSubmitting, setIsSubmitting] = useState(false)
-	const { user } = useUserStore()
+	const [alertData, setAlertData] = useState<AlertData>(null)
+	const { user, setUser } = useUserStore()
 	const defaultValues: FormValues = {
 		changePassword: false,
 		name: user?.name || "",
 		email: user?.email || "",
+		phone: undefined,
+		newPassword: undefined,
 		password: "",
-		newPassword: "",
 	}
 	const {
 		handleSubmit,
+		setError,
 		register,
+		reset,
 		watch,
 		formState: { errors },
 	} = useForm<FormValues>({
@@ -40,19 +48,65 @@ export const SettingsForm = () => {
 		defaultValues,
 	})
 	const watchedPassword: string = watch("password")
-	const watchedNewPassword: string = watch("newPassword")
+	const watchedNewPassword: string | undefined = watch("newPassword")
 	const watchedChangePassword: boolean = watch("changePassword")
 
-	const onSubmit = (values: FormValues) => {
+	const onCloseAlert = () => setAlertData(null)
+
+	const handleAccountErrors = (message: ErrorCode | undefined) => {
+		if (message) {
+			const badRequestError = UPDATE_ACCOUNT_BAD_REQUEST_ERRORS.find(
+				(item) => item.code === message
+			)
+
+			if (!badRequestError) {
+				setAlertData({ status: "error", message })
+			} else {
+				setError(badRequestError.field, { type: "custom", message })
+			}
+		}
+	}
+
+	const onSubmit = async ({ name, password, newPassword }: FormValues) => {
 		setIsSubmitting(true)
 
-		console.log("submitted values:", values)
+		if (alertData) onCloseAlert()
+
+		const payload = { name, password, newPassword }
+		const { data, error } = await updateAccount(payload)
+
+		handleAccountErrors(error)
+
+		if (data) {
+			const updatedName = data?.user?.name ?? ""
+
+			setAlertData({
+				status: "success",
+				message: "Seus dados foram atualizados com sucesso!",
+			})
+			reset({
+				...defaultValues,
+				name: updatedName,
+				password: defaultValues.password,
+				newPassword: defaultValues.newPassword,
+			})
+
+			if (user) setUser({ ...user, name: updatedName })
+		}
 
 		setIsSubmitting(false)
 	}
 
 	return (
 		<Box mt="12">
+			<DefaultAlert
+				mb="5"
+				message={alertData?.message ?? ""}
+				status={alertData?.status}
+				isVisible={!!alertData}
+				onClose={onCloseAlert}
+			/>
+
 			<Form onSubmit={handleSubmit(onSubmit)}>
 				<FormControl
 					isInvalid={!!errors.email}
@@ -77,6 +131,7 @@ export const SettingsForm = () => {
 						id="name"
 						type="text"
 						placeholder="Seu nome"
+						disabled={isSubmitting}
 						{...register("name")}
 					/>
 				</FormControl>
@@ -89,9 +144,10 @@ export const SettingsForm = () => {
 							type={isPasswordVisible ? "text" : "password"}
 							id="password"
 							placeholder="Sua senha atual"
+							disabled={isSubmitting}
 							{...register("password")}
 						/>
-						{!!watchedPassword && (
+						{!!watchedPassword && !isSubmitting && (
 							<InputRightElement width="4.5rem">
 								<Button
 									h="1.75rem"
@@ -123,9 +179,10 @@ export const SettingsForm = () => {
 								type={isNewPasswordVisible ? "text" : "password"}
 								id="newPassword"
 								placeholder="Sua nova senha"
+								disabled={isSubmitting}
 								{...register("newPassword")}
 							/>
-							{!!watchedNewPassword && (
+							{!!watchedNewPassword && !isSubmitting && (
 								<InputRightElement width="4.5rem">
 									<Button
 										h="1.75rem"
@@ -148,6 +205,7 @@ export const SettingsForm = () => {
 					<Checkbox
 						defaultChecked={defaultValues.changePassword}
 						id="changePassword"
+						disabled={isSubmitting}
 						{...register("changePassword")}
 					>
 						Desejo alterar minha senha
@@ -156,12 +214,12 @@ export const SettingsForm = () => {
 
 				<Button
 					size="sm"
+					mt="8"
 					colorScheme="primary"
 					type="submit"
 					title="Clique para atualizar os dados da sua conta"
 					isLoading={isSubmitting}
 					isDisabled={isSubmitting}
-					mt="8"
 				>
 					Salvar alterações
 				</Button>
