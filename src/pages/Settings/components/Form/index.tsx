@@ -42,7 +42,7 @@ export const SettingsForm = () => {
 		register,
 		reset,
 		watch,
-		formState: { errors },
+		formState: { errors, isDirty },
 	} = useForm<FormValues>({
 		resolver: yupResolver(AccountSchema),
 		defaultValues,
@@ -52,6 +52,12 @@ export const SettingsForm = () => {
 	const watchedChangePassword: boolean = watch("changePassword")
 
 	const onCloseAlert = () => setAlertData(null)
+
+	const getButtonTitle = () => {
+		if (!isDirty) return "Você ainda não fez nenhuma alteração"
+		if (isSubmitting) return "Aguarde enquanto salvamos as suas alterações."
+		return "Clique para atualizar os dados da sua conta"
+	}
 
 	const handleAccountErrors = (message: ErrorCode | undefined) => {
 		if (message) {
@@ -217,9 +223,9 @@ export const SettingsForm = () => {
 					mt="8"
 					colorScheme="primary"
 					type="submit"
-					title="Clique para atualizar os dados da sua conta"
+					title={getButtonTitle()}
 					isLoading={isSubmitting}
-					isDisabled={isSubmitting}
+					isDisabled={isSubmitting || !isDirty}
 				>
 					Salvar alterações
 				</Button>
