@@ -1,6 +1,11 @@
 import { Api } from "~/services"
-import { CreateSesssionResponse, ServerResponse, User } from "~/interfaces"
-import { setToken } from "~/utils"
+import {
+	CreateSesssionResponse,
+	ServerResponse,
+	User,
+	RawError,
+} from "~/interfaces"
+import { handleError, setToken } from "~/utils"
 
 type Payload = Pick<User, "email" | "password">
 
@@ -10,11 +15,14 @@ export const createSession = async ({
 }: Payload): Promise<ServerResponse<CreateSesssionResponse>> => {
 	try {
 		const payload = { email, password }
-		const { data } = await Api.post<CreateSesssionResponse>("/sessions", payload)
+		const { data } = await Api.post<CreateSesssionResponse>(
+			"/sessions",
+			payload
+		)
 
 		setToken(data.token)
 		return { success: true, data }
-	} catch (err: any) {
-		return { success: false, error: err }
+	} catch (err: RawError) {
+		return { success: false, error: handleError(err) }
 	}
 }

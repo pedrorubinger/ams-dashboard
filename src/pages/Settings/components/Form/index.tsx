@@ -44,7 +44,11 @@ export const SettingsForm = () => {
 	const watchedChangePassword: boolean = watch("changePassword")
 
 	const onSubmit = (values: FormValues) => {
+		setIsSubmitting(true)
+
 		console.log("submitted values:", values)
+
+		setIsSubmitting(false)
 	}
 
 	return (
