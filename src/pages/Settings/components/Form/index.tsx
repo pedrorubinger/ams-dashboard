@@ -48,9 +48,13 @@ export const SettingsForm = () => {
 	}
 
 	return (
-		<Box mt="8">
+		<Box mt="12">
 			<Form onSubmit={handleSubmit(onSubmit)}>
-				<FormControl isInvalid={!!errors.email} width="md">
+				<FormControl
+					isInvalid={!!errors.email}
+					width="md"
+					title="Você ainda não pode editar o seu email"
+				>
 					<InputLabel htmlFor="email">Email</InputLabel>
 
 					<Input
