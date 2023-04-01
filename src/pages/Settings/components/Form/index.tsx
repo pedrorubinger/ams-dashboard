@@ -22,6 +22,7 @@ import { DefaultAlert, Form, InputLabel } from "~/components"
 
 type AlertData = { status: "success" | "error"; message: string } | null
 
+/** TO DO: Fix issue related to 'changePassword' checkbox when data is dirty */
 export const SettingsForm = () => {
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 	const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false)
@@ -51,7 +52,6 @@ export const SettingsForm = () => {
 	const watchedNewPassword: string | undefined = watch("newPassword")
 	const watchedChangePassword: boolean = watch("changePassword")
 
-	const hasMadeChanges = isDirty
 	const onCloseAlert = () => setAlertData(null)
 
 	const getButtonTitle = () => {
