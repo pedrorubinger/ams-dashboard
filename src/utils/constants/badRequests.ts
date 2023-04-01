@@ -3,10 +3,12 @@ import {
 	ErrorCode,
 	LoginFormValues,
 	AccountFormValues,
+	TenantFormValues,
 } from "~/interfaces"
 
 type LoginFields = LoginFormValues & { all: string }
 type AccountFields = Omit<AccountFormValues, "changePassword">
+type TenantFields = TenantFormValues
 
 export const LOGIN_BAD_REQUEST_ERRORS: BadRequestErrorCode<LoginFields>[] = [
 	{ code: ErrorCode["400_INVALID_CREDENTIALS"], field: "all" },
@@ -46,3 +48,15 @@ export const UPDATE_ACCOUNT_BAD_REQUEST_ERRORS: BadRequestErrorCode<AccountField
 		{ code: ErrorCode["400_PHONE_MUST_BE_TEXT"], field: "phone" },
 		{ code: ErrorCode["400_PHONE_EXCEEDS_LENGTH_40"], field: "phone" },
 	]
+
+export const TENANT_BAD_REQUEST_ERRORS: BadRequestErrorCode<TenantFields>[] = [
+	{ code: ErrorCode["400_NAME_MUST_BE_TEXT"], field: "name" },
+	{ code: ErrorCode["400_NAME_EXCEEDS_LENGTH_80"], field: "name" },
+	{ code: ErrorCode["400_NAME_IS_REQUIRED"], field: "name" },
+	{ code: ErrorCode["400_RESPONSIBLE_IS_REQUIRED"], field: "responsible" },
+	{ code: ErrorCode["400_RESPONSIBLE_MUST_BE_TEXT"], field: "responsible" },
+	{
+		code: ErrorCode["400_RESPONSIBLE_EXCEEDS_LENGTH_100"],
+		field: "responsible",
+	},
+]

@@ -1,6 +1,5 @@
 import React from "react"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
-import { ArrowClockwise, PlusCircle } from "phosphor-react"
 
 import {
 	GetTenantsParams,
@@ -21,6 +20,7 @@ interface Props {
 	isLoading: boolean
 	records: Tenant[]
 	pagination: Pagination | null
+	actionItems: TableActionMenuItem[]
 	fetchRecords: (params?: GetTenantsParams) => Promise<void>
 }
 
@@ -28,6 +28,7 @@ export const TenantsTable: React.FC<Props> = ({
 	pagination,
 	isLoading,
 	records,
+	actionItems,
 	fetchRecords,
 }) => {
 	const count: number = records?.length
@@ -37,25 +38,6 @@ export const TenantsTable: React.FC<Props> = ({
 	const onClickToGetMore = async () => {
 		await fetchRecords({ startAt: pagination?.lastKey })
 	}
-
-	const actionItems: TableActionMenuItem[] = [
-		{
-			id: "register",
-			label: "Nova instituição",
-			title: "Clique para cadastrar uma nova instituição",
-			Icon: <PlusCircle />,
-			onClick: () => console.log("clicked to create a new tenant!"),
-		},
-		{
-			id: "refresh",
-			label: "Recarregar registros",
-			title: "Clique para atualizar a listagem de instituições",
-			Icon: <ArrowClockwise />,
-			onClick: () => {
-				void fetchRecords()
-			},
-		},
-	]
 
 	return (
 		<TableWrapper>

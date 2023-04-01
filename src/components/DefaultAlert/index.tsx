@@ -1,8 +1,8 @@
+/* eslint-disable import/named */
 import {
 	Alert,
 	AlertDescription,
 	AlertIcon,
-	// eslint-disable-next-line import/named
 	AlertProps,
 	CloseButton,
 	Flex,
@@ -30,13 +30,15 @@ export const DefaultAlert: React.FC<Props> = ({
 				<AlertDescription>{message}</AlertDescription>
 			</Flex>
 
-			<CloseButton
-				alignSelf="flex-start"
-				position="relative"
-				right={-1}
-				top={-0.5}
-				onClick={onClose}
-			/>
+			{!!onClose && (
+				<CloseButton
+					alignSelf="flex-start"
+					position="relative"
+					right={-1}
+					top={-0.5}
+					onClick={onClose}
+				/>
+			)}
 		</Alert>
 	)
 }
