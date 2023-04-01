@@ -21,7 +21,7 @@ export const Tenants: React.FC = () => {
 	const [pagination, setPagination] = useState<Pagination | null>(null)
 	const [drawerProps, setDrawerProps] = useState<Omit<
 		TenantsDrawerProps,
-		"onClose"
+		"onClose" | "fetchRecords"
 	> | null>(null)
 	const isLoading = !isMounted || isFetching
 
@@ -45,14 +45,17 @@ export const Tenants: React.FC = () => {
 		}
 	}, [])
 
+	const onClickToUpdateTenant = (record: Tenant) => {
+		setDrawerProps({ isVisible: true, mode: "update", tenant: record })
+	}
+
 	const actionItems: TableActionMenuItem[] = [
 		{
 			id: "register",
 			label: "Nova instituição",
 			title: "Clique para cadastrar uma nova instituição",
 			Icon: <PlusCircle />,
-			onClick: () =>
-				setDrawerProps({ isVisible: true, mode: "create", fetchRecords }),
+			onClick: () => setDrawerProps({ isVisible: true, mode: "create" }),
 		},
 		{
 			id: "refresh",
@@ -92,6 +95,7 @@ export const Tenants: React.FC = () => {
 				<TenantsDrawer
 					isVisible={drawerProps.isVisible}
 					mode={drawerProps.mode}
+					tenant={drawerProps.tenant}
 					onClose={() => setDrawerProps(null)}
 					fetchRecords={fetchRecords}
 				/>
@@ -103,6 +107,7 @@ export const Tenants: React.FC = () => {
 					isLoading={isLoading}
 					records={records}
 					pagination={pagination}
+					onClickToUpdateTenant={onClickToUpdateTenant}
 					fetchRecords={fetchRecords}
 				/>
 			)}

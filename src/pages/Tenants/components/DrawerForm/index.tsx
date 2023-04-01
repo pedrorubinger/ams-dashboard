@@ -1,11 +1,11 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useFormContext } from "react-hook-form"
 import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react"
 
 import { TenantFormValues, TenantsDrawerProps } from "~/interfaces"
 import { Form, InputLabel } from "~/components"
 
-interface Props extends Pick<TenantsDrawerProps, "mode"> {
+interface Props extends Pick<TenantsDrawerProps, "mode" | "tenant"> {
 	isSubmitting: boolean
 	onSubmit: (values: TenantFormValues) => Promise<void>
 }
@@ -13,14 +13,22 @@ interface Props extends Pick<TenantsDrawerProps, "mode"> {
 export const DrawerForm: React.FC<Props> = ({
 	mode,
 	isSubmitting,
+	tenant,
 	onSubmit,
 }) => {
 	const {
 		handleSubmit,
 		register,
-		formState: { errors },
+		reset,
+		formState: { errors, isDirty },
 	} = useFormContext<TenantFormValues>()
 	const isCreating = mode === "create"
+
+	useEffect(() => {
+		if (tenant && !isCreating) {
+			reset({ name: tenant.name, responsible: tenant.responsible })
+		}
+	}, [tenant, isCreating])
 
 	return (
 		<Form onSubmit={handleSubmit(onSubmit)}>
@@ -64,10 +72,10 @@ export const DrawerForm: React.FC<Props> = ({
 						: "Atualizar dados da instituição"
 				}
 				isLoading={isSubmitting}
-				isDisabled={isSubmitting}
+				isDisabled={isSubmitting || (!isCreating && !isDirty)}
 				mt={6}
 			>
-				Cadastrar
+				{isCreating ? "Cadastrar" : "Salvar alterações"}
 			</Button>
 		</Form>
 	)

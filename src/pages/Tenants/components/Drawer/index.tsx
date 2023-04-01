@@ -12,7 +12,7 @@ import { FormProvider, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 
 import { ErrorCode, TenantFormValues, TenantsDrawerProps } from "~/interfaces"
-import { createTenant } from "~/services/requests"
+import { createTenant, updateTenant } from "~/services/requests"
 import { TENANT_BAD_REQUEST_ERRORS } from "~/utils"
 import { TenantsDrawerSchema } from "~/pages/Tenants/components/DrawerForm/schema"
 import { DrawerForm } from "~/pages/Tenants/components"
@@ -21,6 +21,7 @@ import { DefaultAlert } from "~/components"
 export const TenantsDrawer: React.FC<TenantsDrawerProps> = ({
 	isVisible,
 	mode,
+	tenant,
 	onClose,
 	fetchRecords,
 	...rest
@@ -49,18 +50,33 @@ export const TenantsDrawer: React.FC<TenantsDrawerProps> = ({
 	}
 
 	const onSubmit = async ({ name, responsible }: TenantFormValues) => {
+		if (errorMessage) setErrorMessage("")
 		setIsSubmitting(true)
 
 		if (isCreating) {
 			const { error } = await createTenant({ name, responsible })
 
-			if (error) handleFormError(error)
+			setIsSubmitting(false)
+
+			if (error) return handleFormError(error)
 			else await fetchRecords()
 		} else {
-			//
+			/** Is editing but tenant data was not provided. */
+			if (!tenant) return onCloseDrawer()
+
+			const { error } = await updateTenant({
+				id: tenant.id,
+				name: tenant.name !== name ? name : undefined,
+				responsible:
+					tenant.responsible !== responsible ? responsible : undefined,
+			})
+
+			setIsSubmitting(false)
+
+			if (error) return handleFormError(error)
+			else await fetchRecords()
 		}
 
-		setIsSubmitting(false)
 		onCloseDrawer()
 	}
 
@@ -98,6 +114,7 @@ export const TenantsDrawer: React.FC<TenantsDrawerProps> = ({
 					<FormProvider {...form}>
 						<DrawerForm
 							mode={mode}
+							tenant={tenant}
 							isSubmitting={isSubmitting}
 							onSubmit={onSubmit}
 						/>
