@@ -1,10 +1,12 @@
 import React, { useState } from "react"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
+import { ArrowClockwise, PlusCircle } from "phosphor-react"
 
-import { Tenant } from "~/interfaces"
+import { TableActionMenuItem, Tenant } from "~/interfaces"
 import { dateFormatter } from "~/utils"
 import { columns } from "~/pages/Tenants/components/Table/utils"
 import {
+	TableActionsMenu,
 	TablePaginationSkeleton,
 	TableStatus,
 	TableWrapper,
@@ -109,8 +111,27 @@ export const TenantsTable: React.FC<Props> = () => {
 		}, 3500)
 	}
 
+	const actionItems: TableActionMenuItem[] = [
+		{
+			id: "register",
+			label: "Nova instituição",
+			title: "Clique para cadastrar uma nova instituição",
+			Icon: <PlusCircle />,
+			onClick: () => console.log("clicked to create a new tenant!"),
+		},
+		{
+			id: "refresh",
+			label: "Recarregar registros",
+			title: "Clique para atualizar a listagem de instituições",
+			Icon: <ArrowClockwise />,
+			onClick: () => console.log("clicked to refresh data!"),
+		},
+	]
+
 	return (
 		<TableWrapper>
+			<TableActionsMenu items={actionItems} isDisabled={isLoading} />
+
 			<Table variant="striped">
 				<TableStatus
 					count={count}
