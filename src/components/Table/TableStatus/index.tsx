@@ -3,16 +3,18 @@ import React from "react"
 import { Button, TableCaption, TableCaptionProps } from "@chakra-ui/react"
 
 interface Props extends TableCaptionProps {
-	count: number
-	total: number
+	/** @default 0 */
+	count?: number
+	/** @default 0 */
+	total?: number
 	/** @default false */
 	isLoading?: boolean
 	onClickToGetMore: () => void
 }
 
 export const TableStatus: React.FC<Props> = ({
-	count,
-	total,
+	count = 0,
+	total = 0,
 	isLoading = false,
 	onClickToGetMore,
 }) => {
@@ -23,8 +25,8 @@ export const TableStatus: React.FC<Props> = ({
 	}
 
 	const text = `${count} de ${total} registro${
-		count === 1 ? "" : "s"
-	} encontrado${count === 1 ? "" : "s"}`
+		total === 1 ? "" : "s"
+	} encontrado${total === 1 ? "" : "s"}`
 
 	if (count === total) return <TableCaption>{text}</TableCaption>
 
@@ -49,4 +51,6 @@ export const TableStatus: React.FC<Props> = ({
 
 TableStatus.defaultProps = {
 	isLoading: false,
+	count: 0,
+	total: 0,
 }
