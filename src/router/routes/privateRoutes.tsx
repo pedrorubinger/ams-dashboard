@@ -1,7 +1,14 @@
-import { Gear, House, Money, SignOut, UsersThree } from "phosphor-react"
+import {
+	Buildings,
+	Gear,
+	House,
+	Money,
+	SignOut,
+	UsersThree,
+} from "phosphor-react"
 
 import { RouteItem } from "~/interfaces"
-import { Home, Settings } from "~/pages"
+import { Home, Settings, Tenants } from "~/pages"
 
 export const privateRoutes: RouteItem[] = [
 	{
@@ -28,9 +35,18 @@ export const privateRoutes: RouteItem[] = [
 	// 	path: "/voluntarios",
 	// 	label: "Voluntários",
 	// 	title: "Clique para gerenciar os voluntários",
-	// 	permissions: ["*"],
-	// 	element: "?",
+	// 	permissions: ["admin"],
+	// 	element: <></>,
 	// },
+	{
+		Icon: Buildings,
+		id: "tenants",
+		path: "/instituicoes",
+		label: "Instituições",
+		title: "Clique para gerenciar as instituições",
+		permissions: ["master"],
+		element: <Tenants />,
+	},
 	// {
 	// 	Icon: Money,
 	// 	id: "donates",

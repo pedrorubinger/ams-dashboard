@@ -51,6 +51,7 @@ export const SettingsForm = () => {
 	const watchedNewPassword: string | undefined = watch("newPassword")
 	const watchedChangePassword: boolean = watch("changePassword")
 
+	const hasMadeChanges = isDirty
 	const onCloseAlert = () => setAlertData(null)
 
 	const getButtonTitle = () => {
