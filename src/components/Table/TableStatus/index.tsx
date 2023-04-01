@@ -22,7 +22,9 @@ export const TableStatus: React.FC<Props> = ({
 		return <TableCaption>Não há registros até o momento.</TableCaption>
 	}
 
-	const text = `${count} de ${total} registro(s) encontrado(s)`
+	const text = `${count} de ${total} registro${
+		count === 1 ? "" : "s"
+	} encontrado${count === 1 ? "" : "s"}`
 
 	if (count === total) return <TableCaption>{text}</TableCaption>
 
