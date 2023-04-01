@@ -18,15 +18,17 @@ export const TableStatus: React.FC<Props> = ({
 }) => {
 	if (isLoading) return null
 
+	if (!count) {
+		return <TableCaption>Não há registros até o momento.</TableCaption>
+	}
+
 	const text = `${count} de ${total} registro(s) encontrado(s)`
 
-	if (count === total) {
-		return <TableCaption>{text}</TableCaption>
-	}
+	if (count === total) return <TableCaption>{text}</TableCaption>
 
 	return (
 		<TableCaption>
-			{text}
+			{text}.
 			<br />
 			Clique
 			<Button
@@ -38,7 +40,7 @@ export const TableStatus: React.FC<Props> = ({
 			>
 				aqui
 			</Button>
-			para buscar mais
+			para buscar mais.
 		</TableCaption>
 	)
 }
