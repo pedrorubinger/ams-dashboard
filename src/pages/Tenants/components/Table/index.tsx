@@ -92,6 +92,7 @@ export const TenantsTable: React.FC<Props> = ({
 									<Td>{record.name}</Td>
 									<Td>{record.responsible}</Td>
 									<Td>{dateFormatter.format(new Date(record.createdAt))}</Td>
+									<Td>{record.isActive ? "Ativa" : "Inativa"}</Td>
 									<Td>
 										<TableRowActions actions={getActions(record)} />
 									</Td>

@@ -1,6 +1,12 @@
 import React, { useEffect } from "react"
 import { useFormContext } from "react-hook-form"
-import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react"
+import {
+	Button,
+	Checkbox,
+	FormControl,
+	FormErrorMessage,
+	Input,
+} from "@chakra-ui/react"
 
 import { TenantFormValues, TenantsDrawerProps } from "~/interfaces"
 import { Form, InputLabel } from "~/components"
@@ -26,7 +32,11 @@ export const DrawerForm: React.FC<Props> = ({
 
 	useEffect(() => {
 		if (tenant && !isCreating) {
-			reset({ name: tenant.name, responsible: tenant.responsible })
+			reset({
+				name: tenant.name,
+				responsible: tenant.responsible,
+				isActive: tenant.isActive,
+			})
 		}
 	}, [tenant, isCreating])
 
@@ -61,6 +71,17 @@ export const DrawerForm: React.FC<Props> = ({
 				<FormErrorMessage>
 					{errors.responsible && errors.responsible.message}
 				</FormErrorMessage>
+			</FormControl>
+
+			<FormControl isInvalid={!!errors.isActive} mt="5" width="md">
+				<Checkbox
+					disabled={isSubmitting}
+					defaultChecked={isCreating ? true : tenant?.isActive}
+					id="isActive"
+					{...register("isActive")}
+				>
+					Está ativa
+				</Checkbox>
 			</FormControl>
 
 			<Button

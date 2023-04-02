@@ -10,10 +10,12 @@ export const updateTenant = async ({
 	id,
 	name,
 	responsible,
+	isActive,
 }: UpdateTenantPayload): Promise<ServerResponse<UpdateTenantResponse>> => {
 	try {
 		const { data } = await Api.put<UpdateTenantResponse>(`/tenants/${id}`, {
 			name,
+			isActive,
 			responsible,
 		})
 

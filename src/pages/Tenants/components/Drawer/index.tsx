@@ -49,12 +49,17 @@ export const TenantsDrawer: React.FC<TenantsDrawerProps> = ({
 		else setErrorMessage(message)
 	}
 
-	const onSubmit = async ({ name, responsible }: TenantFormValues) => {
+	const onSubmit = async ({
+		name,
+		responsible,
+		isActive,
+	}: TenantFormValues) => {
+		console.log("tenant", tenant, isActive)
 		if (errorMessage) setErrorMessage("")
 		setIsSubmitting(true)
 
 		if (isCreating) {
-			const { error } = await createTenant({ name, responsible })
+			const { error } = await createTenant({ name, responsible, isActive })
 
 			setIsSubmitting(false)
 
@@ -66,6 +71,7 @@ export const TenantsDrawer: React.FC<TenantsDrawerProps> = ({
 
 			const { error } = await updateTenant({
 				id: tenant.id,
+				isActive: tenant.isActive !== isActive ? isActive : undefined,
 				name: tenant.name !== name ? name : undefined,
 				responsible:
 					tenant.responsible !== responsible ? responsible : undefined,
