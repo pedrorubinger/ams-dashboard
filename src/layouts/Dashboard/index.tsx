@@ -5,7 +5,7 @@ import { List as MenuIcon } from "phosphor-react"
 
 import { MenuStatus } from "~/interfaces"
 import { sideMenuItems } from "~/router/routes"
-import { useWindowWidth } from "~/hooks"
+import { usePermission, useWindowWidth } from "~/hooks"
 import {
 	DashboardContentContainer,
 	DashboardFlexContainer,
@@ -19,16 +19,15 @@ const CONTENT_HORIZONTAL_GAP = 40
 const EXPANDED_MENU_MAX_WIDTH = 640
 
 export function DashboardLayout() {
-	const { pathname } = useLocation()
 	const sideMenuRef = useRef<HTMLDivElement>(null)
+	const { items } = usePermission(sideMenuItems)
+	const { pathname } = useLocation()
 	const { width } = useWindowWidth()
 	const [menuStatus, setMenuStatus] = useState<MenuStatus>("expanded")
 	const [sideMenuWidth, setSideMenuWidth] = useState<number>()
-
 	const isWindowWidthSmall: boolean = width <= EXPANDED_MENU_MAX_WIDTH
 
 	/** TO DO: Transform side menu into a top menu when screen is small. */
-
 	useEffect(() => {
 		setSideMenuWidth(sideMenuRef?.current?.offsetWidth)
 	}, [menuStatus])
@@ -61,9 +60,8 @@ export function DashboardLayout() {
 					</Flex>
 				)}
 
-				{/* ITEMS */}
 				<DashboardMenuListContainer>
-					{sideMenuItems.map(({ id, path, ...rest }) => (
+					{items.map(({ id, path, ...rest }) => (
 						<SideMenuItem
 							key={id}
 							id={id}
