@@ -10,6 +10,7 @@ import {
 } from "~/interfaces"
 import { dateFormatter } from "~/utils"
 import { columns } from "~/pages/Tenants/components/Table/utils"
+import { useDeleteTenantModal } from "~/pages/Tenants/hooks"
 import {
 	TableActionsMenu,
 	TablePaginationSkeleton,
@@ -36,6 +37,7 @@ export const TenantsTable: React.FC<Props> = ({
 	onClickToUpdateTenant,
 }) => {
 	const [isPaginating, setIsPaginating] = useState(false)
+	const { Modal: DeleteTenant, onOpen } = useDeleteTenantModal({ fetchRecords })
 	const count: number = records?.length
 	const total: number | undefined = pagination?.total
 	const isTableBodyVisible: boolean = isLoading ? isPaginating : true
@@ -56,13 +58,14 @@ export const TenantsTable: React.FC<Props> = ({
 			{
 				type: "delete",
 				title: "Excluir esta instituição",
-				onClick: () => {},
+				onClick: () => onOpen({ id: record.id, name: record.name }),
 			},
 		]
 	}
 
 	return (
 		<TableWrapper>
+			<DeleteTenant />
 			<TableActionsMenu items={actionItems} isDisabled={isLoading} />
 
 			<Table>
