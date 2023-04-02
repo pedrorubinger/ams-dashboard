@@ -1,3 +1,3 @@
 import { GetDataParams } from "~/interfaces/GetDataParams"
 
-export interface GetTenantsParams extends GetDataParams {}
+export interface GetUsersParams extends GetDataParams {}
