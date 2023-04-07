@@ -6,7 +6,7 @@ import {
 	GetUsersParams,
 	Pagination,
 	TableActionMenuItem,
-	User,
+	UserRecord,
 	UsersDrawerProps,
 } from "~/interfaces"
 import { getUsers } from "~/services/requests"
@@ -20,7 +20,7 @@ export const Users: React.FC = () => {
 	> | null>(null)
 	const [isFetching, setIsFetching] = useState(false)
 	const [isMounted, setIsMounted] = useState(false)
-	const [records, setRecords] = useState<User[]>([])
+	const [records, setRecords] = useState<UserRecord[]>([])
 	const [pagination, setPagination] = useState<Pagination | null>(null)
 	const [errorMessage, setErrorMessage] = useState<string>("")
 	const isLoading = !isMounted || isFetching
@@ -62,7 +62,7 @@ export const Users: React.FC = () => {
 		},
 	]
 
-	const onClickToUpdateUser = (record: User) => {
+	const onClickToUpdateUser = (record: UserRecord) => {
 		setDrawerProps({ isVisible: true, mode: "update", user: record })
 	}
 

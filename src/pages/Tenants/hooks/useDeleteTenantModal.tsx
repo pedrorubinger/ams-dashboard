@@ -29,6 +29,12 @@ export const useDeleteTenantModal = ({
 		onOpen()
 	}
 
+	const onCloseModal = () => {
+		setIsDeleting(false)
+		setErrorMessage("")
+		onClose()
+	}
+
 	const onDeleteTenant = async (id: string) => {
 		setIsDeleting(true)
 
@@ -38,7 +44,7 @@ export const useDeleteTenantModal = ({
 
 		if (error) return setErrorMessage(error)
 
-		onClose()
+		onCloseModal()
 		await fetchRecords()
 	}
 
@@ -51,7 +57,7 @@ export const useDeleteTenantModal = ({
 				errorMessage={errorMessage}
 				isDeleting={isDeleting}
 				isVisible={isVisible}
-				onClose={onClose}
+				onClose={onCloseModal}
 				onConfirm={async () => {
 					await onDeleteTenant(info.id)
 				}}

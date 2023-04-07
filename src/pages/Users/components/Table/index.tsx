@@ -6,7 +6,7 @@ import {
 	Pagination,
 	TableActionMenuItem,
 	TableRowAction,
-	User,
+	UserRecord,
 } from "~/interfaces"
 import { dateFormatter } from "~/utils"
 import { useUserStore } from "~/store"
@@ -22,11 +22,11 @@ import {
 
 interface Props {
 	isLoading: boolean
-	records: User[]
+	records: UserRecord[]
 	pagination: Pagination | null
 	actionItems: TableActionMenuItem[]
 	fetchRecords: (params?: GetUsersParams) => Promise<void>
-	onClickToUpdateUser: (record: User) => void
+	onClickToUpdateUser: (record: UserRecord) => void
 }
 
 export const UsersTable: React.FC<Props> = ({
@@ -50,7 +50,7 @@ export const UsersTable: React.FC<Props> = ({
 		setIsPaginating(false)
 	}
 
-	const getActions = (record: User): TableRowAction[] => {
+	const getActions = (record: UserRecord): TableRowAction[] => {
 		const isDisabled = user?.id === record.id
 
 		return [
@@ -97,6 +97,7 @@ export const UsersTable: React.FC<Props> = ({
 								<Tr key={record.id} _hover={{ background: "blackAlpha.50" }}>
 									<Td>{record.name}</Td>
 									<Td>{record.email}</Td>
+									<Td>{record?.tenantName}</Td>
 									<Td>{dateFormatter.format(new Date(record.createdAt))}</Td>
 									<Td>
 										<TableRowActions actions={getActions(record)} />
