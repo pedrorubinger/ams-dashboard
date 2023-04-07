@@ -14,7 +14,7 @@ enum ErrorCode {
 	/** 400 */
 	"400_EMAIL_ALREADY_REGISTERED" = "Este email já está sendo utilizado.",
 	"400_INVALID_CREDENTIALS" = "Usuário ou senha incorretos.",
-	"400_NAME_MUST_BE_TEXT" = "O seu nome deve ser um texto.",
+	"400_NAME_MUST_BE_TEXT" = "O nome deve ser um texto.",
 	"400_NAME_EXCEEDS_LENGTH_80" = "O nome não pode exceder 80 caracteres!",
 	"400_NAME_IS_REQUIRED" = "Informe o nome.",
 	"400_RESPONSIBLE_IS_REQUIRED" = "Informe o nome do responsável.",
@@ -35,6 +35,8 @@ enum ErrorCode {
 	"400_ROLE_IS_REQUIRED" = "Informe a função/cargo do usuário.",
 	"400_ROLE_MUST_BE_TEXT" = "A função/cargo do usuário deve ser do tipo texto.",
 	"400_ROLE_IS_INVALID" = "A função/cargo é inválida.",
+	"400_TENANT_MUST_BE_TEXT" = "Informe uma instituição válida!",
+	"400_TENANT_IS_REQUIRED" = "Informe uma instituição!",
 }
 
 export { ErrorCode }

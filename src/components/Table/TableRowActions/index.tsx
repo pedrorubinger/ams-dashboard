@@ -12,18 +12,22 @@ export const TableRowActions: React.FC<Props> = ({ actions }) => {
 		<Flex gap={4}>
 			{actions.map(({ type, title, isDisabled, onClick }) => {
 				const { icon, ariaLabel, bg } = getTableRowActionsBtnProps(type)
+				const hover = isDisabled
+					? { background: bg }
+					: { background: `${bg.split(".")[0]}.400` }
+				const onClickButton = isDisabled ? undefined : onClick
 
 				return (
 					<IconButton
 						key={type}
-						title={title}
+						title={isDisabled ? "Ação não permitida" : title}
 						isDisabled={isDisabled}
 						color="white"
 						icon={icon}
 						aria-label={ariaLabel}
 						background={bg}
-						_hover={{ background: `${bg.split(".")[0]}.400` }}
-						onClick={onClick}
+						_hover={hover}
+						onClick={onClickButton}
 					/>
 				)
 			})}

@@ -9,6 +9,7 @@ import {
 	User,
 } from "~/interfaces"
 import { dateFormatter } from "~/utils"
+import { useUserStore } from "~/store"
 import { columns } from "~/pages/Users/components/Table/utils"
 import {
 	TableActionsMenu,
@@ -35,6 +36,7 @@ export const UsersTable: React.FC<Props> = ({
 	fetchRecords,
 	onClickToUpdateUser,
 }) => {
+	const { user } = useUserStore()
 	const [isPaginating, setIsPaginating] = useState(false)
 	const count: number = records?.length
 	const total: number | undefined = pagination?.total
@@ -47,15 +49,19 @@ export const UsersTable: React.FC<Props> = ({
 	}
 
 	const getActions = (record: User): TableRowAction[] => {
+		const isDisabled = user?.id === record.id
+
 		return [
 			{
 				type: "edit",
 				title: "Editar os dados deste usuário",
+				isDisabled,
 				onClick: () => onClickToUpdateUser(record),
 			},
 			{
 				type: "delete",
 				title: "Excluir este usuário",
+				isDisabled,
 				onClick: () => {},
 			},
 		]

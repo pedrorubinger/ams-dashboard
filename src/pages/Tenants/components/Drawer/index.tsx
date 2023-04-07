@@ -54,7 +54,6 @@ export const TenantsDrawer: React.FC<TenantsDrawerProps> = ({
 		responsible,
 		isActive,
 	}: TenantFormValues) => {
-		console.log("tenant", tenant, isActive)
 		if (errorMessage) setErrorMessage("")
 		setIsSubmitting(true)
 

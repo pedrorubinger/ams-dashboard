@@ -2,7 +2,7 @@ import { create } from "zustand"
 
 import { User as UserData } from "~/interfaces"
 
-type User = Omit<UserData, "password"> | null
+type User = Omit<UserData, "password" | "createdAt" | "updatedAt"> | null
 
 interface UserState {
 	user: User

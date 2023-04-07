@@ -7,35 +7,23 @@ import {
 	Pagination,
 	TableActionMenuItem,
 	User,
+	UsersDrawerProps,
 } from "~/interfaces"
 import { getUsers } from "~/services/requests"
-import { UsersTable } from "~/pages/Users/components"
+import { UsersDrawer, UsersTable } from "~/pages/Users/components"
 import { DefaultAlert, PageTitle } from "~/components"
 
 export const Users: React.FC = () => {
+	const [drawerProps, setDrawerProps] = useState<Omit<
+		UsersDrawerProps,
+		"onClose" | "fetchRecords"
+	> | null>(null)
 	const [isFetching, setIsFetching] = useState(false)
 	const [isMounted, setIsMounted] = useState(false)
 	const [records, setRecords] = useState<User[]>([])
 	const [pagination, setPagination] = useState<Pagination | null>(null)
 	const [errorMessage, setErrorMessage] = useState<string>("")
 	const isLoading = !isMounted || isFetching
-
-	const actionItems: TableActionMenuItem[] = [
-		{
-			id: "register",
-			label: "Novo usuário",
-			title: "Clique para cadastrar um novo usuário",
-			Icon: <PlusCircle />,
-			onClick: () => {},
-		},
-		{
-			id: "refresh",
-			label: "Recarregar registros",
-			title: "Clique para atualizar a listagem de usuários",
-			Icon: <ArrowClockwise />,
-			onClick: () => {},
-		},
-	]
 
 	const fetchRecords = useCallback(async (params?: GetUsersParams) => {
 		setIsFetching(true)
@@ -57,7 +45,26 @@ export const Users: React.FC = () => {
 		}
 	}, [])
 
-	const onClickToUpdateUser = () => {}
+	const actionItems: TableActionMenuItem[] = [
+		{
+			id: "register",
+			label: "Novo usuário",
+			title: "Clique para cadastrar um novo usuário",
+			Icon: <PlusCircle />,
+			onClick: () => setDrawerProps({ isVisible: true, mode: "create" }),
+		},
+		{
+			id: "refresh",
+			label: "Recarregar registros",
+			title: "Clique para atualizar a listagem de usuários",
+			Icon: <ArrowClockwise />,
+			onClick: () => void fetchRecords(),
+		},
+	]
+
+	const onClickToUpdateUser = (record: User) => {
+		setDrawerProps({ isVisible: true, mode: "update", user: record })
+	}
 
 	useEffect(() => {
 		setIsMounted(true)
@@ -83,6 +90,16 @@ export const Users: React.FC = () => {
 				isVisible={!!errorMessage}
 				message={errorMessage}
 			/>
+
+			{!!drawerProps && (
+				<UsersDrawer
+					isVisible={drawerProps.isVisible}
+					mode={drawerProps.mode}
+					user={drawerProps.user}
+					onClose={() => setDrawerProps(null)}
+					fetchRecords={fetchRecords}
+				/>
+			)}
 
 			{!errorMessage && (
 				<UsersTable
