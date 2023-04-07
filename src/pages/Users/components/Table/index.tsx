@@ -11,6 +11,7 @@ import {
 import { dateFormatter } from "~/utils"
 import { useUserStore } from "~/store"
 import { columns } from "~/pages/Users/components/Table/utils"
+import { useDeleteUserModal } from "~/pages/Users/hooks"
 import {
 	TableActionsMenu,
 	TablePaginationSkeleton,
@@ -41,6 +42,7 @@ export const UsersTable: React.FC<Props> = ({
 	const count: number = records?.length
 	const total: number | undefined = pagination?.total
 	const isTableBodyVisible: boolean = isLoading ? isPaginating : true
+	const { Modal: DeleteUser, onOpen } = useDeleteUserModal({ fetchRecords })
 
 	const onClickToGetMore = async () => {
 		setIsPaginating(true)
@@ -62,13 +64,14 @@ export const UsersTable: React.FC<Props> = ({
 				type: "delete",
 				title: "Excluir este usuário",
 				isDisabled,
-				onClick: () => {},
+				onClick: () => onOpen({ id: record.id, name: record.name }),
 			},
 		]
 	}
 
 	return (
 		<TableWrapper>
+			<DeleteUser />
 			<TableActionsMenu items={actionItems} isDisabled={isLoading} />
 
 			<Table>
