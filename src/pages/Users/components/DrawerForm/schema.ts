@@ -2,6 +2,7 @@ import * as Yup from "yup"
 
 export const UsersDrawerSchema = Yup.object().shape({
 	isCreating: Yup.boolean(),
+	isActive: Yup.boolean(),
 	tenantId: Yup.string().required("Selecione uma instituição!"),
 	name: Yup.string()
 		.required("Insira o nome do usuário!")

@@ -46,6 +46,7 @@ export const DrawerForm: React.FC<Props> = ({
 				name: user.name,
 				email: user.email,
 				tenantId: user.tenantId,
+				isActive: user.isActive,
 				password: "",
 			})
 		}
@@ -145,16 +146,16 @@ export const DrawerForm: React.FC<Props> = ({
 				</>
 			)}
 
-			{/* <FormControl isInvalid={!!errors.isActive} mt="5" width="md">
+			<FormControl isInvalid={!!errors.isActive} mt="5" width="md">
 				<Checkbox
 					disabled={isSubmitting}
-					defaultChecked={isCreating ? true : user?.isActive}
+					defaultChecked={isCreating ? true : user?.isActive || false}
 					id="isActive"
 					{...register("isActive")}
 				>
 					Está ativo
 				</Checkbox>
-			</FormControl> */}
+			</FormControl>
 
 			<Button
 				colorScheme="primary"

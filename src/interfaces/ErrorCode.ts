@@ -8,6 +8,7 @@ enum ErrorCode {
 	"401_TOKEN_HAS_EXPIRED" = "Parece que a sua sessão expirou. Faça login novamente para continuar.",
 	"401_NOT_AUTHORIZED" = "Você não está autorizado(a) a acessar este recurso.",
 	"401_TENANT_IS_NOT_ACTIVE" = "Autorização negada. Por favor, entre em contato.",
+	"401_USER_IS_NOT_ACTIVE" = "Autorização negada. Por favor, entre em contato.",
 	/** 404 */
 	"404_USER_NOT_FOUND" = "Não encontramos este usuário.",
 	"404_TENANT_NOT_FOUND" = "Não encontramos esta instituição.",

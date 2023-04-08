@@ -63,6 +63,7 @@ export const UsersDrawer: React.FC<UsersDrawerProps> = ({
 		name,
 		password,
 		tenantId,
+		isActive,
 	}: UserFormValues) => {
 		if (errorMessage) setErrorMessage("")
 		setIsSubmitting(true)
@@ -70,6 +71,7 @@ export const UsersDrawer: React.FC<UsersDrawerProps> = ({
 		if (isCreating) {
 			const role = "admin"
 			const { error } = await createUser({
+				isActive,
 				name,
 				email,
 				password,
@@ -82,13 +84,14 @@ export const UsersDrawer: React.FC<UsersDrawerProps> = ({
 			if (error) return handleFormError(error)
 			else await fetchRecords()
 		} else {
-			/** Is editing but user data was not provided. */
+			/** Is editing but user data was not provided somehow. */
 			if (!user) return onCloseDrawer()
 
 			const { error } = await updateUser({
 				id: user.id,
 				name: user.name !== name ? name : undefined,
 				tenantId,
+				isActive,
 			})
 
 			setIsSubmitting(false)

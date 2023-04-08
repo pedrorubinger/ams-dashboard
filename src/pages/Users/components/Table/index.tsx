@@ -98,6 +98,7 @@ export const UsersTable: React.FC<Props> = ({
 									<Td>{record.name}</Td>
 									<Td>{record.email}</Td>
 									<Td>{record?.tenantName}</Td>
+									<Td>{record?.isActive ? "Ativo" : "Inativo"}</Td>
 									<Td>{dateFormatter.format(new Date(record.createdAt))}</Td>
 									<Td>
 										<TableRowActions actions={getActions(record)} />
