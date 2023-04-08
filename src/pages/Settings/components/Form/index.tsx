@@ -93,6 +93,7 @@ export const SettingsForm = () => {
 			})
 			reset({
 				...defaultValues,
+				changePassword: false,
 				name: updatedName,
 				password: defaultValues.password,
 				newPassword: defaultValues.newPassword,
@@ -210,9 +211,9 @@ export const SettingsForm = () => {
 
 				<FormControl isInvalid={!!errors.changePassword} mt="5" width="md">
 					<Checkbox
-						defaultChecked={defaultValues.changePassword}
 						id="changePassword"
 						disabled={isSubmitting}
+						isChecked={watchedChangePassword}
 						{...register("changePassword")}
 					>
 						Desejo alterar minha senha
