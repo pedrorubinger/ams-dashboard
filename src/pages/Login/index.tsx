@@ -1,9 +1,9 @@
 import { Box, Card, Container, Divider, Heading, Image } from "@chakra-ui/react"
 
 import LogoSvg from "~/assets/vector/Logo.svg"
-import { LoginForm } from "./components"
+import { LoginForm } from "~/pages/Login/components"
 
-export const Login = () => {
+export const Login: React.FC = () => {
 	return (
 		<Container>
 			<Box my={10} display="flex" justifyContent="center">

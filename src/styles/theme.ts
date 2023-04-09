@@ -3,6 +3,7 @@ import { extendTheme, theme, type ThemeConfig } from "@chakra-ui/react"
 const config: ThemeConfig = {
 	useSystemColorMode: true,
 }
+const bgGray = { 100: "#f9f9f9" }
 
 export const DefaultTheme = extendTheme({
 	fonts: {
@@ -30,7 +31,7 @@ export const DefaultTheme = extendTheme({
 				margin: 0,
 				padding: 0,
 				boxSizing: "border-box",
-				backgroundColor: theme.colors.gray[50],
+				backgroundColor: bgGray[100],
 			},
 		},
 	},

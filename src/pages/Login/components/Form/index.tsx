@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import {
 	Button,
 	FormControl,
@@ -11,29 +12,77 @@ import { Eye, EyeClosed } from "phosphor-react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 
-import { LoginFormValues as FormValues } from "~/pages/Login/interfaces"
+import { useUserStore } from "~/store"
+import { ErrorCode, LoginFormValues as FormValues } from "~/interfaces"
+import { createSession } from "~/services"
+import { LOGIN_BAD_REQUEST_ERRORS } from "~/utils"
 import { LoginSchema } from "~/pages/Login/components/Form/schema"
-import { Form, InputLabel } from "~/components"
+import { DefaultAlert, Form, InputLabel } from "~/components"
 
 export const LoginForm = () => {
-	const [showPassword, setShowPassword] = useState(false)
-
+	const navigate = useNavigate()
+	const { setUser } = useUserStore()
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+	const [isSubmitting, setIsSubmitting] = useState(false)
+	const [errorAlertMessage, setErrorAlertMessage] = useState<string>("")
 	const {
 		handleSubmit,
 		register,
+		setError,
 		watch,
-		formState: { errors, isSubmitting },
+		formState: { errors },
 	} = useForm<FormValues>({
 		resolver: yupResolver(LoginSchema),
 	})
 	const watchedPassword = watch("password")
 
-	const onSubmit = (values: FormValues) => {
-		console.log("submitted values:", values)
+	const onCloseErrorAlert = () => setErrorAlertMessage("")
+
+	const handleLoginError = (error: ErrorCode | undefined) => {
+		if (error) {
+			const badRequestError = LOGIN_BAD_REQUEST_ERRORS.find(
+				(item) => item.code === error
+			)
+
+			if (!badRequestError || badRequestError.field === "all") {
+				setErrorAlertMessage(error)
+			} else {
+				setError(badRequestError.field, { type: "custom", message: error })
+			}
+		}
+	}
+
+	const onSubmit = async ({ email, password }: FormValues) => {
+		setIsSubmitting(true)
+
+		if (errorAlertMessage) onCloseErrorAlert()
+
+		const { data, error } = await createSession({ email, password })
+
+		setIsSubmitting(false)
+		handleLoginError(error)
+
+		if (data) {
+			setUser({
+				email: data.user.email,
+				name: data.user.name,
+				role: data.user.role,
+				id: data.user.id,
+			})
+			navigate("/")
+		}
 	}
 
 	return (
 		<Form onSubmit={handleSubmit(onSubmit)}>
+			<DefaultAlert
+				status="error"
+				mb="5"
+				isVisible={!!errorAlertMessage}
+				message={errorAlertMessage}
+				onClose={onCloseErrorAlert}
+			/>
+
 			<FormControl isRequired isInvalid={!!errors.email}>
 				<InputLabel htmlFor="email">Email</InputLabel>
 
@@ -42,6 +91,7 @@ export const LoginForm = () => {
 					type="email"
 					placeholder="Seu email"
 					{...register("email")}
+					disabled={isSubmitting}
 					autoFocus
 				/>
 				<FormErrorMessage>
@@ -54,19 +104,20 @@ export const LoginForm = () => {
 
 				<InputGroup>
 					<Input
-						type={showPassword ? "text" : "password"}
+						type={isPasswordVisible ? "text" : "password"}
 						id="password"
 						placeholder="Sua senha"
 						{...register("password")}
+						disabled={isSubmitting}
 					/>
-					{!!watchedPassword && (
+					{!!watchedPassword && !isSubmitting && (
 						<InputRightElement width="4.5rem">
 							<Button
 								h="1.75rem"
 								size="sm"
-								onClick={() => setShowPassword((prev) => !prev)}
+								onClick={() => setIsPasswordVisible((prev) => !prev)}
 							>
-								{showPassword ? <EyeClosed /> : <Eye />}
+								{isPasswordVisible ? <EyeClosed /> : <Eye />}
 							</Button>
 						</InputRightElement>
 					)}
@@ -82,6 +133,7 @@ export const LoginForm = () => {
 				type="submit"
 				title="Clique para fazer login e acessar sua conta"
 				isLoading={isSubmitting}
+				isDisabled={isSubmitting}
 				mt={6}
 			>
 				Entrar

@@ -2,7 +2,7 @@ import { ChakraProvider } from "@chakra-ui/react"
 import { BrowserRouter } from "react-router-dom"
 
 import { DefaultTheme } from "~/styles/theme"
-import { Router } from "~/Router"
+import { Router } from "~/router"
 
 const App = () => {
 	return (
