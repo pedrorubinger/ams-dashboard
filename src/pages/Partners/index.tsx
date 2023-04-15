@@ -1,22 +1,37 @@
 import { useCallback, useState } from "react"
 import { Box, Text } from "@chakra-ui/react"
-import { ArrowClockwise, PlusCircle } from "phosphor-react"
+import { PlusCircle } from "phosphor-react"
 import { FormProvider, useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 
 import {
+	NewPartnerFinancialSupportDrawerProps,
 	PartnerRecord,
 	SearchPartnerValues,
 	TableActionMenuItem,
 } from "~/interfaces"
-import { PageTitle } from "~/components"
 import {
 	PartnersTable,
 	SearchPartner,
 	SearchPartnersSchema,
 } from "~/pages/Partners/components"
-import { yupResolver } from "@hookform/resolvers/yup"
+import { NewFinancialSupportDrawer } from "~/pages/Partners/components/NewFinancialSupportDrawer"
+import { PageTitle } from "~/components"
+
+type NewFinancialSupportDrawerProps = null | Omit<
+	NewPartnerFinancialSupportDrawerProps,
+	"onClose"
+>
 
 const defaultValues: SearchPartnerValues = { type: "id", value: "" }
+const mockedData: PartnerRecord[] = [
+	{
+		createdAt: new Date("2022-09-19"),
+		updatedAt: new Date("2022-09-19"),
+		id: "93489",
+		name: "Pedro Henrique",
+	},
+]
 
 export const Partners: React.FC = () => {
 	const form = useForm<SearchPartnerValues>({
@@ -25,8 +40,28 @@ export const Partners: React.FC = () => {
 	})
 	const [isFetching, setIsFetching] = useState(false)
 	const [records, setRecords] = useState<PartnerRecord[]>([])
+	const [newFinancialSupportDrawer, setNewFinancialSupportDrawer] =
+		useState<NewFinancialSupportDrawerProps>(null)
 
-	const fetchRecords = useCallback(async () => {}, [])
+	const fetchRecords = useCallback(async (params: SearchPartnerValues) => {
+		setIsFetching(true)
+		console.log("params:", params)
+
+		setTimeout(() => {
+			setIsFetching(false)
+			setRecords(mockedData)
+		}, 3000)
+	}, [])
+
+	const onCloseNewFinancialSupportDrawer = () =>
+		setNewFinancialSupportDrawer(null)
+
+	const onAddNewFinancialSupport = (partner: PartnerRecord) =>
+		setNewFinancialSupportDrawer({
+			isVisible: true,
+			mode: "create",
+			partner,
+		})
 
 	const actionItems: TableActionMenuItem[] = [
 		{
@@ -35,14 +70,6 @@ export const Partners: React.FC = () => {
 			title: "Clique para cadastrar um novo associado",
 			Icon: <PlusCircle />,
 			onClick: () => {},
-			// onClick: () => setDrawerProps({ isVisible: true, mode: "create" }),
-		},
-		{
-			id: "refresh",
-			label: "Recarregar registros",
-			title: "Clique para atualizar a listagem de associados",
-			Icon: <ArrowClockwise />,
-			onClick: () => void fetchRecords(),
 		},
 	]
 
@@ -56,13 +83,23 @@ export const Partners: React.FC = () => {
 			</Text>
 
 			<FormProvider {...form}>
-				<SearchPartner isLoading={isFetching} />
+				<SearchPartner isLoading={isFetching} fetchRecords={fetchRecords} />
 			</FormProvider>
+
+			{!!newFinancialSupportDrawer && (
+				<NewFinancialSupportDrawer
+					isVisible={!!newFinancialSupportDrawer}
+					onClose={onCloseNewFinancialSupportDrawer}
+					mode={newFinancialSupportDrawer.mode}
+					partner={newFinancialSupportDrawer.partner}
+				/>
+			)}
 
 			<PartnersTable
 				records={records}
 				actionItems={actionItems}
 				isLoading={isFetching}
+				onAddNewFinancialSupport={onAddNewFinancialSupport}
 			/>
 		</Box>
 	)

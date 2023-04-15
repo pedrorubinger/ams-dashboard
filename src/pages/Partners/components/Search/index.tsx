@@ -19,16 +19,19 @@ import { SearchButton } from "~/pages/Partners/components/Search/styles"
 
 interface Props {
 	isLoading: boolean
+	fetchRecords: (params: SearchPartnerValues) => Promise<void>
 }
 
-export const SearchPartner: React.FC<Props> = ({ isLoading }) => {
+export const SearchPartner: React.FC<Props> = ({ isLoading, fetchRecords }) => {
 	const {
 		handleSubmit,
 		register,
 		formState: { errors, isDirty },
 	} = useFormContext<SearchPartnerValues>()
 
-	const onSubmit = async (values: SearchPartnerValues): Promise<void> => {}
+	const onSubmit = async (values: SearchPartnerValues): Promise<void> => {
+		await fetchRecords(values)
+	}
 
 	return (
 		<Box mt={8} mb={10}>

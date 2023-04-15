@@ -1,13 +1,20 @@
 import {
-	PartnerFinancialSupportLabel as Label,
-	PartnerFinancialSupportType as Value,
+	PartnerFinancialSupportCategoryLabel as CategoryLabel,
+	PartnerFinancialSupportCategory as CategoryValue,
+	PartnerFinancialSupportBillingMonth as MonthValue,
+	PartnerFinancialSupportBillingMonthLabel as MonthLabel,
 	SearchPartnerType,
 	TableColumn,
 } from "~/interfaces"
 
-interface ContributionOption {
-	label: Label
-	value: Value
+interface FinancialSupportBillingMonthOption {
+	label: MonthLabel
+	value: MonthValue
+}
+
+interface FinancialSupportCategoryOption {
+	label: CategoryLabel
+	value: CategoryValue
 }
 
 interface SearchTypeOption {
@@ -27,8 +34,33 @@ export const searchOptions: SearchTypeOption[] = [
 	{ label: "Nome", value: "name" },
 ]
 
-export const contributioOptions: ContributionOption[] = [
-	{ label: Label.COPASA, value: Value.COPASA },
-	{ label: Label.PIX, value: Value.PIX },
-	{ label: Label.TICKET, value: Value.TICKET },
+export const financialSupportOptions: FinancialSupportCategoryOption[] = [
+	{
+		label: CategoryLabel.COPASA,
+		value: CategoryValue.COPASA,
+	},
+	{
+		label: CategoryLabel.PIX,
+		value: CategoryValue.PIX,
+	},
+	{
+		label: CategoryLabel.TICKET,
+		value: CategoryValue.TICKET,
+	},
 ]
+
+export const financialSupportBillingMonthOptions: FinancialSupportBillingMonthOption[] =
+	[
+		{ label: MonthLabel.JAN, value: MonthValue.JAN },
+		{ label: MonthLabel.FEB, value: MonthValue.FEB },
+		{ label: MonthLabel.MAR, value: MonthValue.MAR },
+		{ label: MonthLabel.APR, value: MonthValue.APR },
+		{ label: MonthLabel.MAY, value: MonthValue.MAY },
+		{ label: MonthLabel.JUN, value: MonthValue.JUN },
+		{ label: MonthLabel.JUL, value: MonthValue.JUL },
+		{ label: MonthLabel.AUG, value: MonthValue.AUG },
+		{ label: MonthLabel.SEP, value: MonthValue.SEP },
+		{ label: MonthLabel.OCT, value: MonthValue.OCT },
+		{ label: MonthLabel.NOV, value: MonthValue.NOV },
+		{ label: MonthLabel.DEC, value: MonthValue.DEC },
+	]
