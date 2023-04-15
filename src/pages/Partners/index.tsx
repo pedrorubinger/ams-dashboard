@@ -23,7 +23,7 @@ export const Partners: React.FC = () => {
 		defaultValues,
 		resolver: yupResolver(SearchPartnersSchema),
 	})
-	const [isFetching, setIsFetching] = useState(true)
+	const [isFetching, setIsFetching] = useState(false)
 	const [records, setRecords] = useState<PartnerRecord[]>([])
 
 	const fetchRecords = useCallback(async () => {}, [])
@@ -56,7 +56,7 @@ export const Partners: React.FC = () => {
 			</Text>
 
 			<FormProvider {...form}>
-				<SearchPartner />
+				<SearchPartner isLoading={isFetching} />
 			</FormProvider>
 
 			<PartnersTable

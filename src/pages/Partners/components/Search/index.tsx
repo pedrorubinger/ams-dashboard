@@ -17,10 +17,11 @@ import { Form, InputLabel } from "~/components"
 import { searchOptions } from "~/pages/Partners/utils/constants"
 import { SearchButton } from "~/pages/Partners/components/Search/styles"
 
-interface Props {}
+interface Props {
+	isLoading: boolean
+}
 
-export const SearchPartner: React.FC<Props> = () => {
-	const [isSubmitting, setIsSubmitting] = useState(false)
+export const SearchPartner: React.FC<Props> = ({ isLoading }) => {
 	const {
 		handleSubmit,
 		register,
@@ -41,6 +42,7 @@ export const SearchPartner: React.FC<Props> = () => {
 							variant="outline"
 							placeholder="Selecione um filtro"
 							{...register("type")}
+							isDisabled={isLoading}
 						>
 							{searchOptions.map((item) => (
 								<option key={item.value} value={item.value}>
@@ -65,11 +67,11 @@ export const SearchPartner: React.FC<Props> = () => {
 								{...register("value")}
 								borderRight="none"
 								borderEndRadius="none"
-								isDisabled={isSubmitting}
+								isDisabled={isLoading}
 							/>
 							<InputRightElement>
 								<SearchButton
-									isDisabled={isSubmitting}
+									isDisabled={isLoading}
 									icon={<MagnifyingGlass size={14} />}
 									title="Clique ou pressione enter para buscar um associado"
 									aria-label="Pesquisar"
