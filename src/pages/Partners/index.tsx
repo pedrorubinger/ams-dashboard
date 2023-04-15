@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react"
-import { Box, Input, Text } from "@chakra-ui/react"
+import { Box, Text } from "@chakra-ui/react"
 import { ArrowClockwise, PlusCircle } from "phosphor-react"
 import { FormProvider, useForm } from "react-hook-form"
 
@@ -23,7 +23,7 @@ export const Partners: React.FC = () => {
 		defaultValues,
 		resolver: yupResolver(SearchPartnersSchema),
 	})
-	const [isFetching, setIsFetching] = useState(false)
+	const [isFetching, setIsFetching] = useState(true)
 	const [records, setRecords] = useState<PartnerRecord[]>([])
 
 	const fetchRecords = useCallback(async () => {}, [])

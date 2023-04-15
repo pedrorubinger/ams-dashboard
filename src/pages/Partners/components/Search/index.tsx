@@ -1,19 +1,21 @@
 import {
 	Box,
-	Divider,
 	Flex,
 	FormControl,
 	FormErrorMessage,
-	Grid,
 	Input,
+	InputGroup,
+	InputRightElement,
 	Select,
 } from "@chakra-ui/react"
 import React, { useState } from "react"
 import { useFormContext } from "react-hook-form"
+import { MagnifyingGlass } from "phosphor-react"
 
 import { SearchPartnerValues } from "~/interfaces"
 import { Form, InputLabel } from "~/components"
 import { searchOptions } from "~/pages/Partners/utils/constants"
+import { SearchButton } from "~/pages/Partners/components/Search/styles"
 
 interface Props {}
 
@@ -55,13 +57,27 @@ export const SearchPartner: React.FC<Props> = () => {
 					<FormControl isRequired isInvalid={!!errors.value} width="lg">
 						<InputLabel htmlFor="value">Pesquisar por</InputLabel>
 
-						<Input
-							id="value"
-							type="text"
-							placeholder="Digite o que deseja filtrar"
-							{...register("value")}
-							isDisabled={isSubmitting}
-						/>
+						<InputGroup>
+							<Input
+								id="value"
+								type="text"
+								placeholder="Digite o que deseja filtrar"
+								{...register("value")}
+								borderRight="none"
+								borderEndRadius="none"
+								isDisabled={isSubmitting}
+							/>
+							<InputRightElement>
+								<SearchButton
+									isDisabled={isSubmitting}
+									icon={<MagnifyingGlass size={14} />}
+									title="Clique ou pressione enter para buscar um associado"
+									aria-label="Pesquisar"
+									type="submit"
+								/>
+							</InputRightElement>
+						</InputGroup>
+
 						<FormErrorMessage>
 							{errors.value && errors.value.message}
 						</FormErrorMessage>
