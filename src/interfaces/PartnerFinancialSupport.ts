@@ -55,7 +55,7 @@ export interface NewPartnerFinancialSupportDrawerProps {
 export interface PartnerFinancialSupport {
 	id: string
 	partnerId: string
-	billingMonth: string
+	billingMonth: PartnerFinancialSupportBillingMonth
 	category: PartnerFinancialSupportCategory
 	value: number // in cents
 	description?: string

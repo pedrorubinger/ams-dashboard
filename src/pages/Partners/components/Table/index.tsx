@@ -22,6 +22,7 @@ interface Props {
 	records: PartnerRecord[]
 	actionItems: TableActionMenuItem[]
 	onAddNewFinancialSupport: (partner: PartnerRecord) => void
+	onViewFinancialSupportList: (partner: PartnerRecord) => void
 	// fetchRecords: () => Promise<void>
 	// onClickToUpdatePartner: (record: PartnerRecord) => void
 }
@@ -32,6 +33,7 @@ export const PartnersTable: React.FC<Props> = ({
 	records,
 	actionItems,
 	onAddNewFinancialSupport,
+	onViewFinancialSupportList,
 	// fetchRecords,
 	// onClickToUpdatePartner,
 }) => {
@@ -46,7 +48,7 @@ export const PartnersTable: React.FC<Props> = ({
 				type: "view",
 				title: "Visualizar lançamentos deste associado",
 				isDisabled,
-				onClick: () => {},
+				onClick: () => onViewFinancialSupportList(record),
 			},
 			{
 				type: "create",

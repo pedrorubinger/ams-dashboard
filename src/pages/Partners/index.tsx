@@ -5,6 +5,7 @@ import { FormProvider, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 
 import {
+	FinancialSupportListDrawerProps,
 	NewPartnerFinancialSupportDrawerProps,
 	PartnerRecord,
 	SearchPartnerValues,
@@ -14,12 +15,17 @@ import {
 	PartnersTable,
 	SearchPartner,
 	SearchPartnersSchema,
+	NewFinancialSupportDrawer,
+	FinancialSupportListDrawer,
 } from "~/pages/Partners/components"
-import { NewFinancialSupportDrawer } from "~/pages/Partners/components/NewFinancialSupportDrawer"
 import { PageTitle } from "~/components"
 
-type NewFinancialSupportDrawerProps = null | Omit<
+type NewSupportDrawer = null | Omit<
 	NewPartnerFinancialSupportDrawerProps,
+	"onClose"
+>
+type ListSupportsDrawer = null | Omit<
+	FinancialSupportListDrawerProps,
 	"onClose"
 >
 
@@ -40,8 +46,10 @@ export const Partners: React.FC = () => {
 	})
 	const [isFetching, setIsFetching] = useState(false)
 	const [records, setRecords] = useState<PartnerRecord[]>([])
+	const [financialSupportListDrawer, setFinancialSupportListDrawer] =
+		useState<ListSupportsDrawer>(null)
 	const [newFinancialSupportDrawer, setNewFinancialSupportDrawer] =
-		useState<NewFinancialSupportDrawerProps>(null)
+		useState<NewSupportDrawer>(null)
 
 	const fetchRecords = useCallback(async (params: SearchPartnerValues) => {
 		setIsFetching(true)
@@ -56,10 +64,19 @@ export const Partners: React.FC = () => {
 	const onCloseNewFinancialSupportDrawer = () =>
 		setNewFinancialSupportDrawer(null)
 
+	const onCloseFinancialSupportListDrawer = () =>
+		setFinancialSupportListDrawer(null)
+
 	const onAddNewFinancialSupport = (partner: PartnerRecord) =>
 		setNewFinancialSupportDrawer({
 			isVisible: true,
 			mode: "create",
+			partner,
+		})
+
+	const onViewFinancialSupportList = (partner: PartnerRecord) =>
+		setFinancialSupportListDrawer({
+			isVisible: true,
 			partner,
 		})
 
@@ -88,10 +105,18 @@ export const Partners: React.FC = () => {
 
 			{!!newFinancialSupportDrawer && (
 				<NewFinancialSupportDrawer
-					isVisible={!!newFinancialSupportDrawer}
 					onClose={onCloseNewFinancialSupportDrawer}
 					mode={newFinancialSupportDrawer.mode}
 					partner={newFinancialSupportDrawer.partner}
+					isVisible
+				/>
+			)}
+
+			{!!financialSupportListDrawer && (
+				<FinancialSupportListDrawer
+					partner={financialSupportListDrawer.partner}
+					onClose={onCloseFinancialSupportListDrawer}
+					isVisible
 				/>
 			)}
 
@@ -99,6 +124,7 @@ export const Partners: React.FC = () => {
 				records={records}
 				actionItems={actionItems}
 				isLoading={isFetching}
+				onViewFinancialSupportList={onViewFinancialSupportList}
 				onAddNewFinancialSupport={onAddNewFinancialSupport}
 			/>
 		</Box>

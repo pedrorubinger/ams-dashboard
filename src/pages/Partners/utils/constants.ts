@@ -29,6 +29,13 @@ export const columns: TableColumn[] = [
 	{ id: 4, label: "Ações" },
 ]
 
+export const financialSupportColumns: TableColumn[] = [
+	{ id: 1, label: "Categoria" },
+	{ id: 2, label: "Competência" },
+	{ id: 3, label: "Valor" },
+	{ id: 4, label: "Lançado em" },
+]
+
 export const searchOptions: SearchTypeOption[] = [
 	{ label: "Matrícula", value: "id" },
 	{ label: "Nome", value: "name" },
