@@ -27,7 +27,7 @@ export const FinancialSupportListTable: React.FC<Props> = ({
 	isLoading,
 }) => {
 	return (
-		<TableWrapper>
+		<TableWrapper mt={5}>
 			<Table>
 				<Thead>
 					<Tr>

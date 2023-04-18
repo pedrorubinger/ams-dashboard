@@ -1,5 +1,11 @@
 import React, { useState } from "react"
 import {
+	Accordion,
+	AccordionButton,
+	AccordionIcon,
+	AccordionItem,
+	AccordionPanel,
+	Box,
 	Drawer,
 	DrawerBody,
 	DrawerCloseButton,
@@ -134,13 +140,38 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 
 	const MainContent = (
 		<>
-			<Text mb="5">
+			<Text mb="10">
 				Na tabela abaixo você encontra todos os lançamentos feitos para este
 				associado.
 			</Text>
 
-			<FinancialSupportListTable records={records} isLoading={false} />
-			{/* Content enters here... */}
+			<Accordion allowToggle>
+				<AccordionItem>
+					<AccordionButton>
+						<Box as="span" flex="1" textAlign="left" fontWeight="bold">
+							Ver lançamentos para cada mês
+						</Box>
+						<AccordionIcon />
+					</AccordionButton>
+
+					<AccordionPanel pb={1}>
+						<Text>Sum/Average of all values divided by months.</Text>
+					</AccordionPanel>
+				</AccordionItem>
+
+				<AccordionItem>
+					<AccordionButton>
+						<Box as="span" flex="1" textAlign="left" fontWeight="bold">
+							Ver todos os lançamentos
+						</Box>
+						<AccordionIcon />
+					</AccordionButton>
+
+					<AccordionPanel pb={1}>
+						<FinancialSupportListTable records={records} isLoading={false} />
+					</AccordionPanel>
+				</AccordionItem>
+			</Accordion>
 		</>
 	)
 
