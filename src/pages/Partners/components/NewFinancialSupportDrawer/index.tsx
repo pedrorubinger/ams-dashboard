@@ -75,9 +75,13 @@ export const NewFinancialSupportDrawer: React.FC<
 			} lançamento.`
 		}
 
-		return `Preencha os campos abaixo para ${
-			isCreating ? "cadastrar um novo" : "editar os dados do"
-		} lançamento para o associado ${partner.name}.`
+		return (
+			<>
+				Preencha os campos abaixo para|{" "}
+				{isCreating ? "cadastrar um novo" : "editar os dados do"} lançamento
+				para o associado <strong>{partner.name}</strong>.
+			</>
+		)
 	}
 
 	// useEffect(() => {
@@ -114,7 +118,6 @@ export const NewFinancialSupportDrawer: React.FC<
 						<FormProvider {...form}>
 							<DrawerForm
 								isSubmitting={isSubmitting}
-								partner={partner}
 								mode={mode}
 								onSubmit={onSubmit}
 							/>
