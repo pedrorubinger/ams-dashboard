@@ -39,11 +39,14 @@ export const FinancialSupportListTable: React.FC<Props> = ({
 
 				<Tbody width="100%">
 					{records.map((record) => {
+						const createdAt = new Date(record.createdAt)
 						const category = CategoryLabel[record.category] as string
 						const monthValue = BillingMonth[
 							record.billingMonth
 						] as keyof typeof BillingMonth
-						const month = BillingMonthLabel[monthValue] as string
+						const month = `${
+							BillingMonthLabel[monthValue] as string
+						}/${createdAt.getFullYear()}`
 						const value = priceFormatter.format(record.value / 100)
 
 						return (
@@ -51,7 +54,7 @@ export const FinancialSupportListTable: React.FC<Props> = ({
 								<Td>{category}</Td>
 								<Td>{month}</Td>
 								<Td>{value}</Td>
-								<Td>{dateFormatter.format(new Date(record.createdAt))}</Td>
+								<Td>{dateFormatter.format(createdAt)}</Td>
 							</Tr>
 						)
 					})}
