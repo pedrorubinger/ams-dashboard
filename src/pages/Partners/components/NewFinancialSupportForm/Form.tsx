@@ -20,8 +20,7 @@ import {
 } from "~/pages/Partners/utils"
 import { Form, InputLabel } from "~/components"
 
-interface Props
-	extends Pick<NewPartnerFinancialSupportDrawerProps, "mode" | "partner"> {
+interface Props extends Pick<NewPartnerFinancialSupportDrawerProps, "mode"> {
 	isSubmitting: boolean
 	onSubmit: (values: PartnerFinancialSupportValues) => Promise<void>
 }
@@ -29,11 +28,9 @@ interface Props
 export const DrawerForm: React.FC<Props> = ({
 	mode,
 	isSubmitting,
-	partner,
 	onSubmit,
 }) => {
 	const isCreating = mode === "create"
-	const partnerName = partner.name || "Não identificado"
 	const {
 		handleSubmit,
 		register,
@@ -43,12 +40,6 @@ export const DrawerForm: React.FC<Props> = ({
 
 	return (
 		<Form onSubmit={handleSubmit(onSubmit)}>
-			<FormControl>
-				<InputLabel>Nome do associado</InputLabel>
-
-				<Input value={partnerName} readOnly disabled />
-			</FormControl>
-
 			<FormControl mt={5} isInvalid={!!errors.category} isRequired>
 				<InputLabel htmlFor="category">Categoria</InputLabel>
 
