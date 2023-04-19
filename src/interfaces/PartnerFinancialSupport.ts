@@ -27,6 +27,12 @@ export enum PartnerFinancialSupportBillingMonth {
 	DEC = 12,
 }
 
+export interface PartnerFinancialSupportPerMonth {
+	month: PartnerFinancialSupportBillingMonth
+	/** value in cents */
+	value: number
+}
+
 export enum PartnerFinancialSupportBillingMonthLabel {
 	JAN = "Janeiro",
 	FEB = "Fevereiro",

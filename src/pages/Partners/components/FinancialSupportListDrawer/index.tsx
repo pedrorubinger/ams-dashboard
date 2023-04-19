@@ -22,30 +22,18 @@ import {
 	PartnerFinancialSupportCategory,
 } from "~/interfaces"
 import { useIsMounted } from "~/hooks"
+import { priceFormatter } from "~/utils"
+import { getGroupedValues } from "~/pages/Partners/utils"
+import { FinancialSupportListTable } from "~/pages/Partners/components/FinancialSupportListTable"
 import { DefaultAlert } from "~/components"
-import { FinancialSupportListTable } from "../FinancialSupportListTable"
+import { FinancialSupportPerMonthListTable } from "../FinancialSupportPerMonthListTable"
 
 export const FinancialSupportListDrawer: React.FC<Props> = ({
 	isVisible,
 	partner,
 	onClose,
 }) => {
-	const isMounted = useIsMounted()
-	const partnerName: string = partner?.name?.split(" ")?.[0] || "associado"
-	const [isFetching, setIsFetching] = useState(false)
-	const [errorMessage, setErrorMessage] = useState("")
-	const isLoading = /* !isMounted() || */ isFetching
-
-	const ErrorContent = (
-		<DefaultAlert
-			status="error"
-			mb={5}
-			isVisible={!!errorMessage}
-			message={errorMessage}
-		/>
-	)
-
-	const records: PartnerFinancialSupport[] = [
+	const initialValues: PartnerFinancialSupport[] = [
 		{
 			id: "1",
 			billingMonth: PartnerFinancialSupportBillingMonth.APR,
@@ -137,6 +125,23 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 			value: 10000,
 		},
 	]
+	const isMounted = useIsMounted()
+	const partnerName: string = partner?.name?.split(" ")?.[0] || "associado"
+	const [isFetching, setIsFetching] = useState(false)
+	const [errorMessage, setErrorMessage] = useState("")
+	const [records, setRecords] =
+		useState<PartnerFinancialSupport[]>(initialValues)
+	const isLoading = /* !isMounted() || */ isFetching
+	const { annualySum, monthlySum } = getGroupedValues(records)
+
+	const ErrorContent = (
+		<DefaultAlert
+			status="error"
+			mb={5}
+			isVisible={!!errorMessage}
+			message={errorMessage}
+		/>
+	)
 
 	const MainContent = (
 		<>
@@ -149,13 +154,22 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 				<AccordionItem>
 					<AccordionButton>
 						<Box as="span" flex="1" textAlign="left" fontWeight="bold">
-							Ver lançamentos para cada mês
+							Ver valores totais
 						</Box>
 						<AccordionIcon />
 					</AccordionButton>
 
 					<AccordionPanel pb={1}>
-						<Text>Sum/Average of all values divided by months.</Text>
+						<Text>
+							Valor anual:&nbsp;
+							<strong>{priceFormatter.format(annualySum / 100)}</strong>
+						</Text>
+
+						<FinancialSupportPerMonthListTable
+							records={monthlySum}
+							/** TO DO: Implement correct loading prop... */
+							isLoading={false}
+						/>
 					</AccordionPanel>
 				</AccordionItem>
 

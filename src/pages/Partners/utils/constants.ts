@@ -36,6 +36,11 @@ export const financialSupportColumns: TableColumn[] = [
 	{ id: 4, label: "Lançado em" },
 ]
 
+export const financialSupportPerMonthColumns: TableColumn[] = [
+	{ id: 1, label: "Competência" },
+	{ id: 2, label: "Total mensal" },
+]
+
 export const searchOptions: SearchTypeOption[] = [
 	{ label: "Matrícula", value: "id" },
 	{ label: "Nome", value: "name" },
