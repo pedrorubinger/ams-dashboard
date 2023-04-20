@@ -156,7 +156,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 	const MainContent = (
 		<>
 			<Text mb="10">
-				Na tabela abaixo você encontra todos os lançamentos feitos para este
+				Nas seções abaixo você encontra todos os lançamentos feitos para este
 				associado.
 			</Text>
 
