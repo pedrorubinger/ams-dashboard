@@ -21,6 +21,7 @@ export const getGroupedValues = (
 	).map((month) => records.filter((record) => record.billingMonth === month))
 	const monthlySum = groupedByMonth.map((record) => ({
 		month: record[0].billingMonth,
+		year: record[0].billingYear,
 		value: record.reduce((prev, curr) => prev + curr.value, 0),
 	}))
 

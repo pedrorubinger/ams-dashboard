@@ -36,12 +36,14 @@ export const FinancialSupportPerMonthListTable: React.FC<Props> = ({
 						const monthValue = BillingMonth[
 							record.month
 						] as keyof typeof BillingMonth
-						const month = `${BillingMonthLabel[monthValue] as string}`
+						const billingDate = `${BillingMonthLabel[monthValue] as string}/${
+							record.year
+						}`
 						const value = priceFormatter.format(record.value / 100)
 
 						return (
 							<Tr key={record.month} _hover={{ background: "blackAlpha.50" }}>
-								<Td>{month}</Td>
+								<Td>{billingDate}</Td>
 								<Td>{value}</Td>
 							</Tr>
 						)

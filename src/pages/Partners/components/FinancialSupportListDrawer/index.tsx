@@ -37,6 +37,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		{
 			id: "1",
 			billingMonth: PartnerFinancialSupportBillingMonth.APR,
+			billingYear: 2023,
 			category: PartnerFinancialSupportCategory.PIX,
 			createdAt: new Date("2023-04-16"),
 			updatedAt: new Date("2023-04-16"),
@@ -46,6 +47,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		{
 			id: "2",
 			billingMonth: PartnerFinancialSupportBillingMonth.APR,
+			billingYear: 2023,
 			category: PartnerFinancialSupportCategory.COPASA,
 			createdAt: new Date("2023-04-03"),
 			updatedAt: new Date("2023-04-03"),
@@ -55,6 +57,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		{
 			id: "3",
 			billingMonth: PartnerFinancialSupportBillingMonth.MAR,
+			billingYear: 2023,
 			category: PartnerFinancialSupportCategory.COPASA,
 			createdAt: new Date("2023-03-12"),
 			updatedAt: new Date("2023-03-12"),
@@ -64,6 +67,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		{
 			id: "4",
 			billingMonth: PartnerFinancialSupportBillingMonth.JAN,
+			billingYear: 2023,
 			category: PartnerFinancialSupportCategory.TICKET,
 			createdAt: new Date("2023-01-11"),
 			updatedAt: new Date("2023-01-11"),
@@ -73,6 +77,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		{
 			id: "5",
 			billingMonth: PartnerFinancialSupportBillingMonth.DEC,
+			billingYear: 2023,
 			category: PartnerFinancialSupportCategory.PIX,
 			createdAt: new Date("2022-12-14"),
 			updatedAt: new Date("2022-12-14"),
@@ -82,6 +87,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		{
 			id: "6",
 			billingMonth: PartnerFinancialSupportBillingMonth.NOV,
+			billingYear: 2022,
 			category: PartnerFinancialSupportCategory.PIX,
 			createdAt: new Date("2022-11-14"),
 			updatedAt: new Date("2022-11-14"),
@@ -91,6 +97,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		{
 			id: "7",
 			billingMonth: PartnerFinancialSupportBillingMonth.OCT,
+			billingYear: 2022,
 			category: PartnerFinancialSupportCategory.PIX,
 			createdAt: new Date("2022-10-03"),
 			updatedAt: new Date("2022-10-04"),
@@ -100,6 +107,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		{
 			id: "8",
 			billingMonth: PartnerFinancialSupportBillingMonth.AUG,
+			billingYear: 2022,
 			category: PartnerFinancialSupportCategory.COPASA,
 			createdAt: new Date("2022-08-12"),
 			updatedAt: new Date("2022-08-12"),
@@ -109,6 +117,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		{
 			id: "9",
 			billingMonth: PartnerFinancialSupportBillingMonth.AUG,
+			billingYear: 2022,
 			category: PartnerFinancialSupportCategory.PIX,
 			createdAt: new Date("2022-08-05"),
 			updatedAt: new Date("2022-08-05"),
@@ -118,9 +127,10 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		{
 			id: "10",
 			billingMonth: PartnerFinancialSupportBillingMonth.JUL,
+			billingYear: 2022,
 			category: PartnerFinancialSupportCategory.PIX,
-			createdAt: new Date("2022-07-09"),
-			updatedAt: new Date("2022-07-09"),
+			createdAt: new Date("2023-03-09"),
+			updatedAt: new Date("2023-03-09"),
 			partnerId: partner.id,
 			value: 10000,
 		},

@@ -44,9 +44,9 @@ export const FinancialSupportListTable: React.FC<Props> = ({
 						const monthValue = BillingMonth[
 							record.billingMonth
 						] as keyof typeof BillingMonth
-						const month = `${
-							BillingMonthLabel[monthValue] as string
-						}/${createdAt.getFullYear()}`
+						const month = `${BillingMonthLabel[monthValue] as string}/${
+							record.billingYear
+						}`
 						const value = priceFormatter.format(record.value / 100)
 
 						return (

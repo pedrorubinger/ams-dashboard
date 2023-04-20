@@ -29,6 +29,7 @@ export enum PartnerFinancialSupportBillingMonth {
 
 export interface PartnerFinancialSupportPerMonth {
 	month: PartnerFinancialSupportBillingMonth
+	year: number
 	/** value in cents */
 	value: number
 }
@@ -62,6 +63,7 @@ export interface PartnerFinancialSupport {
 	id: string
 	partnerId: string
 	billingMonth: PartnerFinancialSupportBillingMonth
+	billingYear: number
 	category: PartnerFinancialSupportCategory
 	value: number // in cents
 	description?: string
@@ -72,5 +74,5 @@ export interface PartnerFinancialSupport {
 export interface PartnerFinancialSupportValues
 	extends Pick<
 		PartnerFinancialSupport,
-		"billingMonth" | "category" | "description" | "value"
+		"billingMonth" | "billingYear" | "category" | "description" | "value"
 	> {}

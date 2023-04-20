@@ -62,7 +62,7 @@ export const DrawerForm: React.FC<Props> = ({
 			</FormControl>
 
 			<FormControl mt={5} isInvalid={!!errors.billingMonth} isRequired>
-				<InputLabel htmlFor="billingMonth">Mês de competência</InputLabel>
+				<InputLabel htmlFor="billingMonth">Mês da competência</InputLabel>
 
 				<Select
 					id="billingMonth"
@@ -82,6 +82,22 @@ export const DrawerForm: React.FC<Props> = ({
 				</FormErrorMessage>
 			</FormControl>
 
+			<FormControl mt={5} isInvalid={!!errors.billingYear} isRequired>
+				<InputLabel htmlFor="billingYear">Ano da competência</InputLabel>
+
+				<Input
+					type="number"
+					id="billingYear"
+					min="0"
+					placeholder="Informe o ano"
+					{...register("billingYear")}
+				/>
+
+				<FormErrorMessage>
+					{errors.billingYear && errors.billingYear.message}
+				</FormErrorMessage>
+			</FormControl>
+
 			<FormControl isRequired isInvalid={!!errors.value} mt={5}>
 				<InputLabel htmlFor="value">Valor do lançamento</InputLabel>
 
@@ -93,6 +109,7 @@ export const DrawerForm: React.FC<Props> = ({
 							<Input
 								decimalScale={2}
 								allowNegative={false}
+								allowLeadingZeros={false}
 								id="value"
 								prefix="R$ "
 								placeholder="R$"

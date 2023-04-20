@@ -34,6 +34,7 @@ export const NewFinancialSupportDrawer: React.FC<
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
 	const form = useForm<PartnerFinancialSupportValues>({
+		defaultValues: { billingYear: new Date().getFullYear() },
 		resolver: yupResolver(NewPartnerFinancialSupportSchema),
 	})
 
