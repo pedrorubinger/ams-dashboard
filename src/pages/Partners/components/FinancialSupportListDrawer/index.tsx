@@ -77,7 +77,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		{
 			id: "5",
 			billingMonth: PartnerFinancialSupportBillingMonth.DEC,
-			billingYear: 2023,
+			billingYear: 2022,
 			category: PartnerFinancialSupportCategory.PIX,
 			createdAt: new Date("2022-12-14"),
 			updatedAt: new Date("2022-12-14"),
@@ -164,7 +164,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 				<AccordionItem>
 					<AccordionButton>
 						<Box as="span" flex="1" textAlign="left" fontWeight="bold">
-							Ver valores totais
+							Ver valores do ano corrente
 						</Box>
 						<AccordionIcon />
 					</AccordionButton>
