@@ -85,42 +85,53 @@ export const Partners: React.FC = () => {
 	]
 
 	return (
-		<ContentSection>
-			<PageTitle>Associados</PageTitle>
+		<>
+			<ContentSection>
+				<PageTitle>Encontrar associado</PageTitle>
 
-			<Text>
-				Nesta seção você encontra a lista de associados da APAE. Para começar,
-				procure um associado pelo seu número de matrícula ou nome.
-			</Text>
+				<Text>
+					Para encontrar um associado, selecione o filtro desejado e faça sua
+					busca.
+				</Text>
 
-			<FormProvider {...form}>
-				<SearchPartner isLoading={isFetching} fetchRecords={fetchRecords} />
-			</FormProvider>
+				<FormProvider {...form}>
+					<SearchPartner isLoading={isFetching} fetchRecords={fetchRecords} />
+				</FormProvider>
+			</ContentSection>
 
-			{!!newPartnerDonationDrawer && (
-				<NewPartnerDonationDrawer
-					onClose={onCloseNewPartnerDonationDrawer}
-					mode={newPartnerDonationDrawer.mode}
-					partner={newPartnerDonationDrawer.partner}
-					isVisible
+			<ContentSection mt={6}>
+				<PageTitle>Associados</PageTitle>
+
+				<Text>
+					Nesta seção você encontra a lista de associados da APAE. A lista
+					aparece assim que uma busca é feita.
+				</Text>
+
+				{!!newPartnerDonationDrawer && (
+					<NewPartnerDonationDrawer
+						onClose={onCloseNewPartnerDonationDrawer}
+						mode={newPartnerDonationDrawer.mode}
+						partner={newPartnerDonationDrawer.partner}
+						isVisible
+					/>
+				)}
+
+				{!!partnerDonationListDrawer && (
+					<PartnerDonationListDrawer
+						partner={partnerDonationListDrawer.partner}
+						onClose={onClosePartnerDonationListDrawer}
+						isVisible
+					/>
+				)}
+
+				<PartnersTable
+					records={records}
+					actionItems={actionItems}
+					isLoading={isFetching}
+					onViewPartnerDonationList={onViewPartnerDonationList}
+					onAddNewPartnerDonation={onAddNewPartnerDonation}
 				/>
-			)}
-
-			{!!partnerDonationListDrawer && (
-				<PartnerDonationListDrawer
-					partner={partnerDonationListDrawer.partner}
-					onClose={onClosePartnerDonationListDrawer}
-					isVisible
-				/>
-			)}
-
-			<PartnersTable
-				records={records}
-				actionItems={actionItems}
-				isLoading={isFetching}
-				onViewPartnerDonationList={onViewPartnerDonationList}
-				onAddNewPartnerDonation={onAddNewPartnerDonation}
-			/>
-		</ContentSection>
+			</ContentSection>
+		</>
 	)
 }
