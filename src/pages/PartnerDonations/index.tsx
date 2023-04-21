@@ -48,8 +48,9 @@ export const PartnerDonations: React.FC<Props> = () => {
 				<PageTitle>Contribuições</PageTitle>
 
 				<Text>
-					Nesta página você encontra todas as contribuições registradas. Se você
-					deseja ver as contribuições de cada associado, acesse a página&nbsp;
+					Nesta página você encontra os valores de todas as contribuições
+					registradas. Se você deseja ver as contribuições detalhadas para cada
+					associado, acesse a página&nbsp;
 					<Link to="/associados" color="primary.400" as={RouterLink}>
 						Associados
 					</Link>
