@@ -10,7 +10,6 @@ import {
 	DashboardContentContainer,
 	DashboardFlexContainer,
 	DashboardMenuListContainer,
-	DashboardOutletContainer,
 	DashboardSideMenuContainer,
 } from "~/layouts/Dashboard/styles"
 import { DashboardFooter, SideMenuItem } from "~/layouts/Dashboard/components"
@@ -78,9 +77,7 @@ export function DashboardLayout() {
 				ml={`calc(${sideMenuWidth || 0}px + ${CONTENT_HORIZONTAL_GAP}px)`}
 				mr={`${CONTENT_HORIZONTAL_GAP}px`}
 			>
-				<DashboardOutletContainer>
-					<Outlet />
-				</DashboardOutletContainer>
+				<Outlet />
 
 				<DashboardFooter />
 			</DashboardContentContainer>

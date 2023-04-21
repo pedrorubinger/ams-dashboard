@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react"
-import { Box, Text } from "@chakra-ui/react"
+import { Text } from "@chakra-ui/react"
 import { PlusCircle } from "phosphor-react"
 import { FormProvider, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -18,7 +18,7 @@ import {
 	NewPartnerDonationDrawer,
 	PartnerDonationListDrawer,
 } from "~/pages/Partners/components"
-import { PageTitle } from "~/components"
+import { ContentSection, PageTitle } from "~/components"
 
 type NewSupportDrawer = null | Omit<NewPartnerDonationDrawerProps, "onClose">
 type ListSupportsDrawer = null | Omit<PartnerDonationListDrawerProps, "onClose">
@@ -85,7 +85,7 @@ export const Partners: React.FC = () => {
 	]
 
 	return (
-		<Box width="100%">
+		<ContentSection>
 			<PageTitle>Associados</PageTitle>
 
 			<Text>
@@ -121,6 +121,6 @@ export const Partners: React.FC = () => {
 				onViewPartnerDonationList={onViewPartnerDonationList}
 				onAddNewPartnerDonation={onAddNewPartnerDonation}
 			/>
-		</Box>
+		</ContentSection>
 	)
 }

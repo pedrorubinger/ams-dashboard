@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { Box, Text } from "@chakra-ui/react"
+import { Text } from "@chakra-ui/react"
 import { ArrowClockwise, PlusCircle } from "phosphor-react"
 
 import {
@@ -11,7 +11,7 @@ import {
 } from "~/interfaces"
 import { getUsers } from "~/services/requests"
 import { UsersDrawer, UsersTable } from "~/pages/Users/components"
-import { DefaultAlert, PageTitle } from "~/components"
+import { ContentSection, DefaultAlert, PageTitle } from "~/components"
 
 export const Users: React.FC = () => {
 	const [drawerProps, setDrawerProps] = useState<Omit<
@@ -76,7 +76,7 @@ export const Users: React.FC = () => {
 	}, [fetchRecords])
 
 	return (
-		<Box width="100%">
+		<ContentSection>
 			<PageTitle>Usuários</PageTitle>
 
 			<Text>
@@ -111,6 +111,6 @@ export const Users: React.FC = () => {
 					fetchRecords={fetchRecords}
 				/>
 			)}
-		</Box>
+		</ContentSection>
 	)
 }
