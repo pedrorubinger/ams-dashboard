@@ -8,11 +8,17 @@ import {
 import { dateFormatter } from "~/utils"
 import { ContentSection, Tooltip } from "~/components"
 
-interface Props {}
+interface Props {
+	hasFilter: boolean
+	dateRange?: string
+}
 
 type MonthKey = keyof typeof MonthLabel
 
-export const PartnerDonationsReport: React.FC<Props> = () => {
+export const PartnerDonationsReport: React.FC<Props> = ({
+	hasFilter,
+	dateRange,
+}) => {
 	const d = new Date()
 	const today = dateFormatter.format(d)
 	const month: string = MonthLabel[Month[d.getMonth() + 1] as MonthKey]
@@ -66,9 +72,29 @@ export const PartnerDonationsReport: React.FC<Props> = () => {
 					/>
 				</Flex>
 				<Text fontWeight="bold" fontSize={22} color="blackAlpha.700">
-					R$ 9.144,55
+					R$ 914,55
 				</Text>
 			</ContentSection>
+
+			{!!hasFilter && (
+				<ContentSection mt={6}>
+					<Flex alignItems="center">
+						<Text color="gray.500" fontSize={18}>
+							Período
+						</Text>
+						&nbsp;
+						<Tooltip
+							label={`Somatória de todos os lançamentos feitos no intervalo de datas selecionado${
+								dateRange ? ` (${dateRange})` : ""
+							}`}
+							placement="top-start"
+						/>
+					</Flex>
+					<Text fontWeight="bold" fontSize={22} color="blackAlpha.700">
+						R$ 1.431,99
+					</Text>
+				</ContentSection>
+			)}
 		</>
 	)
 }

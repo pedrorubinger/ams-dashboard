@@ -2,12 +2,15 @@
 import styled from "styled-components"
 import { Flex, FlexProps } from "@chakra-ui/react"
 
-interface Props extends FlexProps {}
+interface Props extends FlexProps {
+	hasFilter: boolean
+}
 
 export const ReportsSection = styled(Flex).attrs(() => ({
 	gap: "0 20px",
 }))<Props>`
-	@media (max-width: 1200px) {
+	@media (max-width: ${({ $hasFilter }) => ($hasFilter ? 1400 : 1200)}px) {
 		flex-direction: column;
+		margin-bottom: 15px;
 	}
 `

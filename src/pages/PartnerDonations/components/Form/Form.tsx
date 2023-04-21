@@ -57,7 +57,7 @@ export const ReportsDateFilter: React.FC<Props> = ({
 	return (
 		<Box mt={8} mb={4}>
 			<Form onSubmit={handleSubmit(onSubmit)}>
-				<FormControl isInvalid={!!errors.date} width="lg">
+				<FormControl isInvalid={!!errors.date} width="sm">
 					<InputLabel htmlFor="date">Filtrar por datas</InputLabel>
 
 					<InputGroup>
@@ -79,8 +79,6 @@ export const ReportsDateFilter: React.FC<Props> = ({
 
 						<RangeDatepicker
 							id="date"
-							selectedDates={selected}
-							onDateChange={setSelected}
 							propsConfigs={{
 								dayOfMonthBtnProps: {
 									defaultBtnProps: {
@@ -108,6 +106,9 @@ export const ReportsDateFilter: React.FC<Props> = ({
 								},
 							}}
 							configs={{ dateFormat: "dd/MM/yyyy" }}
+							selectedDates={selected}
+							maxDate={new Date()}
+							onDateChange={setSelected}
 							usePortal
 						/>
 						<InputRightElement>

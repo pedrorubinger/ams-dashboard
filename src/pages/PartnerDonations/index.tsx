@@ -24,10 +24,13 @@ export const PartnerDonations: React.FC<Props> = () => {
 	})
 	const isMounted = useIsMounted()
 	const [isFetching, setIsFetching] = useState(false)
+	const [activeFilter, setActiveFilter] = useState<string | undefined>()
 	const isLoading = !isMounted() || isFetching
+	const hasFilter = !!activeFilter
 
 	const fetchRecords = useCallback(async (values?: SearchValues) => {
 		setIsFetching(true)
+		setActiveFilter(values?.date)
 		console.log("fetchRecords > values:", values)
 
 		setTimeout(() => {
@@ -61,9 +64,14 @@ export const PartnerDonations: React.FC<Props> = () => {
 				</FormProvider>
 			</ContentSection>
 
-			<ReportsSection>
-				{!!isLoading && <ReportCardsSkeleton />}
-				{!isLoading && <PartnerDonationsReport />}
+			<ReportsSection $hasFilter={hasFilter}>
+				{!!isLoading && <ReportCardsSkeleton hasFilter={hasFilter} />}
+				{!isLoading && (
+					<PartnerDonationsReport
+						hasFilter={hasFilter}
+						dateRange={activeFilter}
+					/>
+				)}
 			</ReportsSection>
 		</>
 	)
