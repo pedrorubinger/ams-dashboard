@@ -7,4 +7,5 @@ export const FilterButton = styled(IconButton).attrs(() => ({
 	borderRadius: "none",
 	background: "gray.50",
 	borderColor: "gray.100",
+	size: "sm",
 }))``

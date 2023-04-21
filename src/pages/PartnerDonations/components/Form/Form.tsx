@@ -1,15 +1,15 @@
-import React from "react"
+import React, { useState } from "react"
 import {
 	Box,
 	FormControl,
 	FormErrorMessage,
-	Input,
 	InputGroup,
 	InputLeftElement,
 	InputRightElement,
 } from "@chakra-ui/react"
 import { Eraser, MagnifyingGlass } from "phosphor-react"
 import { useFormContext } from "react-hook-form"
+import { RangeDatepicker } from "chakra-dayzed-datepicker"
 
 import { PartnerDonationSearchValues as Values } from "~/interfaces"
 import { FilterButton } from "~/pages/PartnerDonations/components/Form/styles"
@@ -28,10 +28,10 @@ export const ReportsDateFilter: React.FC<Props> = ({
 		handleSubmit,
 		register,
 		setValue,
-		watch,
 		formState: { errors, defaultValues, isDirty },
 	} = useFormContext<Values>()
-	const isSearchButtonDisabled = !watch("date") || isLoading
+	const [selected, setSelected] = useState<Date[]>([])
+	const isSearchButtonDisabled = isLoading || selected.length !== 2
 
 	const onSubmit = async (values: Values): Promise<void> => {
 		await fetchRecords(values)
@@ -39,6 +39,7 @@ export const ReportsDateFilter: React.FC<Props> = ({
 
 	const onReset = async () => {
 		setValue("date", defaultValues?.date || "")
+		setSelected([])
 		await fetchRecords()
 	}
 
@@ -49,8 +50,8 @@ export const ReportsDateFilter: React.FC<Props> = ({
 
 	const getSearchButtonDescription = () => {
 		if (isLoading) return "Aguarde a busca ser finalizada para realizar outra"
-		if (isSearchButtonDisabled) return "Preencha o campo para filtrar a busca"
-		return "Clique ou pressione enter no campo para filtrar a busca por data"
+		if (isSearchButtonDisabled) return "Selecione as datas para filtrar a busca"
+		return "Clique para filtrar a busca por data"
 	}
 
 	return (
@@ -71,21 +72,43 @@ export const ReportsDateFilter: React.FC<Props> = ({
 									marginBottom={2}
 									aria-label="Desfazer filtros"
 									type="button"
-									size="sm"
 									onClick={onReset}
 								/>
 							</Tooltip>
 						</InputLeftElement>
-						<Input
+
+						<RangeDatepicker
 							id="date"
-							type="text"
-							placeholder="Digite o que deseja filtrar"
-							{...register("date")}
-							borderRadius="none"
-							size="sm"
-							paddingLeft="50px"
-							_focus={{ border: "inherit" }}
-							isDisabled={isLoading}
+							selectedDates={selected}
+							onDateChange={setSelected}
+							propsConfigs={{
+								dayOfMonthBtnProps: {
+									defaultBtnProps: {
+										borderColor: "gray.200",
+										_hover: {
+											background: "gray.300",
+										},
+									},
+									isInRangeBtnProps: {
+										background: "orange.100",
+									},
+									selectedBtnProps: {
+										background: "azure",
+										borderColor: "ActiveBorder",
+									},
+								},
+								inputProps: {
+									isDisabled: isLoading,
+									size: "sm",
+									paddingLeft: "50px",
+									_focus: { border: "inherit" },
+									borderRadius: "none",
+									placeholder: "Selecione um intervalo de datas",
+									...register("date"),
+								},
+							}}
+							configs={{ dateFormat: "dd/MM/yyyy" }}
+							usePortal
 						/>
 						<InputRightElement>
 							<Tooltip
@@ -98,7 +121,6 @@ export const ReportsDateFilter: React.FC<Props> = ({
 									marginBottom={2}
 									aria-label="Pesquisar"
 									type="submit"
-									size="sm"
 								/>
 							</Tooltip>
 						</InputRightElement>
