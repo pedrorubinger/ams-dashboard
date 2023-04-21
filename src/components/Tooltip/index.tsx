@@ -7,10 +7,10 @@ interface Props extends Partial<TooltipProps> {
 	label: string
 }
 
-export const Tooltip: React.FC<Props> = ({ label, ...props }) => {
+export const Tooltip: React.FC<Props> = ({ label, children, ...props }) => {
 	return (
 		<ChakraUITooltip label={label} {...props}>
-			<Question />
+			{children || <Question />}
 		</ChakraUITooltip>
 	)
 }
