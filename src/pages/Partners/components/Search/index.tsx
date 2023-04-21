@@ -70,8 +70,9 @@ export const SearchPartner: React.FC<Props> = ({ isLoading, fetchRecords }) => {
 								placeholder="Digite o que deseja filtrar"
 								{...register("value")}
 								borderRight="none"
-								borderEndRadius="none"
+								borderRadius="none"
 								size="sm"
+								_focus={{ border: "inherit" }}
 								isDisabled={isLoading}
 							/>
 							<InputRightElement>

@@ -1,24 +1,34 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { Link, Text } from "@chakra-ui/react"
 import { Link as RouterLink } from "react-router-dom"
+import { FormProvider, useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 
+import { PartnerDonationSearchValues as SearchValues } from "~/interfaces"
 import { useIsMounted } from "~/hooks"
-import { ReportsContainer } from "~/pages/PartnerDonations/styles"
+import { ReportsSection } from "~/pages/PartnerDonations/styles"
 import {
 	ReportCardsSkeleton,
 	PartnerDonationsReport,
+	ReportsDateFilter,
+	SearchPartnerDonationSchema,
 } from "~/pages/PartnerDonations/components"
 import { ContentSection, PageTitle } from "~/components"
 
 interface Props {}
 
 export const PartnerDonations: React.FC<Props> = () => {
+	const form = useForm<SearchValues>({
+		defaultValues: { date: "" },
+		resolver: yupResolver(SearchPartnerDonationSchema),
+	})
 	const isMounted = useIsMounted()
 	const [isFetching, setIsFetching] = useState(false)
 	const isLoading = !isMounted() || isFetching
 
-	const fetchData = useCallback(() => {
+	const fetchRecords = useCallback(async (values?: SearchValues) => {
 		setIsFetching(true)
+		console.log("fetchRecords > values:", values)
 
 		setTimeout(() => {
 			setIsFetching(false)
@@ -26,8 +36,8 @@ export const PartnerDonations: React.FC<Props> = () => {
 	}, [])
 
 	useEffect(() => {
-		fetchData()
-	}, [fetchData])
+		void fetchRecords()
+	}, [fetchRecords])
 
 	return (
 		<>
@@ -42,12 +52,19 @@ export const PartnerDonations: React.FC<Props> = () => {
 					</Link>
 					.
 				</Text>
+
+				<FormProvider {...form}>
+					<ReportsDateFilter
+						isLoading={isLoading}
+						fetchRecords={fetchRecords}
+					/>
+				</FormProvider>
 			</ContentSection>
 
-			<ReportsContainer>
+			<ReportsSection>
 				{!!isLoading && <ReportCardsSkeleton />}
 				{!isLoading && <PartnerDonationsReport />}
-			</ReportsContainer>
+			</ReportsSection>
 		</>
 	)
 }

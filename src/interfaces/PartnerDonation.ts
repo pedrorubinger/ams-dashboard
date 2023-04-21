@@ -76,3 +76,7 @@ export interface PartnerDonationValues
 		PartnerDonation,
 		"billingMonth" | "billingYear" | "category" | "description" | "value"
 	> {}
+
+export interface PartnerDonationSearchValues {
+	date: string
+}
