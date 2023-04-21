@@ -165,7 +165,13 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 			<Accordion allowToggle>
 				<AccordionItem>
 					<AccordionButton>
-						<Box as="span" flex="1" textAlign="left" fontWeight="bold">
+						<Box
+							as="span"
+							flex="1"
+							textAlign="left"
+							fontWeight="bold"
+							color="blackAlpha.700"
+						>
 							Ver valores do ano corrente
 						</Box>
 						<AccordionIcon />
@@ -190,7 +196,13 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 
 				<AccordionItem>
 					<AccordionButton>
-						<Box as="span" flex="1" textAlign="left" fontWeight="bold">
+						<Box
+							as="span"
+							flex="1"
+							textAlign="left"
+							fontWeight="bold"
+							color="blackAlpha.700"
+						>
 							Ver todos os lançamentos
 						</Box>
 						<AccordionIcon />
