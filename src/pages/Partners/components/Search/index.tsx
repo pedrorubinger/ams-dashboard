@@ -1,3 +1,4 @@
+import React, { useState } from "react"
 import {
 	Box,
 	Flex,
@@ -8,7 +9,6 @@ import {
 	InputRightElement,
 	Select,
 } from "@chakra-ui/react"
-import React, { useState } from "react"
 import { useFormContext } from "react-hook-form"
 import { MagnifyingGlass } from "phosphor-react"
 
@@ -34,7 +34,7 @@ export const SearchPartner: React.FC<Props> = ({ isLoading, fetchRecords }) => {
 	}
 
 	return (
-		<Box mt={8} mb={10}>
+		<Box mt={8} mb={4}>
 			<Form onSubmit={handleSubmit(onSubmit)}>
 				<Flex gap="15px" flexWrap="wrap">
 					<FormControl isInvalid={!!errors.type} width="xs" isRequired>
@@ -44,6 +44,7 @@ export const SearchPartner: React.FC<Props> = ({ isLoading, fetchRecords }) => {
 							id="type"
 							variant="outline"
 							placeholder="Selecione um filtro"
+							size="sm"
 							{...register("type")}
 							isDisabled={isLoading}
 						>
@@ -70,15 +71,18 @@ export const SearchPartner: React.FC<Props> = ({ isLoading, fetchRecords }) => {
 								{...register("value")}
 								borderRight="none"
 								borderEndRadius="none"
+								size="sm"
 								isDisabled={isLoading}
 							/>
 							<InputRightElement>
 								<SearchButton
 									isDisabled={isLoading}
 									icon={<MagnifyingGlass size={14} />}
+									marginBottom={2}
 									title="Clique ou pressione enter para buscar um associado"
 									aria-label="Pesquisar"
 									type="submit"
+									size="sm"
 								/>
 							</InputRightElement>
 						</InputGroup>
