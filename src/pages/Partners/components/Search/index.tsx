@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
 	Box,
 	Flex,
@@ -26,12 +26,19 @@ export const SearchPartner: React.FC<Props> = ({ isLoading, fetchRecords }) => {
 	const {
 		handleSubmit,
 		register,
-		formState: { errors, isDirty },
+		setValue,
+		watch,
+		formState: { defaultValues, errors, isDirty },
 	} = useFormContext<SearchPartnerValues>()
+	const type = watch("type")
 
 	const onSubmit = async (values: SearchPartnerValues): Promise<void> => {
 		await fetchRecords(values)
 	}
+
+	useEffect(() => {
+		setValue("value", defaultValues?.value || "")
+	}, [type])
 
 	return (
 		<Box mt={8} mb={4}>
