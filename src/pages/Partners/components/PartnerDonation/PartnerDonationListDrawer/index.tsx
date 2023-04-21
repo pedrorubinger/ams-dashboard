@@ -29,8 +29,7 @@ import {
 	PartnerDonationListTable,
 	PartnerDonationPerMonthListTable,
 } from "~/pages/Partners/components"
-import { DefaultAlert } from "~/components"
-import { Tooltip } from "~/components/Tooltip"
+import { DefaultAlert, Tooltip } from "~/components"
 
 export const PartnerDonationListDrawer: React.FC<Props> = ({
 	isVisible,
