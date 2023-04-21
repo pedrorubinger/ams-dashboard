@@ -1,18 +1,18 @@
 import { PartnerRecord } from "~/interfaces/Partner"
 
-export enum PartnerFinancialSupportCategory {
+export enum PartnerDonationCategory {
 	PIX = "PIX",
 	COPASA = "COPASA",
 	TICKET = "TICKET", // Carnê
 }
 
-export enum PartnerFinancialSupportCategoryLabel {
+export enum PartnerDonationCategoryLabel {
 	PIX = "Pix",
 	COPASA = "Copasa",
 	TICKET = "Carnê",
 }
 
-export enum PartnerFinancialSupportBillingMonth {
+export enum PartnerDonationBillingMonth {
 	JAN = 1,
 	FEB = 2,
 	MAR = 3,
@@ -27,14 +27,14 @@ export enum PartnerFinancialSupportBillingMonth {
 	DEC = 12,
 }
 
-export interface PartnerFinancialSupportPerMonth {
-	month: PartnerFinancialSupportBillingMonth
+export interface PartnerDonationPerMonth {
+	month: PartnerDonationBillingMonth
 	year: number
 	/** value in cents */
 	value: number
 }
 
-export enum PartnerFinancialSupportBillingMonthLabel {
+export enum PartnerDonationBillingMonthLabel {
 	JAN = "Janeiro",
 	FEB = "Fevereiro",
 	MAR = "Março",
@@ -49,30 +49,30 @@ export enum PartnerFinancialSupportBillingMonthLabel {
 	DEC = "Dezembro",
 }
 
-type PartnerFinancialSupportDrawerMode = "create"
+type PartnerDonationDrawerMode = "create"
 
-export interface NewPartnerFinancialSupportDrawerProps {
+export interface NewPartnerDonationDrawerProps {
 	isVisible: boolean
-	mode: PartnerFinancialSupportDrawerMode
+	mode: PartnerDonationDrawerMode
 	partner: PartnerRecord
 	onClose: () => void
 	// fetchRecords: (params?: GetUsersParams) => Promise<void>
 }
 
-export interface PartnerFinancialSupport {
+export interface PartnerDonation {
 	id: string
 	partnerId: string
-	billingMonth: PartnerFinancialSupportBillingMonth
+	billingMonth: PartnerDonationBillingMonth
 	billingYear: number
-	category: PartnerFinancialSupportCategory
+	category: PartnerDonationCategory
 	value: number // in cents
 	description?: string
 	createdAt: Date
 	updatedAt: Date
 }
 
-export interface PartnerFinancialSupportValues
+export interface PartnerDonationValues
 	extends Pick<
-		PartnerFinancialSupport,
+		PartnerDonation,
 		"billingMonth" | "billingYear" | "category" | "description" | "value"
 	> {}

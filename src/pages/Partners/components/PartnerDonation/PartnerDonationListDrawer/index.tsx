@@ -17,32 +17,32 @@ import {
 } from "@chakra-ui/react"
 
 import {
-	FinancialSupportListDrawerProps as Props,
-	PartnerFinancialSupport,
-	PartnerFinancialSupportBillingMonth,
-	PartnerFinancialSupportCategory,
+	PartnerDonationListDrawerProps as Props,
+	PartnerDonation,
+	PartnerDonationBillingMonth,
+	PartnerDonationCategory,
 } from "~/interfaces"
 import { useIsMounted } from "~/hooks"
 import { priceFormatter } from "~/utils"
 import { getGroupedValues } from "~/pages/Partners/utils"
 import {
-	FinancialSupportListTable,
-	FinancialSupportPerMonthListTable,
+	PartnerDonationListTable,
+	PartnerDonationPerMonthListTable,
 } from "~/pages/Partners/components"
 import { DefaultAlert } from "~/components"
 import { Tooltip } from "~/components/Tooltip"
 
-export const FinancialSupportListDrawer: React.FC<Props> = ({
+export const PartnerDonationListDrawer: React.FC<Props> = ({
 	isVisible,
 	partner,
 	onClose,
 }) => {
-	const initialValues: PartnerFinancialSupport[] = [
+	const initialValues: PartnerDonation[] = [
 		{
 			id: "1",
-			billingMonth: PartnerFinancialSupportBillingMonth.APR,
+			billingMonth: PartnerDonationBillingMonth.APR,
 			billingYear: 2023,
-			category: PartnerFinancialSupportCategory.PIX,
+			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2023-04-16"),
 			updatedAt: new Date("2023-04-16"),
 			partnerId: partner.id,
@@ -50,9 +50,9 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "2",
-			billingMonth: PartnerFinancialSupportBillingMonth.APR,
+			billingMonth: PartnerDonationBillingMonth.APR,
 			billingYear: 2023,
-			category: PartnerFinancialSupportCategory.COPASA,
+			category: PartnerDonationCategory.COPASA,
 			createdAt: new Date("2023-04-03"),
 			updatedAt: new Date("2023-04-03"),
 			partnerId: partner.id,
@@ -60,9 +60,9 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "3",
-			billingMonth: PartnerFinancialSupportBillingMonth.MAR,
+			billingMonth: PartnerDonationBillingMonth.MAR,
 			billingYear: 2023,
-			category: PartnerFinancialSupportCategory.COPASA,
+			category: PartnerDonationCategory.COPASA,
 			createdAt: new Date("2023-03-12"),
 			updatedAt: new Date("2023-03-12"),
 			partnerId: partner.id,
@@ -70,9 +70,9 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "4",
-			billingMonth: PartnerFinancialSupportBillingMonth.JAN,
+			billingMonth: PartnerDonationBillingMonth.JAN,
 			billingYear: 2023,
-			category: PartnerFinancialSupportCategory.TICKET,
+			category: PartnerDonationCategory.TICKET,
 			createdAt: new Date("2023-01-11"),
 			updatedAt: new Date("2023-01-11"),
 			partnerId: partner.id,
@@ -80,9 +80,9 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "5",
-			billingMonth: PartnerFinancialSupportBillingMonth.DEC,
+			billingMonth: PartnerDonationBillingMonth.DEC,
 			billingYear: 2022,
-			category: PartnerFinancialSupportCategory.PIX,
+			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2022-12-14"),
 			updatedAt: new Date("2022-12-14"),
 			partnerId: partner.id,
@@ -90,9 +90,9 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "6",
-			billingMonth: PartnerFinancialSupportBillingMonth.NOV,
+			billingMonth: PartnerDonationBillingMonth.NOV,
 			billingYear: 2022,
-			category: PartnerFinancialSupportCategory.PIX,
+			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2022-11-14"),
 			updatedAt: new Date("2022-11-14"),
 			partnerId: partner.id,
@@ -100,9 +100,9 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "7",
-			billingMonth: PartnerFinancialSupportBillingMonth.OCT,
+			billingMonth: PartnerDonationBillingMonth.OCT,
 			billingYear: 2022,
-			category: PartnerFinancialSupportCategory.PIX,
+			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2022-10-03"),
 			updatedAt: new Date("2022-10-04"),
 			partnerId: partner.id,
@@ -110,9 +110,9 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "8",
-			billingMonth: PartnerFinancialSupportBillingMonth.AUG,
+			billingMonth: PartnerDonationBillingMonth.AUG,
 			billingYear: 2022,
-			category: PartnerFinancialSupportCategory.COPASA,
+			category: PartnerDonationCategory.COPASA,
 			createdAt: new Date("2022-08-12"),
 			updatedAt: new Date("2022-08-12"),
 			partnerId: partner.id,
@@ -120,9 +120,9 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "9",
-			billingMonth: PartnerFinancialSupportBillingMonth.AUG,
+			billingMonth: PartnerDonationBillingMonth.AUG,
 			billingYear: 2022,
-			category: PartnerFinancialSupportCategory.PIX,
+			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2022-08-05"),
 			updatedAt: new Date("2022-08-05"),
 			partnerId: partner.id,
@@ -130,9 +130,9 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "10",
-			billingMonth: PartnerFinancialSupportBillingMonth.JUL,
+			billingMonth: PartnerDonationBillingMonth.JUL,
 			billingYear: 2022,
-			category: PartnerFinancialSupportCategory.PIX,
+			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2023-03-09"),
 			updatedAt: new Date("2023-03-09"),
 			partnerId: partner.id,
@@ -143,8 +143,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 	const partnerName: string = partner?.name?.split(" ")?.[0] || "associado"
 	const [isFetching, setIsFetching] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
-	const [records, setRecords] =
-		useState<PartnerFinancialSupport[]>(initialValues)
+	const [records, setRecords] = useState<PartnerDonation[]>(initialValues)
 	const isLoading = /* !isMounted() || */ isFetching
 	const { annualySum, monthlySum, totalSum } = getGroupedValues(records)
 
@@ -182,7 +181,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 							:&nbsp;<strong>{priceFormatter.format(annualySum / 100)}</strong>
 						</Flex>
 
-						<FinancialSupportPerMonthListTable
+						<PartnerDonationPerMonthListTable
 							records={monthlySum}
 							/** TO DO: Implement correct loading prop... */
 							isLoading={false}
@@ -207,7 +206,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 							:&nbsp;<strong>{priceFormatter.format(totalSum / 100)}</strong>
 						</Flex>
 
-						<FinancialSupportListTable records={records} isLoading={false} />
+						<PartnerDonationListTable records={records} isLoading={false} />
 					</AccordionPanel>
 				</AccordionItem>
 			</Accordion>

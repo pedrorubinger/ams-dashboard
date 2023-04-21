@@ -2,20 +2,20 @@ import React from "react"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
 
 import {
-	PartnerFinancialSupportBillingMonthLabel as BillingMonthLabel,
-	PartnerFinancialSupportBillingMonth as BillingMonth,
-	PartnerFinancialSupportPerMonth,
+	PartnerDonationBillingMonthLabel as BillingMonthLabel,
+	PartnerDonationBillingMonth as BillingMonth,
+	PartnerDonationPerMonth,
 } from "~/interfaces"
 import { priceFormatter } from "~/utils"
-import { financialSupportPerMonthColumns as columns } from "~/pages/Partners/utils"
+import { partnerDonationPerMonthColumns as columns } from "~/pages/Partners/utils"
 import { TablePaginationSkeleton, TableWrapper } from "~/components"
 
 interface Props {
-	records: PartnerFinancialSupportPerMonth[]
+	records: PartnerDonationPerMonth[]
 	isLoading: boolean
 }
 
-export const FinancialSupportPerMonthListTable: React.FC<Props> = ({
+export const PartnerDonationPerMonthListTable: React.FC<Props> = ({
 	records,
 	isLoading,
 }) => {

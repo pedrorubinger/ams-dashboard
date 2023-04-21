@@ -11,18 +11,18 @@ import {
 import { NumericFormat } from "react-number-format"
 
 import {
-	PartnerFinancialSupportValues,
-	NewPartnerFinancialSupportDrawerProps,
+	PartnerDonationValues,
+	NewPartnerDonationDrawerProps,
 } from "~/interfaces"
 import {
-	financialSupportOptions,
-	financialSupportBillingMonthOptions,
+	partnerDonationOptions,
+	partnerDonationBillingMonthOptions,
 } from "~/pages/Partners/utils"
 import { Form, InputLabel } from "~/components"
 
-interface Props extends Pick<NewPartnerFinancialSupportDrawerProps, "mode"> {
+interface Props extends Pick<NewPartnerDonationDrawerProps, "mode"> {
 	isSubmitting: boolean
-	onSubmit: (values: PartnerFinancialSupportValues) => Promise<void>
+	onSubmit: (values: PartnerDonationValues) => Promise<void>
 }
 
 export const DrawerForm: React.FC<Props> = ({
@@ -36,7 +36,7 @@ export const DrawerForm: React.FC<Props> = ({
 		register,
 		control,
 		formState: { errors, isDirty },
-	} = useFormContext<PartnerFinancialSupportValues>()
+	} = useFormContext<PartnerDonationValues>()
 
 	return (
 		<Form onSubmit={handleSubmit(onSubmit)}>
@@ -49,7 +49,7 @@ export const DrawerForm: React.FC<Props> = ({
 					placeholder="Selecione uma categoria"
 					{...register("category")}
 				>
-					{financialSupportOptions.map((option) => (
+					{partnerDonationOptions.map((option) => (
 						<option key={option.value} value={option.value}>
 							{option.label}
 						</option>
@@ -70,7 +70,7 @@ export const DrawerForm: React.FC<Props> = ({
 					placeholder="Selecione um mês"
 					{...register("billingMonth")}
 				>
-					{financialSupportBillingMonthOptions.map((option) => (
+					{partnerDonationBillingMonthOptions.map((option) => (
 						<option key={option.value} value={option.value}>
 							{option.label}
 						</option>

@@ -1,18 +1,18 @@
 import {
-	PartnerFinancialSupportCategoryLabel as CategoryLabel,
-	PartnerFinancialSupportCategory as CategoryValue,
-	PartnerFinancialSupportBillingMonth as MonthValue,
-	PartnerFinancialSupportBillingMonthLabel as MonthLabel,
+	PartnerDonationCategoryLabel as CategoryLabel,
+	PartnerDonationCategory as CategoryValue,
+	PartnerDonationBillingMonth as MonthValue,
+	PartnerDonationBillingMonthLabel as MonthLabel,
 	SearchPartnerType,
 	TableColumn,
 } from "~/interfaces"
 
-interface FinancialSupportBillingMonthOption {
+interface PartnerDonationBillingMonthOption {
 	label: MonthLabel
 	value: MonthValue
 }
 
-interface FinancialSupportCategoryOption {
+interface PartnerDonationCategoryOption {
 	label: CategoryLabel
 	value: CategoryValue
 }
@@ -29,14 +29,14 @@ export const columns: TableColumn[] = [
 	{ id: 4, label: "Ações" },
 ]
 
-export const financialSupportColumns: TableColumn[] = [
+export const partnerDonationColumns: TableColumn[] = [
 	{ id: 1, label: "Categoria" },
 	{ id: 2, label: "Competência" },
 	{ id: 3, label: "Valor" },
 	{ id: 4, label: "Lançado em" },
 ]
 
-export const financialSupportPerMonthColumns: TableColumn[] = [
+export const partnerDonationPerMonthColumns: TableColumn[] = [
 	{ id: 1, label: "Competência" },
 	{ id: 2, label: "Total mensal" },
 ]
@@ -46,7 +46,7 @@ export const searchOptions: SearchTypeOption[] = [
 	{ label: "Nome", value: "name" },
 ]
 
-export const financialSupportOptions: FinancialSupportCategoryOption[] = [
+export const partnerDonationOptions: PartnerDonationCategoryOption[] = [
 	{
 		label: CategoryLabel.COPASA,
 		value: CategoryValue.COPASA,
@@ -61,7 +61,7 @@ export const financialSupportOptions: FinancialSupportCategoryOption[] = [
 	},
 ]
 
-export const financialSupportBillingMonthOptions: FinancialSupportBillingMonthOption[] =
+export const partnerDonationBillingMonthOptions: PartnerDonationBillingMonthOption[] =
 	[
 		{ label: MonthLabel.JAN, value: MonthValue.JAN },
 		{ label: MonthLabel.FEB, value: MonthValue.FEB },

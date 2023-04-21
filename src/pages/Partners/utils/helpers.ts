@@ -1,22 +1,19 @@
-import {
-	PartnerFinancialSupport,
-	PartnerFinancialSupportPerMonth,
-} from "~/interfaces"
+import { PartnerDonation, PartnerDonationPerMonth } from "~/interfaces"
 
 interface GetGroupedValuesResponse {
 	/** value in cents */
 	annualySum: number
 	/** value in cents */
 	totalSum: number
-	monthlySum: PartnerFinancialSupportPerMonth[]
+	monthlySum: PartnerDonationPerMonth[]
 }
 
 export const getGroupedValues = (
-	records: PartnerFinancialSupport[]
+	records: PartnerDonation[]
 ): GetGroupedValuesResponse => {
 	const currentYear = new Date().getFullYear()
 	const totalSum: number = records.reduce((prev, curr) => prev + curr.value, 0)
-	const groupedByMonth: PartnerFinancialSupport[][] = Array.from(
+	const groupedByMonth: PartnerDonation[][] = Array.from(
 		new Set(records.map((record) => record.billingMonth))
 	)
 		.map((month) =>
@@ -27,7 +24,7 @@ export const getGroupedValues = (
 		)
 		.filter((record) => record.length)
 
-	const monthlySum: PartnerFinancialSupportPerMonth[] = groupedByMonth.map(
+	const monthlySum: PartnerDonationPerMonth[] = groupedByMonth.map(
 		(record) => ({
 			month: record[0].billingMonth,
 			year: record[0].billingYear,

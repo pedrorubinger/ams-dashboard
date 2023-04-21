@@ -13,19 +13,19 @@ import { yupResolver } from "@hookform/resolvers/yup"
 
 import {
 	ErrorCode,
-	PartnerFinancialSupportValues,
-	NewPartnerFinancialSupportDrawerProps,
+	PartnerDonationValues,
+	NewPartnerDonationDrawerProps,
 } from "~/interfaces"
-import { PARTNER_FINANCIAL_SUPPORT_BAD_REQUEST_ERRORS } from "~/utils"
+import { PARTNER_DONATION_BAD_REQUEST_ERRORS } from "~/utils"
 import { useIsMounted } from "~/hooks"
 import {
 	DrawerForm,
-	NewPartnerFinancialSupportSchema,
+	NewPartnerDonationSchema,
 } from "~/pages/Partners/components"
 import { DefaultAlert } from "~/components"
 
-export const NewFinancialSupportDrawer: React.FC<
-	NewPartnerFinancialSupportDrawerProps
+export const NewPartnerDonationDrawer: React.FC<
+	NewPartnerDonationDrawerProps
 > = ({ isVisible, mode, partner, onClose }) => {
 	const isMounted = useIsMounted()
 	const isCreating = mode === "create"
@@ -33,9 +33,9 @@ export const NewFinancialSupportDrawer: React.FC<
 	const [isFetching, setIsFetching] = useState(false)
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
-	const form = useForm<PartnerFinancialSupportValues>({
+	const form = useForm<PartnerDonationValues>({
 		defaultValues: { billingYear: new Date().getFullYear() },
-		resolver: yupResolver(NewPartnerFinancialSupportSchema),
+		resolver: yupResolver(NewPartnerDonationSchema),
 	})
 
 	const onCloseDrawer = () => {
@@ -45,7 +45,7 @@ export const NewFinancialSupportDrawer: React.FC<
 	const handleFormError = (error: ErrorCode | undefined) => {
 		const message =
 			error || "Desculpe, ocorreu um erro interno. Tente novamente mais tarde."
-		const badRequest = PARTNER_FINANCIAL_SUPPORT_BAD_REQUEST_ERRORS.find(
+		const badRequest = PARTNER_DONATION_BAD_REQUEST_ERRORS.find(
 			(item) => item.code === message
 		)
 
@@ -53,7 +53,7 @@ export const NewFinancialSupportDrawer: React.FC<
 		else setErrorMessage(message)
 	}
 
-	const onSubmit = async (values: PartnerFinancialSupportValues) => {
+	const onSubmit = async (values: PartnerDonationValues) => {
 		if (errorMessage) setErrorMessage("")
 		setIsSubmitting(true)
 
@@ -86,8 +86,8 @@ export const NewFinancialSupportDrawer: React.FC<
 	}
 
 	// useEffect(() => {
-	// 	void fetchFinancialSupport()
-	// }, [fetchFinancialSupport])
+	// 	void fetchPartnerDonation()
+	// }, [fetchPartnerDonation])
 
 	return (
 		<Drawer isOpen={isVisible} onClose={onCloseDrawer} size="md">

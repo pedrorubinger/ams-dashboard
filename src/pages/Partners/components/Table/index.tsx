@@ -21,8 +21,8 @@ interface Props {
 	isLoading: boolean
 	records: PartnerRecord[]
 	actionItems: TableActionMenuItem[]
-	onAddNewFinancialSupport: (partner: PartnerRecord) => void
-	onViewFinancialSupportList: (partner: PartnerRecord) => void
+	onAddNewPartnerDonation: (partner: PartnerRecord) => void
+	onViewPartnerDonationList: (partner: PartnerRecord) => void
 	// fetchRecords: () => Promise<void>
 	// onClickToUpdatePartner: (record: PartnerRecord) => void
 }
@@ -32,8 +32,8 @@ export const PartnersTable: React.FC<Props> = ({
 	isLoading,
 	records,
 	actionItems,
-	onAddNewFinancialSupport,
-	onViewFinancialSupportList,
+	onAddNewPartnerDonation,
+	onViewPartnerDonationList,
 	// fetchRecords,
 	// onClickToUpdatePartner,
 }) => {
@@ -48,13 +48,13 @@ export const PartnersTable: React.FC<Props> = ({
 				type: "view",
 				title: "Visualizar lançamentos deste associado",
 				isDisabled,
-				onClick: () => onViewFinancialSupportList(record),
+				onClick: () => onViewPartnerDonationList(record),
 			},
 			{
 				type: "create",
 				title: "Realizar novo lançamento para este associado",
 				isDisabled,
-				onClick: () => onAddNewFinancialSupport(record),
+				onClick: () => onAddNewPartnerDonation(record),
 			},
 			{
 				type: "delete",

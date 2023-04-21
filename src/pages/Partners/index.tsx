@@ -5,8 +5,8 @@ import { FormProvider, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 
 import {
-	FinancialSupportListDrawerProps,
-	NewPartnerFinancialSupportDrawerProps,
+	PartnerDonationListDrawerProps,
+	NewPartnerDonationDrawerProps,
 	PartnerRecord,
 	SearchPartnerValues,
 	TableActionMenuItem,
@@ -15,19 +15,13 @@ import {
 	PartnersTable,
 	SearchPartner,
 	SearchPartnersSchema,
-	NewFinancialSupportDrawer,
-	FinancialSupportListDrawer,
+	NewPartnerDonationDrawer,
+	PartnerDonationListDrawer,
 } from "~/pages/Partners/components"
 import { PageTitle } from "~/components"
 
-type NewSupportDrawer = null | Omit<
-	NewPartnerFinancialSupportDrawerProps,
-	"onClose"
->
-type ListSupportsDrawer = null | Omit<
-	FinancialSupportListDrawerProps,
-	"onClose"
->
+type NewSupportDrawer = null | Omit<NewPartnerDonationDrawerProps, "onClose">
+type ListSupportsDrawer = null | Omit<PartnerDonationListDrawerProps, "onClose">
 
 const defaultValues: SearchPartnerValues = { type: "id", value: "" }
 const mockedData: PartnerRecord[] = [
@@ -46,9 +40,9 @@ export const Partners: React.FC = () => {
 	})
 	const [isFetching, setIsFetching] = useState(false)
 	const [records, setRecords] = useState<PartnerRecord[]>([])
-	const [financialSupportListDrawer, setFinancialSupportListDrawer] =
+	const [partnerDonationListDrawer, setPartnerDonationListDrawer] =
 		useState<ListSupportsDrawer>(null)
-	const [newFinancialSupportDrawer, setNewFinancialSupportDrawer] =
+	const [newPartnerDonationDrawer, setNewPartnerDonationDrawer] =
 		useState<NewSupportDrawer>(null)
 
 	const fetchRecords = useCallback(async (params: SearchPartnerValues) => {
@@ -61,21 +55,21 @@ export const Partners: React.FC = () => {
 		}, 3000)
 	}, [])
 
-	const onCloseNewFinancialSupportDrawer = () =>
-		setNewFinancialSupportDrawer(null)
+	const onCloseNewPartnerDonationDrawer = () =>
+		setNewPartnerDonationDrawer(null)
 
-	const onCloseFinancialSupportListDrawer = () =>
-		setFinancialSupportListDrawer(null)
+	const onClosePartnerDonationListDrawer = () =>
+		setPartnerDonationListDrawer(null)
 
-	const onAddNewFinancialSupport = (partner: PartnerRecord) =>
-		setNewFinancialSupportDrawer({
+	const onAddNewPartnerDonation = (partner: PartnerRecord) =>
+		setNewPartnerDonationDrawer({
 			isVisible: true,
 			mode: "create",
 			partner,
 		})
 
-	const onViewFinancialSupportList = (partner: PartnerRecord) =>
-		setFinancialSupportListDrawer({
+	const onViewPartnerDonationList = (partner: PartnerRecord) =>
+		setPartnerDonationListDrawer({
 			isVisible: true,
 			partner,
 		})
@@ -103,19 +97,19 @@ export const Partners: React.FC = () => {
 				<SearchPartner isLoading={isFetching} fetchRecords={fetchRecords} />
 			</FormProvider>
 
-			{!!newFinancialSupportDrawer && (
-				<NewFinancialSupportDrawer
-					onClose={onCloseNewFinancialSupportDrawer}
-					mode={newFinancialSupportDrawer.mode}
-					partner={newFinancialSupportDrawer.partner}
+			{!!newPartnerDonationDrawer && (
+				<NewPartnerDonationDrawer
+					onClose={onCloseNewPartnerDonationDrawer}
+					mode={newPartnerDonationDrawer.mode}
+					partner={newPartnerDonationDrawer.partner}
 					isVisible
 				/>
 			)}
 
-			{!!financialSupportListDrawer && (
-				<FinancialSupportListDrawer
-					partner={financialSupportListDrawer.partner}
-					onClose={onCloseFinancialSupportListDrawer}
+			{!!partnerDonationListDrawer && (
+				<PartnerDonationListDrawer
+					partner={partnerDonationListDrawer.partner}
+					onClose={onClosePartnerDonationListDrawer}
 					isVisible
 				/>
 			)}
@@ -124,8 +118,8 @@ export const Partners: React.FC = () => {
 				records={records}
 				actionItems={actionItems}
 				isLoading={isFetching}
-				onViewFinancialSupportList={onViewFinancialSupportList}
-				onAddNewFinancialSupport={onAddNewFinancialSupport}
+				onViewPartnerDonationList={onViewPartnerDonationList}
+				onAddNewPartnerDonation={onAddNewPartnerDonation}
 			/>
 		</Box>
 	)
