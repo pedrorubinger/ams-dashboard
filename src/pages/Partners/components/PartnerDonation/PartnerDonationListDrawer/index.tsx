@@ -25,9 +25,11 @@ import {
 import { useIsMounted } from "~/hooks"
 import { priceFormatter } from "~/utils"
 import { getGroupedValues } from "~/pages/Partners/utils"
-import { FinancialSupportListTable } from "~/pages/Partners/components/FinancialSupportListTable"
+import {
+	FinancialSupportListTable,
+	FinancialSupportPerMonthListTable,
+} from "~/pages/Partners/components"
 import { DefaultAlert } from "~/components"
-import { FinancialSupportPerMonthListTable } from "../FinancialSupportPerMonthListTable"
 import { Tooltip } from "~/components/Tooltip"
 
 export const FinancialSupportListDrawer: React.FC<Props> = ({

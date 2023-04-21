@@ -21,7 +21,7 @@ import { useIsMounted } from "~/hooks"
 import {
 	DrawerForm,
 	NewPartnerFinancialSupportSchema,
-} from "~/pages/Partners/components/NewFinancialSupportForm"
+} from "~/pages/Partners/components"
 import { DefaultAlert } from "~/components"
 
 export const NewFinancialSupportDrawer: React.FC<

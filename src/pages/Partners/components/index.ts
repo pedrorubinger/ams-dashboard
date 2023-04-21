@@ -1,6 +1,4 @@
 export * from "~/pages/Partners/components/Table"
 export * from "~/pages/Partners/components/Search"
 export * from "~/pages/Partners/components/Search/schema"
-export * from "~/pages/Partners/components/FinancialSupportListDrawer"
-export * from "~/pages/Partners/components/NewFinancialSupportDrawer"
-export * from "~/pages/Partners/components/FinancialSupportPerMonthListTable"
+export * from "~/pages/Partners/components/PartnerDonation"
