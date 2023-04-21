@@ -59,6 +59,7 @@ export const PartnerDonations: React.FC<Props> = () => {
 				<FormProvider {...form}>
 					<ReportsDateFilter
 						isLoading={isLoading}
+						hasActiveFilter={hasFilter}
 						fetchRecords={fetchRecords}
 					/>
 				</FormProvider>

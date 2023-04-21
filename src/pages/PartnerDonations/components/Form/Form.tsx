@@ -18,10 +18,12 @@ import { Form, InputLabel, Tooltip } from "~/components"
 interface Props {
 	fetchRecords: (values?: Values) => Promise<void>
 	isLoading: boolean
+	hasActiveFilter: boolean
 }
 
 export const ReportsDateFilter: React.FC<Props> = ({
 	fetchRecords,
+	hasActiveFilter,
 	isLoading,
 }) => {
 	const {
@@ -40,7 +42,8 @@ export const ReportsDateFilter: React.FC<Props> = ({
 	const onReset = async () => {
 		setValue("date", defaultValues?.date || "")
 		setSelected([])
-		await fetchRecords()
+
+		if (hasActiveFilter) await fetchRecords()
 	}
 
 	const getResetButtonDescription = () => {
