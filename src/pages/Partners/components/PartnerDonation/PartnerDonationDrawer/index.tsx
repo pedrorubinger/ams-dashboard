@@ -78,7 +78,7 @@ export const NewPartnerDonationDrawer: React.FC<
 
 		return (
 			<>
-				Preencha os campos abaixo para|{" "}
+				Preencha os campos abaixo para&nbsp;
 				{isCreating ? "cadastrar um novo" : "editar os dados do"} lançamento
 				para o associado <strong>{partner.name}</strong>.
 			</>
