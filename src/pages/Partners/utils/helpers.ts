@@ -6,6 +6,8 @@ import {
 interface GetGroupedValuesResponse {
 	/** value in cents */
 	annualySum: number
+	/** value in cents */
+	totalSum: number
 	monthlySum: PartnerFinancialSupportPerMonth[]
 }
 
@@ -13,6 +15,7 @@ export const getGroupedValues = (
 	records: PartnerFinancialSupport[]
 ): GetGroupedValuesResponse => {
 	const currentYear = new Date().getFullYear()
+	const totalSum: number = records.reduce((prev, curr) => prev + curr.value, 0)
 	const groupedByMonth: PartnerFinancialSupport[][] = Array.from(
 		new Set(records.map((record) => record.billingMonth))
 	)
@@ -37,5 +40,5 @@ export const getGroupedValues = (
 		0
 	)
 
-	return { annualySum, monthlySum }
+	return { annualySum, monthlySum, totalSum }
 }

@@ -12,6 +12,7 @@ import {
 	DrawerContent,
 	DrawerHeader,
 	DrawerOverlay,
+	Flex,
 	Text,
 } from "@chakra-ui/react"
 
@@ -27,6 +28,7 @@ import { getGroupedValues } from "~/pages/Partners/utils"
 import { FinancialSupportListTable } from "~/pages/Partners/components/FinancialSupportListTable"
 import { DefaultAlert } from "~/components"
 import { FinancialSupportPerMonthListTable } from "../FinancialSupportPerMonthListTable"
+import { Tooltip } from "~/components/Tooltip"
 
 export const FinancialSupportListDrawer: React.FC<Props> = ({
 	isVisible,
@@ -142,7 +144,7 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 	const [records, setRecords] =
 		useState<PartnerFinancialSupport[]>(initialValues)
 	const isLoading = /* !isMounted() || */ isFetching
-	const { annualySum, monthlySum } = getGroupedValues(records)
+	const { annualySum, monthlySum, totalSum } = getGroupedValues(records)
 
 	const ErrorContent = (
 		<DefaultAlert
@@ -170,10 +172,13 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 					</AccordionButton>
 
 					<AccordionPanel pb={1}>
-						<Text>
-							Valor anual:&nbsp;
-							<strong>{priceFormatter.format(annualySum / 100)}</strong>
-						</Text>
+						<Flex>
+							<Flex alignItems="center">
+								<Text>Valor anual</Text>&nbsp;
+								<Tooltip label="Corresponde à somatória, separada por meses, de todos os lançamentos feitos para o associado no ano atual." />
+							</Flex>
+							:&nbsp;<strong>{priceFormatter.format(annualySum / 100)}</strong>
+						</Flex>
 
 						<FinancialSupportPerMonthListTable
 							records={monthlySum}
@@ -192,6 +197,14 @@ export const FinancialSupportListDrawer: React.FC<Props> = ({
 					</AccordionButton>
 
 					<AccordionPanel pb={1}>
+						<Flex>
+							<Flex alignItems="center">
+								<Text>Valor total</Text>&nbsp;
+								<Tooltip label="Corresponde à somatória de todos os jà lançamentos feitos para o associado durante todo o período." />
+							</Flex>
+							:&nbsp;<strong>{priceFormatter.format(totalSum / 100)}</strong>
+						</Flex>
+
 						<FinancialSupportListTable records={records} isLoading={false} />
 					</AccordionPanel>
 				</AccordionItem>
