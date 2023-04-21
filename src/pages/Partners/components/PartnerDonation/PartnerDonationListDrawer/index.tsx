@@ -200,7 +200,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 						<Flex>
 							<Flex alignItems="center">
 								<Text>Valor total</Text>&nbsp;
-								<Tooltip label="Corresponde à somatória de todos os jà lançamentos feitos para o associado durante todo o período." />
+								<Tooltip label="Corresponde à somatória de todos os lançamentos feitos para o associado durante todo o período." />
 							</Flex>
 							:&nbsp;<strong>{priceFormatter.format(totalSum / 100)}</strong>
 						</Flex>
