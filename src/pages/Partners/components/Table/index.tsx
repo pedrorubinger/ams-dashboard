@@ -45,7 +45,7 @@ export const PartnersTable: React.FC<Props> = ({
 
 		return [
 			{
-				type: "view",
+				type: "records",
 				title: "Visualizar lançamentos deste associado",
 				isDisabled,
 				onClick: () => onViewPartnerDonationList(record),
