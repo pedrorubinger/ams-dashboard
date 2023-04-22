@@ -27,8 +27,9 @@ export const TableStatus: React.FC<Props> = ({
 	const text = `${count} de ${total} registro${
 		total === 1 ? "" : "s"
 	} encontrado${total === 1 ? "" : "s"}`
+	const isLastPage = count === total
 
-	if (onClickToGetMore) {
+	if (onClickToGetMore && !isLastPage) {
 		return (
 			<TableCaption>
 				{text}.
