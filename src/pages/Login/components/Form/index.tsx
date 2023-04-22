@@ -64,6 +64,8 @@ export const LoginForm = () => {
 
 		if (data) {
 			setUser({
+				isActive: true,
+				tenantId: data.user.tenantId,
 				email: data.user.email,
 				name: data.user.name,
 				role: data.user.role,

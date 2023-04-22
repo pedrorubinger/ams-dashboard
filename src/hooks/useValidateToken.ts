@@ -24,6 +24,8 @@ export const useValidateToken = (): ValidateTokenHookResponse => {
 		if (data) {
 			setUser({
 				email: data.user.email,
+				isActive: true,
+				tenantId: data.user.tenantId,
 				name: data.user.name,
 				role: data.user.role,
 				id: data.user.id,
