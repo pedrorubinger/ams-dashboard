@@ -6,3 +6,5 @@ export interface Partner {
 }
 
 export interface PartnerRecord extends Partner {}
+
+export interface PartnerValues extends Pick<Partner, "name" | "id"> {}

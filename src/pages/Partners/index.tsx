@@ -10,6 +10,7 @@ import {
 	PartnerRecord,
 	SearchPartnerValues,
 	TableActionMenuItem,
+	PartnerDrawerProps,
 } from "~/interfaces"
 import {
 	PartnersTable,
@@ -17,13 +18,15 @@ import {
 	SearchPartnersSchema,
 	NewPartnerDonationDrawer,
 	PartnerDonationListDrawer,
+	PartnerDrawer,
 } from "~/pages/Partners/components"
 import { ContentSection, PageTitle } from "~/components"
 
-type NewSupportDrawer = null | Omit<NewPartnerDonationDrawerProps, "onClose">
+type PartnerDrawerType = null | Omit<PartnerDrawerProps, "onClose">
+type NewDonationDrawer = null | Omit<NewPartnerDonationDrawerProps, "onClose">
 type ListSupportsDrawer = null | Omit<PartnerDonationListDrawerProps, "onClose">
 
-const defaultValues: SearchPartnerValues = { type: "id", value: "" }
+const searchDefaultValues: SearchPartnerValues = { type: "id", value: "" }
 const mockedData: PartnerRecord[] = [
 	{
 		createdAt: new Date("2022-09-19"),
@@ -35,7 +38,7 @@ const mockedData: PartnerRecord[] = [
 
 export const Partners: React.FC = () => {
 	const form = useForm<SearchPartnerValues>({
-		defaultValues,
+		defaultValues: searchDefaultValues,
 		resolver: yupResolver(SearchPartnersSchema),
 	})
 	const [isFetching, setIsFetching] = useState(false)
@@ -43,7 +46,8 @@ export const Partners: React.FC = () => {
 	const [partnerDonationListDrawer, setPartnerDonationListDrawer] =
 		useState<ListSupportsDrawer>(null)
 	const [newPartnerDonationDrawer, setNewPartnerDonationDrawer] =
-		useState<NewSupportDrawer>(null)
+		useState<NewDonationDrawer>(null)
+	const [partnerDrawer, setPartnerDrawer] = useState<PartnerDrawerType>(null)
 
 	const fetchRecords = useCallback(async (params: SearchPartnerValues) => {
 		setIsFetching(true)
@@ -54,6 +58,8 @@ export const Partners: React.FC = () => {
 			setRecords(mockedData)
 		}, 3000)
 	}, [])
+
+	const onClosePartnerDrawer = () => setPartnerDrawer(null)
 
 	const onCloseNewPartnerDonationDrawer = () =>
 		setNewPartnerDonationDrawer(null)
@@ -68,6 +74,12 @@ export const Partners: React.FC = () => {
 			partner,
 		})
 
+	const onAddNewPartner = () =>
+		setPartnerDrawer({ isVisible: true, mode: "create" })
+
+	const onUpdatePartner = (partner: PartnerRecord) =>
+		setPartnerDrawer({ mode: "update", isVisible: true, partner })
+
 	const onViewPartnerDonationList = (partner: PartnerRecord) =>
 		setPartnerDonationListDrawer({
 			isVisible: true,
@@ -80,7 +92,7 @@ export const Partners: React.FC = () => {
 			label: "Novo associado",
 			title: "Clique para cadastrar um novo associado",
 			Icon: <PlusCircle />,
-			onClick: () => {},
+			onClick: onAddNewPartner,
 		},
 	]
 
@@ -124,12 +136,22 @@ export const Partners: React.FC = () => {
 					/>
 				)}
 
+				{!!partnerDrawer && (
+					<PartnerDrawer
+						mode={partnerDrawer.mode}
+						partner={partnerDrawer.partner}
+						onClose={onClosePartnerDrawer}
+						isVisible
+					/>
+				)}
+
 				<PartnersTable
 					records={records}
 					actionItems={actionItems}
 					isLoading={isFetching}
 					onViewPartnerDonationList={onViewPartnerDonationList}
 					onAddNewPartnerDonation={onAddNewPartnerDonation}
+					onUpdatePartner={onUpdatePartner}
 				/>
 			</ContentSection>
 		</>

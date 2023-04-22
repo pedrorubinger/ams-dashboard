@@ -6,12 +6,14 @@ import {
 	TenantFormValues,
 	UserFormValues,
 	PartnerDonationValues,
+	PartnerValues,
 } from "~/interfaces"
 
 type LoginFields = LoginFormValues & { all: string }
 type AccountFields = Omit<AccountFormValues, "changePassword">
 type UserFields = Omit<UserFormValues, "isCreating">
 type TenantFields = TenantFormValues
+type PartnerFields = PartnerValues
 type PartnerDonationFields = PartnerDonationValues
 
 export const LOGIN_BAD_REQUEST_ERRORS: BadRequestErrorCode<LoginFields>[] = [
@@ -81,6 +83,10 @@ export const USER_BAD_REQUEST_ERRORS: BadRequestErrorCode<UserFields>[] = [
 	// { code: ErrorCode["400_ROLE_MUST_BE_TEXT"], field: "" },
 	// { code: ErrorCode["400_ROLE_IS_INVALID"], field: "" },
 ]
+
+/** TO DO: Add list of errors for the entity... */
+export const PARTNER_BAD_REQUEST_ERRORS: BadRequestErrorCode<PartnerFields>[] =
+	[]
 
 /** TO DO: Add list of errors for the entity... */
 export const PARTNER_DONATION_BAD_REQUEST_ERRORS: BadRequestErrorCode<PartnerDonationFields>[] =
