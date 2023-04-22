@@ -33,6 +33,7 @@ export const TableActionsMenu: React.FC<Props> = ({
 					aria-label="Ações"
 					title="Clique para ver as opções"
 					fontSize="smaller"
+					size="sm"
 					color="white"
 					bg="green.300"
 					_hover={{ background: "green.500" }}
