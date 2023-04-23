@@ -5,5 +5,8 @@ export interface TableActionMenuItem {
 	label: string
 	title?: string
 	Icon?: React.ReactNode
+	href?: string
+	hrefTarget?: string
+	download?: string
 	onClick: () => void
 }
