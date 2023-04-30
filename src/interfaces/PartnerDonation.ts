@@ -49,6 +49,11 @@ export enum PartnerDonationBillingMonthLabel {
 	DEC = "Dezembro",
 }
 
+export interface PartnerDonationBillingMonthOption {
+	label: PartnerDonationBillingMonthLabel
+	value: PartnerDonationBillingMonth
+}
+
 type PartnerDonationDrawerMode = "create"
 
 export interface NewPartnerDonationDrawerProps {
@@ -62,7 +67,7 @@ export interface NewPartnerDonationDrawerProps {
 export interface PartnerDonation {
 	id: string
 	partnerId: string
-	billingMonth: PartnerDonationBillingMonth
+	billingMonth: PartnerDonationBillingMonth[]
 	billingYear: number
 	category: PartnerDonationCategory
 	value: number // in cents

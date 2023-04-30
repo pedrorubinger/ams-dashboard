@@ -39,7 +39,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 	const initialValues: PartnerDonation[] = [
 		{
 			id: "1",
-			billingMonth: PartnerDonationBillingMonth.APR,
+			billingMonth: [PartnerDonationBillingMonth.APR],
 			billingYear: 2023,
 			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2023-04-16"),
@@ -49,7 +49,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "2",
-			billingMonth: PartnerDonationBillingMonth.APR,
+			billingMonth: [PartnerDonationBillingMonth.APR],
 			billingYear: 2023,
 			category: PartnerDonationCategory.COPASA,
 			createdAt: new Date("2023-04-03"),
@@ -59,7 +59,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "3",
-			billingMonth: PartnerDonationBillingMonth.MAR,
+			billingMonth: [PartnerDonationBillingMonth.MAR],
 			billingYear: 2023,
 			category: PartnerDonationCategory.COPASA,
 			createdAt: new Date("2023-03-12"),
@@ -69,7 +69,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "4",
-			billingMonth: PartnerDonationBillingMonth.JAN,
+			billingMonth: [PartnerDonationBillingMonth.JAN],
 			billingYear: 2023,
 			category: PartnerDonationCategory.TICKET,
 			createdAt: new Date("2023-01-11"),
@@ -79,7 +79,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "5",
-			billingMonth: PartnerDonationBillingMonth.DEC,
+			billingMonth: [PartnerDonationBillingMonth.DEC],
 			billingYear: 2022,
 			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2022-12-14"),
@@ -89,7 +89,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "6",
-			billingMonth: PartnerDonationBillingMonth.NOV,
+			billingMonth: [PartnerDonationBillingMonth.NOV],
 			billingYear: 2022,
 			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2022-11-14"),
@@ -99,7 +99,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "7",
-			billingMonth: PartnerDonationBillingMonth.OCT,
+			billingMonth: [PartnerDonationBillingMonth.OCT],
 			billingYear: 2022,
 			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2022-10-03"),
@@ -109,7 +109,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "8",
-			billingMonth: PartnerDonationBillingMonth.AUG,
+			billingMonth: [PartnerDonationBillingMonth.AUG],
 			billingYear: 2022,
 			category: PartnerDonationCategory.COPASA,
 			createdAt: new Date("2022-08-12"),
@@ -119,7 +119,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "9",
-			billingMonth: PartnerDonationBillingMonth.AUG,
+			billingMonth: [PartnerDonationBillingMonth.AUG],
 			billingYear: 2022,
 			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2022-08-05"),
@@ -129,7 +129,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "10",
-			billingMonth: PartnerDonationBillingMonth.JUL,
+			billingMonth: [PartnerDonationBillingMonth.JUL],
 			billingYear: 2022,
 			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2023-03-09"),

@@ -1,7 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import { Controller, useFormContext } from "react-hook-form"
 import {
 	Button,
+	Flex,
 	FormControl,
 	FormErrorMessage,
 	Input,
@@ -13,6 +14,8 @@ import { NumericFormat } from "react-number-format"
 import {
 	PartnerDonationValues,
 	NewPartnerDonationDrawerProps,
+	PartnerDonationBillingMonthOption as MonthOption,
+	PartnerDonationBillingMonth as MonthValue,
 } from "~/interfaces"
 import {
 	partnerDonationOptions,
@@ -34,9 +37,34 @@ export const DrawerForm: React.FC<Props> = ({
 	const {
 		handleSubmit,
 		register,
+		setValue,
 		control,
-		formState: { errors, isDirty },
+		formState: { errors, isDirty, defaultValues },
 	} = useFormContext<PartnerDonationValues>()
+
+	const [selectedMonths, setSelectedMonths] = useState<MonthValue[]>(
+		(defaultValues?.billingMonth || []) as MonthValue[]
+	)
+
+	const onSelectMonth = ({ value }: MonthOption) => {
+		const pop = (months: MonthValue[]) => {
+			const values = months.filter((m) => m !== value)
+
+			setValue("billingMonth", values)
+			return values
+		}
+
+		const push = (months: MonthValue[]) => {
+			const values = [...months, value]
+
+			setValue("billingMonth", values)
+			return values
+		}
+
+		setSelectedMonths((prev) => (prev.includes(value) ? pop(prev) : push(prev)))
+	}
+
+	console.log("selectedMonths", selectedMonths)
 
 	return (
 		<Form onSubmit={handleSubmit(onSubmit)}>
@@ -80,7 +108,7 @@ export const DrawerForm: React.FC<Props> = ({
 			<FormControl mt={5} isInvalid={!!errors.billingMonth} isRequired>
 				<InputLabel htmlFor="billingMonth">Mês da competência</InputLabel>
 
-				<Select
+				{/* <Select
 					id="billingMonth"
 					variant="outline"
 					placeholder="Selecione um mês"
@@ -91,7 +119,24 @@ export const DrawerForm: React.FC<Props> = ({
 							{option.label}
 						</option>
 					))}
-				</Select>
+				</Select> */}
+
+				<Flex gap={2} flexWrap="wrap">
+					{partnerDonationBillingMonthOptions.map((month) => {
+						const isSelected = selectedMonths.includes(month.value)
+
+						return (
+							<Button
+								size="sm"
+								key={month.value}
+								colorScheme={isSelected ? "green" : undefined}
+								onClick={() => onSelectMonth(month)}
+							>
+								{month.label}
+							</Button>
+						)
+					})}
+				</Flex>
 
 				<FormErrorMessage>
 					{errors.billingMonth && errors.billingMonth.message}

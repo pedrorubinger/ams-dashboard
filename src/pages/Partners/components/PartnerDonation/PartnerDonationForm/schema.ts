@@ -1,7 +1,11 @@
 import * as Yup from "yup"
 
 export const NewPartnerDonationSchema = Yup.object().shape({
-	billingMonth: Yup.string().required("Selecione o mês da competência!"),
+	// billingMonth: Yup.string().required("Selecione o mês da competência!"),
+	billingMonth: Yup.array()
+		.of(Yup.number())
+		.required("Selecione o mês da competência!")
+		.min(1, "Selecione pelo menos um mês da competência!"),
 	billingYear: Yup.number()
 		.required("Informe o ano da competência!")
 		.typeError("Informe um ano válido!")

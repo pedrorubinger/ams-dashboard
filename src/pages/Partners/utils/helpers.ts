@@ -24,18 +24,21 @@ export const getGroupedValues = (
 		)
 		.filter((record) => record.length)
 
-	const monthlySum: PartnerDonationPerMonth[] = groupedByMonth.map(
-		(record) => ({
-			month: record[0].billingMonth,
-			year: record[0].billingYear,
-			value: record.reduce((prev, curr) => prev + curr.value, 0),
-		})
-	)
+	// const monthlySum: PartnerDonationPerMonth[] = groupedByMonth.map(
+	// 	(record) => ({
+	// 		month: record[0].billingMonth,
+	// 		year: record[0].billingYear,
+	// 		value: record.reduce((prev, curr) => prev + curr.value, 0),
+	// 	})
+	// )
 
-	const annualySum: number = monthlySum.reduce(
-		(prev, curr) => prev + curr.value,
-		0
-	)
+	// const annualySum: number = monthlySum.reduce(
+	// 	(prev, curr) => prev + curr.value,
+	// 	0
+	// )
+
+	const monthlySum = [] as PartnerDonationPerMonth[]
+	const annualySum = 0
 
 	return { annualySum, monthlySum, totalSum }
 }

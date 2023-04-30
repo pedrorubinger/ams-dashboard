@@ -18,6 +18,7 @@ import {
 } from "~/interfaces"
 import { PARTNER_DONATION_BAD_REQUEST_ERRORS } from "~/utils"
 import { useIsMounted } from "~/hooks"
+import { partnerDonationDrawerFormDefaultValues as defaultValues } from "~/pages/Partners/utils"
 import {
 	DrawerForm,
 	NewPartnerDonationSchema,
@@ -34,7 +35,7 @@ export const NewPartnerDonationDrawer: React.FC<
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
 	const form = useForm<PartnerDonationValues>({
-		defaultValues: { billingYear: new Date().getFullYear() },
+		defaultValues,
 		resolver: yupResolver(NewPartnerDonationSchema),
 	})
 

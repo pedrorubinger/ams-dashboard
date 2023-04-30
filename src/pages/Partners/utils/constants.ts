@@ -3,14 +3,11 @@ import {
 	PartnerDonationCategory as CategoryValue,
 	PartnerDonationBillingMonth as MonthValue,
 	PartnerDonationBillingMonthLabel as MonthLabel,
+	PartnerDonationBillingMonthOption as MonthOption,
 	SearchPartnerType,
 	TableColumn,
+	PartnerDonationValues,
 } from "~/interfaces"
-
-interface PartnerDonationBillingMonthOption {
-	label: MonthLabel
-	value: MonthValue
-}
 
 interface PartnerDonationCategoryOption {
 	label: CategoryLabel
@@ -61,18 +58,25 @@ export const partnerDonationOptions: PartnerDonationCategoryOption[] = [
 	},
 ]
 
-export const partnerDonationBillingMonthOptions: PartnerDonationBillingMonthOption[] =
-	[
-		{ label: MonthLabel.JAN, value: MonthValue.JAN },
-		{ label: MonthLabel.FEB, value: MonthValue.FEB },
-		{ label: MonthLabel.MAR, value: MonthValue.MAR },
-		{ label: MonthLabel.APR, value: MonthValue.APR },
-		{ label: MonthLabel.MAY, value: MonthValue.MAY },
-		{ label: MonthLabel.JUN, value: MonthValue.JUN },
-		{ label: MonthLabel.JUL, value: MonthValue.JUL },
-		{ label: MonthLabel.AUG, value: MonthValue.AUG },
-		{ label: MonthLabel.SEP, value: MonthValue.SEP },
-		{ label: MonthLabel.OCT, value: MonthValue.OCT },
-		{ label: MonthLabel.NOV, value: MonthValue.NOV },
-		{ label: MonthLabel.DEC, value: MonthValue.DEC },
-	]
+export const partnerDonationBillingMonthOptions: MonthOption[] = [
+	{ label: MonthLabel.JAN, value: MonthValue.JAN },
+	{ label: MonthLabel.FEB, value: MonthValue.FEB },
+	{ label: MonthLabel.MAR, value: MonthValue.MAR },
+	{ label: MonthLabel.APR, value: MonthValue.APR },
+	{ label: MonthLabel.MAY, value: MonthValue.MAY },
+	{ label: MonthLabel.JUN, value: MonthValue.JUN },
+	{ label: MonthLabel.JUL, value: MonthValue.JUL },
+	{ label: MonthLabel.AUG, value: MonthValue.AUG },
+	{ label: MonthLabel.SEP, value: MonthValue.SEP },
+	{ label: MonthLabel.OCT, value: MonthValue.OCT },
+	{ label: MonthLabel.NOV, value: MonthValue.NOV },
+	{ label: MonthLabel.DEC, value: MonthValue.DEC },
+]
+
+const currMonthValue = new Date().getMonth() + 1 // count starts with 0
+const currMonth = MonthValue[currMonthValue] as unknown as MonthValue
+export const partnerDonationDrawerFormDefaultValues: Partial<PartnerDonationValues> =
+	{
+		billingYear: new Date().getFullYear(),
+		billingMonth: [MonthValue[currMonth] as unknown as MonthValue],
+	}
