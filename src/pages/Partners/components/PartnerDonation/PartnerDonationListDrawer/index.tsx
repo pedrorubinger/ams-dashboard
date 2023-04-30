@@ -39,7 +39,12 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 	const initialValues: PartnerDonation[] = [
 		{
 			id: "1",
-			billingMonth: [PartnerDonationBillingMonth.APR],
+			billingMonth: [
+				PartnerDonationBillingMonth.JAN,
+				PartnerDonationBillingMonth.FEB,
+				PartnerDonationBillingMonth.MAR,
+				PartnerDonationBillingMonth.APR,
+			],
 			billingYear: 2023,
 			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2023-04-16"),

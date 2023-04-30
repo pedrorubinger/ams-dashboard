@@ -44,11 +44,18 @@ export const PartnerDonationListTable: React.FC<Props> = ({
 						// const monthValue = BillingMonth[
 						// 	record.billingMonth
 						// ] as keyof typeof BillingMonth
-						const monthValue = "in progress" // as keyof typeof BillingMonth
+						// const monthValue = "in progress" // as keyof typeof BillingMonth
 						// const month = `${BillingMonthLabel[monthValue] as string}/${
 						// 	record.billingYear
 						// }`
-						const month = "in progress"
+						const monthValues = record.billingMonth.map(
+							(month) => BillingMonth[month] as keyof typeof BillingMonth
+						)
+						const month = monthValues
+							.map(
+								(value) => `${BillingMonthLabel[value]}/${record.billingYear}`
+							)
+							.join(", ")
 						const value = priceFormatter.format(record.value / 100)
 
 						return (

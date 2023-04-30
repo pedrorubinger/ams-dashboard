@@ -28,7 +28,7 @@ export const columns: TableColumn[] = [
 
 export const partnerDonationColumns: TableColumn[] = [
 	{ id: 1, label: "Categoria" },
-	{ id: 2, label: "Competência" },
+	{ id: 2, label: "Competência(s)" },
 	{ id: 3, label: "Valor" },
 	{ id: 4, label: "Lançado em" },
 ]

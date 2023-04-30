@@ -72,6 +72,7 @@ export interface PartnerDonation {
 	category: PartnerDonationCategory
 	value: number // in cents
 	description?: string
+	// date: Date
 	createdAt: Date
 	updatedAt: Date
 }
