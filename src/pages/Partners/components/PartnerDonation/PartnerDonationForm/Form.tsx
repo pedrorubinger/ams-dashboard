@@ -1,15 +1,18 @@
 import React, { useState } from "react"
 import { Controller, useFormContext } from "react-hook-form"
 import {
+	Box,
 	Button,
 	Flex,
 	FormControl,
 	FormErrorMessage,
+	IconButton,
 	Input,
 	InputGroup,
 	Select,
 } from "@chakra-ui/react"
 import { NumericFormat } from "react-number-format"
+import { MinusCircle, PlusCircle } from "phosphor-react"
 
 import {
 	PartnerDonationValues,
@@ -42,29 +45,23 @@ export const DrawerForm: React.FC<Props> = ({
 		formState: { errors, isDirty, defaultValues },
 	} = useFormContext<PartnerDonationValues>()
 
-	const [selectedMonths, setSelectedMonths] = useState<MonthValue[]>(
-		(defaultValues?.billingMonth || []) as MonthValue[]
-	)
+	const [months, setMonths] = useState(1)
 
-	const onSelectMonth = ({ value }: MonthOption) => {
-		const pop = (months: MonthValue[]) => {
-			const values = months.filter((m) => m !== value)
+	const onUpsertMonth = (action: "remove" | "include") => {
+		const isIncluding = action === "include"
 
-			setValue("billingMonth", values)
-			return values
-		}
-
-		const push = (months: MonthValue[]) => {
-			const values = [...months, value]
-
-			setValue("billingMonth", values)
-			return values
-		}
-
-		setSelectedMonths((prev) => (prev.includes(value) ? pop(prev) : push(prev)))
+		setMonths((prev) => (isIncluding ? ++prev : --prev))
+		// setValue("")
 	}
 
-	console.log("selectedMonths", selectedMonths)
+	const getIconButtonDescription = (isFirstItem: boolean) => {
+		if (isFirstItem) {
+			return "Você não pode remover este mês. Selecione pelo menos um"
+		}
+
+		if (isSubmitting) return "Aguarde a finalização do envio"
+		return "Clique para remover este mês"
+	}
 
 	return (
 		<Form onSubmit={handleSubmit(onSubmit)}>
@@ -89,59 +86,77 @@ export const DrawerForm: React.FC<Props> = ({
 				</FormErrorMessage>
 			</FormControl>
 
-			<FormControl mt={5} isInvalid={!!errors.billingYear} isRequired>
-				<InputLabel htmlFor="billingYear">Ano da competência</InputLabel>
+			{new Array(months).fill(undefined).map((_, index: number) => {
+				const hasOneItem = months === 1
+				const isRemoveItemButtonDisabled = hasOneItem || isSubmitting
+				const cursor = isRemoveItemButtonDisabled ? "not-allowed" : "pointer"
 
-				<Input
-					type="number"
-					id="billingYear"
-					min="0"
-					placeholder="Informe o ano"
-					{...register("billingYear")}
-				/>
-
-				<FormErrorMessage>
-					{errors.billingYear && errors.billingYear.message}
-				</FormErrorMessage>
-			</FormControl>
-
-			<FormControl mt={5} isInvalid={!!errors.billingMonth} isRequired>
-				<InputLabel htmlFor="billingMonth">Mês da competência</InputLabel>
-
-				{/* <Select
-					id="billingMonth"
-					variant="outline"
-					placeholder="Selecione um mês"
-					{...register("billingMonth")}
-				>
-					{partnerDonationBillingMonthOptions.map((option) => (
-						<option key={option.value} value={option.value}>
-							{option.label}
-						</option>
-					))}
-				</Select> */}
-
-				<Flex gap={2} flexWrap="wrap">
-					{partnerDonationBillingMonthOptions.map((month) => {
-						const isSelected = selectedMonths.includes(month.value)
-
-						return (
-							<Button
-								size="sm"
-								key={month.value}
-								colorScheme={isSelected ? "green" : undefined}
-								onClick={() => onSelectMonth(month)}
+				return (
+					<InputGroup gap={3} key={index}>
+						<FormControl mt={5} isInvalid={!!errors.billingMonth} isRequired>
+							<InputLabel htmlFor="billingMonth">Mês da competência</InputLabel>
+							<Select
+								id="billingMonth"
+								variant="outline"
+								placeholder="Selecione um mês"
+								{...register("billingMonth")}
 							>
-								{month.label}
-							</Button>
-						)
-					})}
-				</Flex>
+								{partnerDonationBillingMonthOptions.map((option) => (
+									<option key={option.value} value={option.value}>
+										{option.label}
+									</option>
+								))}
+							</Select>
+						</FormControl>
 
-				<FormErrorMessage>
-					{errors.billingMonth && errors.billingMonth.message}
-				</FormErrorMessage>
-			</FormControl>
+						<Flex mt={5} alignItems="center">
+							<FormControl
+								flex={1}
+								mr={3}
+								isInvalid={!!errors.billingYear}
+								isRequired
+							>
+								<InputLabel htmlFor="billingYear">Ano</InputLabel>
+								<Input
+									type="number"
+									id="billingYear"
+									min="0"
+									placeholder="Informe o ano"
+									{...register("billingYear")}
+								/>
+							</FormControl>
+
+							<Box margin="auto" marginBottom={0}>
+								<IconButton
+									colorScheme="red"
+									aria-label="remover mês"
+									title={getIconButtonDescription(hasOneItem)}
+									icon={<MinusCircle size={16} cursor={cursor} />}
+									isDisabled={isRemoveItemButtonDisabled}
+									cursor={cursor}
+									onClick={
+										hasOneItem ? undefined : () => onUpsertMonth("remove")
+									}
+								/>
+							</Box>
+						</Flex>
+					</InputGroup>
+				)
+			})}
+
+			<Button
+				colorScheme="green"
+				type="button"
+				title="Clique para adicionar mais um mês de competência para este lançamento"
+				size="xs"
+				isLoading={isSubmitting}
+				isDisabled={isSubmitting}
+				rightIcon={<PlusCircle />}
+				onClick={() => onUpsertMonth("include")}
+				mt={3}
+			>
+				Adicionar novo
+			</Button>
 
 			<FormControl isRequired isInvalid={!!errors.value} mt={5}>
 				<InputLabel htmlFor="value">Valor do lançamento</InputLabel>
@@ -178,9 +193,9 @@ export const DrawerForm: React.FC<Props> = ({
 				colorScheme="primary"
 				type="submit"
 				title={isCreating ? "Cadastrar lançamento" : ""}
+				mt={6}
 				isLoading={isSubmitting}
 				isDisabled={isSubmitting || (!isCreating && !isDirty)}
-				mt={6}
 			>
 				{isCreating ? "Cadastrar" : "Salvar alterações"}
 			</Button>

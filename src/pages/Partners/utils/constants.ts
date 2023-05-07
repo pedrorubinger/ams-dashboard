@@ -77,6 +77,6 @@ const currMonthValue = new Date().getMonth() + 1 // count starts with 0
 const currMonth = MonthValue[currMonthValue] as unknown as MonthValue
 export const partnerDonationDrawerFormDefaultValues: Partial<PartnerDonationValues> =
 	{
-		billingYear: new Date().getFullYear(),
+		billingYear: [new Date().getFullYear()],
 		billingMonth: [MonthValue[currMonth] as unknown as MonthValue],
 	}
