@@ -13,20 +13,20 @@ export const getGroupedValues = (
 ): GetGroupedValuesResponse => {
 	const currentYear = new Date().getFullYear()
 	const totalSum: number = records.reduce((prev, curr) => prev + curr.value, 0)
-	const groupedByMonth: PartnerDonation[][] = Array.from(
-		new Set(records.map((record) => record.billingMonth))
-	)
-		.map((month) =>
-			records.filter(
-				(record) =>
-					record.billingMonth === month && record.billingYear === currentYear
-			)
-		)
-		.filter((record) => record.length)
+	// const groupedByMonth: PartnerDonation[][] = Array.from(
+	// 	new Set(records.map((record) => record.billingDate))
+	// )
+	// 	.map((month) =>
+	// 		records.filter(
+	// 			(record) =>
+	// 				record.billingDate === month && record.billingYear === currentYear
+	// 		)
+	// 	)
+	// 	.filter((record) => record.length)
 
 	// const monthlySum: PartnerDonationPerMonth[] = groupedByMonth.map(
 	// 	(record) => ({
-	// 		month: record[0].billingMonth,
+	// 		month: record[0].billingDate,
 	// 		year: record[0].billingYear,
 	// 		value: record.reduce((prev, curr) => prev + curr.value, 0),
 	// 	})

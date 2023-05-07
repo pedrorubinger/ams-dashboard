@@ -84,9 +84,7 @@ export const DonationsDocumentReport: React.FC<Props> = ({
 				<Text style={styles.author}>APAE {tenantId}</Text>
 
 				{records.map((record) => {
-					const paddedMonth = "in progress"
-					// const paddedMonth = record.billingMonth.toString().padStart(2, "0")
-					const billing = `${paddedMonth}/${record.billingYear}`
+					const billing = record.billingDate
 					const value = priceFormatter.format(record.value / 100)
 					const createdAt = dateFormatter.format(record.createdAt)
 					const category = CategoryLabel[record.category] as string

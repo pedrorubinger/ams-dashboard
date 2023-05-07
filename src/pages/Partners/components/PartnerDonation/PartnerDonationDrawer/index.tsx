@@ -56,6 +56,8 @@ export const NewPartnerDonationDrawer: React.FC<
 	}
 
 	const onSubmit = async (values: PartnerDonationValues) => {
+		console.log("submitted values:", values)
+
 		if (errorMessage) setErrorMessage("")
 		setIsSubmitting(true)
 

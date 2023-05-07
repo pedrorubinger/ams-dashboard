@@ -48,7 +48,7 @@ export const DrawerForm: React.FC<Props> = ({
 		formState: { errors, isDirty, defaultValues },
 	} = useFormContext<PartnerDonationValues>()
 	const { fields, append, remove } = useFieldArray({
-		name: "billingMonth" as never,
+		name: "billingDate" as never,
 		control,
 	})
 
@@ -62,18 +62,20 @@ export const DrawerForm: React.FC<Props> = ({
 		return yearNum >= 1900 && yearNum <= 2300
 	}
 
+	console.log("errors", errors)
+
 	const onChangeBillingDate = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		index: number
 	) => {
-		const field = `billingMonth.${index}` as keyof PartnerDonationValues
+		const field = `billingDate.${index}` as keyof PartnerDonationValues
 		const raw = e.target.value
 		const lastChar = raw.slice(-1)
 		let value = raw.replace(/\D/g, "")
 		const hasTypedMonth = value.length >= 2
 
 		const invalidate = () =>
-			setError(`billingMonth.${index}`, {
+			setError(`billingDate.${index}`, {
 				type: "custom",
 				message: "Insira uma data válida!",
 			})
@@ -111,7 +113,7 @@ export const DrawerForm: React.FC<Props> = ({
 		setValue(field, value)
 
 		if (isValid) {
-			if (errors.billingMonth?.[index]) {
+			if (errors.billingDate?.[index]) {
 				clearErrors(field)
 			}
 		} else invalidate()
@@ -146,24 +148,24 @@ export const DrawerForm: React.FC<Props> = ({
 				return (
 					<FormControl
 						key={field.id}
-						isInvalid={!!errors.billingMonth?.[index]}
+						isInvalid={!!errors.billingDate?.[index]}
 						mt={5}
 						isRequired
 					>
-						<InputLabel htmlFor={`billingMonth.${index}`}>
+						<InputLabel htmlFor={`billingDate.${index}`}>
 							Competência{fields.length > 1 ? ` ${index + 1}` : ""}
 						</InputLabel>
 						<Input
 							type="text"
 							placeholder="MM/AAAA"
 							maxLength={7}
-							{...register(`billingMonth.${index}`)}
+							{...register(`billingDate.${index}`)}
 							onChange={(e) => onChangeBillingDate(e, index)}
 						/>
 
 						<FormErrorMessage>
-							{errors.billingMonth?.[index] &&
-								errors.billingMonth?.[index]?.message}
+							{errors.billingDate?.[index] &&
+								errors.billingDate?.[index]?.message}
 						</FormErrorMessage>
 					</FormControl>
 				)
@@ -178,7 +180,7 @@ export const DrawerForm: React.FC<Props> = ({
 					isLoading={isSubmitting}
 					isDisabled={isSubmitting}
 					rightIcon={<PlusCircle />}
-					onClick={() => append(defaultValues?.billingMonth)}
+					onClick={() => append(defaultValues?.billingDate)}
 				>
 					Adicionar competência
 				</Button>

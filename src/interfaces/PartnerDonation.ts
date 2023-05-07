@@ -67,20 +67,17 @@ export interface NewPartnerDonationDrawerProps {
 export interface PartnerDonation {
 	id: string
 	partnerId: string
-	// billingMonth: PartnerDonationBillingMonth[]
-	// billingYear: number
-	billingDate: string
+	billingDate: string[]
 	category: PartnerDonationCategory
 	value: number // in cents
 	description?: string
-	// date: Date
 	createdAt: Date
 	updatedAt: Date
 }
 
 export interface PartnerDonationValues
 	extends Pick<PartnerDonation, "category" | "description" | "value"> {
-	billingMonth: string[]
+	billingDate: string[]
 }
 
 export interface PartnerDonationSearchValues {
