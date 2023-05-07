@@ -36,6 +36,7 @@ export const NewPartnerDonationDrawer: React.FC<
 	const [errorMessage, setErrorMessage] = useState("")
 	const form = useForm<PartnerDonationValues>({
 		defaultValues,
+		reValidateMode: "onChange",
 		resolver: yupResolver(NewPartnerDonationSchema),
 	})
 

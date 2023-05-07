@@ -80,8 +80,7 @@ export interface PartnerDonation {
 
 export interface PartnerDonationValues
 	extends Pick<PartnerDonation, "category" | "description" | "value"> {
-	billingMonth: string
-	billingYear: string
+	billingMonth: string[]
 }
 
 export interface PartnerDonationSearchValues {

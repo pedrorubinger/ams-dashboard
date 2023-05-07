@@ -1,8 +1,9 @@
 import React, { useState } from "react"
-import { Controller, useFormContext } from "react-hook-form"
+import { Controller, useFieldArray, useFormContext } from "react-hook-form"
 import {
 	Box,
 	Button,
+	Divider,
 	Flex,
 	FormControl,
 	FormErrorMessage,
@@ -40,27 +41,80 @@ export const DrawerForm: React.FC<Props> = ({
 	const {
 		handleSubmit,
 		register,
+		setError,
+		clearErrors,
 		setValue,
 		control,
 		formState: { errors, isDirty, defaultValues },
 	} = useFormContext<PartnerDonationValues>()
+	const { fields, append, remove } = useFieldArray({
+		name: "billingMonth" as never,
+		control,
+	})
 
-	const [months, setMonths] = useState(1)
-
-	const onUpsertMonth = (action: "remove" | "include") => {
-		const isIncluding = action === "include"
-
-		setMonths((prev) => (isIncluding ? ++prev : --prev))
-		// setValue("")
+	const isValidMonth = (month: string) => {
+		const monthNum = parseInt(month, 10)
+		return monthNum >= 1 && monthNum <= 12
 	}
 
-	const getIconButtonDescription = (isFirstItem: boolean) => {
-		if (isFirstItem) {
-			return "Você não pode remover este mês. Selecione pelo menos um"
+	const isValidYear = (year: string) => {
+		const yearNum = parseInt(year, 10)
+		return yearNum >= 1900 && yearNum <= 2300
+	}
+
+	const onChangeBillingDate = (
+		e: React.ChangeEvent<HTMLInputElement>,
+		index: number
+	) => {
+		const field = `billingMonth.${index}` as keyof PartnerDonationValues
+		const raw = e.target.value
+		const lastChar = raw.slice(-1)
+		let value = raw.replace(/\D/g, "")
+		const hasTypedMonth = value.length >= 2
+
+		const invalidate = () =>
+			setError(`billingMonth.${index}`, {
+				type: "custom",
+				message: "Insira uma data válida!",
+			})
+
+		if (!value) {
+			return setValue(field, "")
 		}
 
-		if (isSubmitting) return "Aguarde a finalização do envio"
-		return "Clique para remover este mês"
+		if (![0, 1].includes(Number(value?.[0]))) {
+			return setValue(field, `${["1", "2"].includes(value) ? 1 : 0}${value}`)
+		}
+
+		if (value === "00") {
+			return setValue(field, "0")
+		}
+
+		const month: string = value.slice(0, 2)
+
+		if (parseInt(month) > 12) {
+			return setValue(field, 12)
+		}
+
+		const year = value.slice(2)
+
+		if (value.length >= 3 && lastChar === "/") {
+			return setValue(field, `${month}/${year}`)
+		}
+
+		if (hasTypedMonth && lastChar !== "/") {
+			value = `${month}/${year}`
+		}
+
+		const isValid = isValidMonth(month) && isValidYear(year)
+
+		setValue(field, value)
+
+		if (isValid) {
+			if (errors.billingMonth?.[index]) {
+				clearErrors(field)
+			}
+		} else invalidate()
 	}
 
 	return (
@@ -86,77 +140,66 @@ export const DrawerForm: React.FC<Props> = ({
 				</FormErrorMessage>
 			</FormControl>
 
-			{new Array(months).fill(undefined).map((_, index: number) => {
-				const hasOneItem = months === 1
-				const isRemoveItemButtonDisabled = hasOneItem || isSubmitting
-				const cursor = isRemoveItemButtonDisabled ? "not-allowed" : "pointer"
+			<Divider mb={3} mt={3} />
 
+			{fields.map((field, index) => {
 				return (
-					<InputGroup gap={3} key={index}>
-						<FormControl mt={5} isInvalid={!!errors.billingMonth} isRequired>
-							<InputLabel htmlFor="billingMonth">Mês da competência</InputLabel>
-							<Select
-								id="billingMonth"
-								variant="outline"
-								placeholder="Selecione um mês"
-								{...register("billingMonth")}
-							>
-								{partnerDonationBillingMonthOptions.map((option) => (
-									<option key={option.value} value={option.value}>
-										{option.label}
-									</option>
-								))}
-							</Select>
-						</FormControl>
+					<FormControl
+						key={field.id}
+						isInvalid={!!errors.billingMonth?.[index]}
+						mt={5}
+						isRequired
+					>
+						<InputLabel htmlFor={`billingMonth.${index}`}>
+							Competência{fields.length > 1 ? ` ${index + 1}` : ""}
+						</InputLabel>
+						<Input
+							type="text"
+							placeholder="MM/AAAA"
+							maxLength={7}
+							{...register(`billingMonth.${index}`)}
+							onChange={(e) => onChangeBillingDate(e, index)}
+						/>
 
-						<Flex mt={5} alignItems="center">
-							<FormControl
-								flex={1}
-								mr={3}
-								isInvalid={!!errors.billingYear}
-								isRequired
-							>
-								<InputLabel htmlFor="billingYear">Ano</InputLabel>
-								<Input
-									type="number"
-									id="billingYear"
-									min="0"
-									placeholder="Informe o ano"
-									{...register("billingYear")}
-								/>
-							</FormControl>
-
-							<Box margin="auto" marginBottom={0}>
-								<IconButton
-									colorScheme="red"
-									aria-label="remover mês"
-									title={getIconButtonDescription(hasOneItem)}
-									icon={<MinusCircle size={16} cursor={cursor} />}
-									isDisabled={isRemoveItemButtonDisabled}
-									cursor={cursor}
-									onClick={
-										hasOneItem ? undefined : () => onUpsertMonth("remove")
-									}
-								/>
-							</Box>
-						</Flex>
-					</InputGroup>
+						<FormErrorMessage>
+							{errors.billingMonth?.[index] &&
+								errors.billingMonth?.[index]?.message}
+						</FormErrorMessage>
+					</FormControl>
 				)
 			})}
 
-			<Button
-				colorScheme="green"
-				type="button"
-				title="Clique para adicionar mais um mês de competência para este lançamento"
-				size="xs"
-				isLoading={isSubmitting}
-				isDisabled={isSubmitting}
-				rightIcon={<PlusCircle />}
-				onClick={() => onUpsertMonth("include")}
-				mt={3}
-			>
-				Adicionar novo
-			</Button>
+			<Flex gap={3} mt={4}>
+				<Button
+					colorScheme="green"
+					type="button"
+					title="Clique para adicionar mais um mês de competência para este lançamento"
+					size="xs"
+					isLoading={isSubmitting}
+					isDisabled={isSubmitting}
+					rightIcon={<PlusCircle />}
+					onClick={() => append(defaultValues?.billingMonth)}
+				>
+					Adicionar competência
+				</Button>
+
+				{fields.length > 1 && (
+					<Button
+						colorScheme="red"
+						type="button"
+						title="Clique para remover a última competência adicionada"
+						size="xs"
+						isLoading={isSubmitting}
+						isDisabled={isSubmitting}
+						rightIcon={<MinusCircle />}
+						onClick={() => remove(fields.length - 1)}
+					>
+						Remover competência
+					</Button>
+				)}
+			</Flex>
+
+			<Divider mb={3} mt={3} />
 
 			<FormControl isRequired isInvalid={!!errors.value} mt={5}>
 				<InputLabel htmlFor="value">Valor do lançamento</InputLabel>
