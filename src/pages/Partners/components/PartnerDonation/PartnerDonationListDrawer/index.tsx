@@ -75,7 +75,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		},
 		{
 			id: "5",
-			billingDate: ["12/2023"],
+			billingDate: ["12/2022"],
 			category: PartnerDonationCategory.PIX,
 			createdAt: new Date("2022-12-14"),
 			updatedAt: new Date("2022-12-14"),

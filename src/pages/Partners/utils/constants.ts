@@ -36,6 +36,7 @@ export const partnerDonationColumns: TableColumn[] = [
 export const partnerDonationPerMonthColumns: TableColumn[] = [
 	{ id: 1, label: "Competência" },
 	{ id: 2, label: "Total mensal" },
+	{ id: 3, label: "Status" },
 ]
 
 export const searchOptions: SearchTypeOption[] = [

@@ -41,7 +41,7 @@ export const PartnerDonationListTable: React.FC<Props> = ({
 					{records.map((record) => {
 						const createdAt = new Date(record.createdAt)
 						const category = CategoryLabel[record.category] as string
-						const monthValues: string[] = ["in progress"]
+						const monthValues = record.billingDate.join(", ")
 						const value = priceFormatter.format(record.value / 100)
 
 						return (

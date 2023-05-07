@@ -27,9 +27,21 @@ export enum PartnerDonationBillingMonth {
 	DEC = 12,
 }
 
+export enum PartnerDonationBillingMonthStatus {
+	PENDING = "PENDING",
+	DONE = "DONE",
+}
+
+export enum PartnerDonationBillingMonthStatusLabel {
+	PENDING = "Pendente",
+	DONE = "Pago",
+}
+
 export interface PartnerDonationPerMonth {
 	month: PartnerDonationBillingMonth
-	year: number
+	billingLabel: string
+	status: PartnerDonationBillingMonthStatus
+	// year: number
 	/** value in cents */
 	value: number
 }

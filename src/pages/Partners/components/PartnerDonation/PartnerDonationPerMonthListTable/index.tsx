@@ -1,10 +1,12 @@
 import React from "react"
-import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
+import { Table, Tag, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
 
 import {
 	PartnerDonationBillingMonthLabel as BillingMonthLabel,
 	PartnerDonationBillingMonth as BillingMonth,
 	PartnerDonationPerMonth,
+	PartnerDonationBillingMonthStatusLabel,
+	PartnerDonationBillingMonthStatus,
 } from "~/interfaces"
 import { priceFormatter } from "~/utils"
 import { partnerDonationPerMonthColumns as columns } from "~/pages/Partners/utils"
@@ -32,19 +34,20 @@ export const PartnerDonationPerMonthListTable: React.FC<Props> = ({
 
 				<Tbody width="100%">
 					{records.map((record) => {
-						/** TO DO: Add billing year */
-						const monthValue = BillingMonth[
-							record.month
-						] as keyof typeof BillingMonth
-						const billingDate = `${BillingMonthLabel[monthValue] as string}/${
-							record.year
-						}`
-						const value = priceFormatter.format(record.value / 100)
+						const value: string = priceFormatter.format(record.value / 100)
+						const status = PartnerDonationBillingMonthStatusLabel[record.status]
+						const statusColor =
+							status === PartnerDonationBillingMonthStatusLabel.DONE
+								? "green"
+								: "orange"
 
 						return (
 							<Tr key={record.month} _hover={{ background: "blackAlpha.50" }}>
-								<Td>{billingDate}</Td>
+								<Td>{record.billingLabel}</Td>
 								<Td>{value}</Td>
+								<Td>
+									<Tag colorScheme={statusColor}>{status}</Tag>
+								</Td>
 							</Tr>
 						)
 					})}
