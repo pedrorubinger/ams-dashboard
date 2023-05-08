@@ -8,7 +8,6 @@ import { handleError } from "~/utils"
 
 export const updateUser = async ({
 	id,
-	name,
 	tenantId,
 	isActive,
 }: UpdateUserPayload): Promise<ServerResponse<UpdateUserResponse>> => {

@@ -1,11 +1,11 @@
-import { Box, Text } from "@chakra-ui/react"
+import { Text } from "@chakra-ui/react"
 
 import { SettingsForm } from "~/pages/Settings/components"
-import { PageTitle } from "~/components"
+import { ContentSection, PageTitle } from "~/components"
 
 export const Settings: React.FC = () => {
 	return (
-		<Box>
+		<ContentSection>
 			<PageTitle>Configurações da conta</PageTitle>
 
 			<Text>
@@ -23,6 +23,6 @@ export const Settings: React.FC = () => {
 			</Text>
 
 			<SettingsForm />
-		</Box>
+		</ContentSection>
 	)
 }

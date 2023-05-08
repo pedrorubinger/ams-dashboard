@@ -2,14 +2,21 @@ import {
 	Buildings,
 	Gear,
 	House,
-	SignOut,
 	Money,
+	SignOut,
 	UsersThree,
 	Users as UsersIcon,
 } from "phosphor-react"
 
 import { RouteItem } from "~/interfaces"
-import { Home, Settings, Tenants, Users } from "~/pages"
+import {
+	Home,
+	PartnerDonations,
+	Partners,
+	Settings,
+	Tenants,
+	Users,
+} from "~/pages"
 
 export const privateRoutes: RouteItem[] = [
 	{
@@ -31,7 +38,7 @@ export const privateRoutes: RouteItem[] = [
 		element: <Settings />,
 	},
 	// {
-	// 	Icon: UsersThree,
+	// 	Icon: null,
 	// 	id: "volunteers",
 	// 	path: "/voluntarios",
 	// 	label: "Voluntários",
@@ -57,15 +64,24 @@ export const privateRoutes: RouteItem[] = [
 		permissions: ["master"],
 		element: <Users />,
 	},
-	// {
-	// 	Icon: Money,
-	// 	id: "donates",
-	// 	path: "/doacoes",
-	// 	label: "Doações",
-	// 	title: "Clique para gerenciar as doações",
-	// 	permissions: ["*"],
-	// 	element: "?",
-	// },
+	{
+		Icon: Money,
+		id: "partnerDonations",
+		path: "/contribuicoes",
+		label: "Contribuições",
+		title: "Clique para gerenciar as contribuições",
+		permissions: ["admin"],
+		element: <PartnerDonations />,
+	},
+	{
+		Icon: UsersThree,
+		id: "partners",
+		path: "/associados",
+		label: "Associados",
+		title: "Clique para gerenciar os associados",
+		permissions: ["admin"],
+		element: <Partners />,
+	},
 ]
 
 export const sideMenuItems: RouteItem[] = [

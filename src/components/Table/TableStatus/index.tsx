@@ -9,7 +9,7 @@ interface Props extends TableCaptionProps {
 	total?: number
 	/** @default false */
 	isLoading?: boolean
-	onClickToGetMore: () => void
+	onClickToGetMore?: () => void
 }
 
 export const TableStatus: React.FC<Props> = ({
@@ -27,26 +27,29 @@ export const TableStatus: React.FC<Props> = ({
 	const text = `${count} de ${total} registro${
 		total === 1 ? "" : "s"
 	} encontrado${total === 1 ? "" : "s"}`
+	const isLastPage = count === total
 
-	if (count === total) return <TableCaption>{text}</TableCaption>
+	if (onClickToGetMore && !isLastPage) {
+		return (
+			<TableCaption>
+				{text}.
+				<br />
+				Clique
+				<Button
+					variant="link"
+					type="button"
+					color="teal.500"
+					title="Clique para buscar mais registros"
+					onClick={onClickToGetMore}
+				>
+					aqui
+				</Button>
+				para buscar mais.
+			</TableCaption>
+		)
+	}
 
-	return (
-		<TableCaption>
-			{text}.
-			<br />
-			Clique
-			<Button
-				variant="link"
-				type="button"
-				color="teal.500"
-				title="Clique para buscar mais registros"
-				onClick={onClickToGetMore}
-			>
-				aqui
-			</Button>
-			para buscar mais.
-		</TableCaption>
-	)
+	return <TableCaption>{text}</TableCaption>
 }
 
 TableStatus.defaultProps = {

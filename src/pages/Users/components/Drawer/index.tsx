@@ -89,7 +89,6 @@ export const UsersDrawer: React.FC<UsersDrawerProps> = ({
 
 			const { error } = await updateUser({
 				id: user.id,
-				name: user.name !== name ? name : undefined,
 				tenantId,
 				isActive,
 			})
@@ -118,7 +117,7 @@ export const UsersDrawer: React.FC<UsersDrawerProps> = ({
 	const fetchTenants = useCallback(async () => {
 		setIsFetching(true)
 
-		const { data, error: error } = await getTenants()
+		const { data, error: error } = await getTenants({ size: "all" })
 
 		setIsFetching(false)
 

@@ -2,6 +2,7 @@ import React from "react"
 import {
 	Box,
 	Button,
+	Link,
 	Menu,
 	MenuButton,
 	MenuItem,
@@ -16,16 +17,19 @@ interface Props {
 	items: TableActionMenuItem[]
 	/** @default false */
 	isDisabled?: boolean
+	/** @default 8 */
+	mb?: number
 }
 
 export const TableActionsMenu: React.FC<Props> = ({
 	items,
 	isDisabled = false,
+	mb = 8,
 }) => {
 	if (!items.length) return null
 
 	return (
-		<Box mb={8}>
+		<Box mb={mb}>
 			<Menu>
 				<MenuButton
 					as={Button}
@@ -33,6 +37,7 @@ export const TableActionsMenu: React.FC<Props> = ({
 					aria-label="Ações"
 					title="Clique para ver as opções"
 					fontSize="smaller"
+					size="sm"
 					color="white"
 					bg="green.300"
 					_hover={{ background: "green.500" }}
@@ -44,9 +49,15 @@ export const TableActionsMenu: React.FC<Props> = ({
 
 				<MenuList>
 					{items.map((item) => {
+						const isLink = item?.href
+
 						return (
 							<MenuItem
+								href={isLink && item?.href}
+								as={isLink ? Link : Button}
 								_hover={{ background: "green.50" }}
+								target={item?.hrefTarget || "_blank"}
+								download={item?.download}
 								key={item.id}
 								title={item?.title}
 								onClick={item.onClick}

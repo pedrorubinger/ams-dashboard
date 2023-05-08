@@ -1,4 +1,5 @@
 export type TableRowActionType =
+	| "records"
 	| "edit"
 	| "delete"
 	| "create"

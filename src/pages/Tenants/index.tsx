@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { Box, Text } from "@chakra-ui/react"
+import { Text } from "@chakra-ui/react"
 import { ArrowClockwise, PlusCircle } from "phosphor-react"
 
 import {
@@ -11,7 +11,7 @@ import {
 } from "~/interfaces"
 import { getTenants } from "~/services"
 import { TenantsTable, TenantsDrawer } from "~/pages/Tenants/components"
-import { DefaultAlert, PageTitle } from "~/components"
+import { DefaultAlert, ContentSection, PageTitle } from "~/components"
 
 export const Tenants: React.FC = () => {
 	const [isFetching, setIsFetching] = useState(false)
@@ -76,7 +76,7 @@ export const Tenants: React.FC = () => {
 	}, [fetchRecords])
 
 	return (
-		<Box width="100%">
+		<ContentSection>
 			<PageTitle>Instituições</PageTitle>
 
 			<Text>
@@ -111,6 +111,6 @@ export const Tenants: React.FC = () => {
 					fetchRecords={fetchRecords}
 				/>
 			)}
-		</Box>
+		</ContentSection>
 	)
 }

@@ -75,6 +75,21 @@ export const DrawerForm: React.FC<Props> = ({
 				</FormErrorMessage>
 			</FormControl>
 
+			<FormControl isRequired isInvalid={!!errors.name} mt={5}>
+				<InputLabel htmlFor="name">Nome do usuário</InputLabel>
+
+				<Input
+					id="name"
+					type="text"
+					placeholder="Nome do usuário"
+					{...register("name")}
+					isDisabled={isSubmitting || isEditing}
+				/>
+				<FormErrorMessage>
+					{errors.name && errors.name.message}
+				</FormErrorMessage>
+			</FormControl>
+
 			<FormControl
 				isRequired
 				isInvalid={!!errors.email}
@@ -95,21 +110,6 @@ export const DrawerForm: React.FC<Props> = ({
 				/>
 				<FormErrorMessage>
 					{errors.email && errors.email.message}
-				</FormErrorMessage>
-			</FormControl>
-
-			<FormControl isRequired isInvalid={!!errors.name} mt={5}>
-				<InputLabel htmlFor="name">Nome do usuário</InputLabel>
-
-				<Input
-					id="name"
-					type="text"
-					placeholder="Nome do usuário"
-					{...register("name")}
-					isDisabled={isSubmitting}
-				/>
-				<FormErrorMessage>
-					{errors.name && errors.name.message}
 				</FormErrorMessage>
 			</FormControl>
 
