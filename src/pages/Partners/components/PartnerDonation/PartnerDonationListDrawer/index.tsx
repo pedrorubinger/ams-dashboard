@@ -19,7 +19,6 @@ import {
 import {
 	PartnerDonationListDrawerProps as Props,
 	PartnerDonation,
-	PartnerDonationBillingMonth,
 	PartnerDonationCategory,
 } from "~/interfaces"
 import { useIsMounted } from "~/hooks"
@@ -39,10 +38,10 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 	const initialValues: PartnerDonation[] = [
 		{
 			id: "1",
-			billingDate: ["01/2023", "02/2023", "03/2023", "04/2023"],
+			billingDate: ["03/2023", "04/2023"],
 			category: PartnerDonationCategory.PIX,
-			createdAt: new Date("2023-04-16"),
-			updatedAt: new Date("2023-04-16"),
+			createdAt: new Date("2023-05-08"),
+			updatedAt: new Date("2023-05-08"),
 			partnerId: partner.id,
 			value: 15000,
 		},
