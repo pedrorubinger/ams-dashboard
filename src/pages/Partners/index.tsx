@@ -98,7 +98,8 @@ export const Partners: React.FC = () => {
 
 				<Text>
 					Nesta seção você encontra a lista de associados da APAE. A lista
-					aparece assim que uma busca é feita.
+					aparece assim que uma busca é feita. Caso nenhum resultado para sua
+					busca é encontrado, a lista permanece vazia.
 				</Text>
 
 				{!!newPartnerDonationDrawer && (
