@@ -4,9 +4,9 @@ import {
 	PartnerDonationBillingMonth as MonthValue,
 	PartnerDonationBillingMonthLabel as MonthLabel,
 	PartnerDonationBillingMonthOption as MonthOption,
-	SearchPartnerType,
 	TableColumn,
 	PartnerDonationValues,
+	FindPartnerField,
 } from "~/interfaces"
 
 interface PartnerDonationCategoryOption {
@@ -16,7 +16,7 @@ interface PartnerDonationCategoryOption {
 
 interface SearchTypeOption {
 	label: string
-	value: SearchPartnerType
+	value: FindPartnerField
 }
 
 export const columns: TableColumn[] = [
@@ -40,8 +40,8 @@ export const partnerDonationPerMonthColumns: TableColumn[] = [
 ]
 
 export const searchOptions: SearchTypeOption[] = [
-	{ label: "Matrícula", value: "id" },
-	{ label: "Nome", value: "name" },
+	{ label: "Matrícula", value: FindPartnerField.ID },
+	{ label: "Nome", value: FindPartnerField.NAME },
 ]
 
 export const partnerDonationOptions: PartnerDonationCategoryOption[] = [

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useState } from "react"
 import { Text } from "@chakra-ui/react"
 import { PlusCircle } from "phosphor-react"
 import { FormProvider, useForm } from "react-hook-form"
@@ -11,6 +11,7 @@ import {
 	SearchPartnerValues,
 	TableActionMenuItem,
 	PartnerDrawerProps,
+	FindPartnerField,
 } from "~/interfaces"
 import {
 	PartnersTable,
@@ -26,38 +27,22 @@ type PartnerDrawerType = null | Omit<PartnerDrawerProps, "onClose">
 type NewDonationDrawer = null | Omit<NewPartnerDonationDrawerProps, "onClose">
 type ListSupportsDrawer = null | Omit<PartnerDonationListDrawerProps, "onClose">
 
-const searchDefaultValues: SearchPartnerValues = { type: "id", value: "" }
-const mockedData: PartnerRecord[] = [
-	{
-		createdAt: new Date("2022-09-19"),
-		updatedAt: new Date("2022-09-19"),
-		id: "93489",
-		name: "Pedro Henrique",
-	},
-]
+const searchDefaultValues: SearchPartnerValues = {
+	field: FindPartnerField.ID,
+	content: "",
+}
 
 export const Partners: React.FC = () => {
 	const form = useForm<SearchPartnerValues>({
 		defaultValues: searchDefaultValues,
 		resolver: yupResolver(SearchPartnersSchema),
 	})
-	const [isFetching, setIsFetching] = useState(false)
-	const [records, setRecords] = useState<PartnerRecord[]>([])
+
 	const [partnerDonationListDrawer, setPartnerDonationListDrawer] =
 		useState<ListSupportsDrawer>(null)
 	const [newPartnerDonationDrawer, setNewPartnerDonationDrawer] =
 		useState<NewDonationDrawer>(null)
 	const [partnerDrawer, setPartnerDrawer] = useState<PartnerDrawerType>(null)
-
-	const fetchRecords = useCallback(async (params: SearchPartnerValues) => {
-		setIsFetching(true)
-		console.log("params:", params)
-
-		setTimeout(() => {
-			setIsFetching(false)
-			setRecords(mockedData)
-		}, 3000)
-	}, [])
 
 	const onClosePartnerDrawer = () => setPartnerDrawer(null)
 
@@ -81,10 +66,7 @@ export const Partners: React.FC = () => {
 		setPartnerDrawer({ mode: "update", isVisible: true, partner })
 
 	const onViewPartnerDonationList = (partner: PartnerRecord) =>
-		setPartnerDonationListDrawer({
-			isVisible: true,
-			partner,
-		})
+		setPartnerDonationListDrawer({ isVisible: true, partner })
 
 	const actionItems: TableActionMenuItem[] = [
 		{
@@ -107,7 +89,7 @@ export const Partners: React.FC = () => {
 				</Text>
 
 				<FormProvider {...form}>
-					<SearchPartner isLoading={isFetching} fetchRecords={fetchRecords} />
+					<SearchPartner />
 				</FormProvider>
 			</ContentSection>
 
@@ -146,9 +128,7 @@ export const Partners: React.FC = () => {
 				)}
 
 				<PartnersTable
-					records={records}
 					actionItems={actionItems}
-					isLoading={isFetching}
 					onViewPartnerDonationList={onViewPartnerDonationList}
 					onAddNewPartnerDonation={onAddNewPartnerDonation}
 					onUpdatePartner={onUpdatePartner}

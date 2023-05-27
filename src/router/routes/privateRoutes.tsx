@@ -7,6 +7,7 @@ import {
 	UsersThree,
 	Users as UsersIcon,
 } from "phosphor-react"
+import { PartnerProvider } from "~/contexts"
 
 import { RouteItem } from "~/interfaces"
 import {
@@ -80,7 +81,11 @@ export const privateRoutes: RouteItem[] = [
 		label: "Associados",
 		title: "Clique para gerenciar os associados",
 		permissions: ["admin"],
-		element: <Partners />,
+		element: (
+			<PartnerProvider>
+				<Partners />
+			</PartnerProvider>
+		),
 	},
 ]
 

@@ -1,6 +1,7 @@
-import React, { useState } from "react"
+import React, { useContext } from "react"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
 
+import { PartnerContext } from "~/contexts"
 import {
 	TableActionMenuItem,
 	TableRowAction,
@@ -18,28 +19,21 @@ import {
 } from "~/components"
 
 interface Props {
-	isLoading: boolean
-	records: PartnerRecord[]
 	actionItems: TableActionMenuItem[]
 	onAddNewPartnerDonation: (partner: PartnerRecord) => void
 	onViewPartnerDonationList: (partner: PartnerRecord) => void
 	onUpdatePartner: (record: PartnerRecord) => void
-	// fetchRecords: () => Promise<void>
 }
 
 export const PartnersTable: React.FC<Props> = ({
-	// pagination,
-	isLoading,
-	records,
 	actionItems,
 	onAddNewPartnerDonation,
 	onViewPartnerDonationList,
 	onUpdatePartner,
-	// fetchRecords,
-	// onClickToUpdatePartner,
 }) => {
 	const { user } = useUserStore()
-	const count: number = records?.length
+	const { isFetching, records } = useContext(PartnerContext)
+	const count = records?.length || 0
 
 	const getActions = (record: PartnerRecord): TableRowAction[] => {
 		const isDisabled = user?.id === record.id
@@ -74,10 +68,10 @@ export const PartnersTable: React.FC<Props> = ({
 
 	return (
 		<TableWrapper>
-			<TableActionsMenu items={actionItems} isDisabled={isLoading} />
+			<TableActionsMenu items={actionItems} isDisabled={isFetching} />
 
 			<Table>
-				<TableStatus count={count} total={count} isLoading={isLoading} />
+				<TableStatus count={count} total={count} isLoading={isFetching} />
 
 				<Thead>
 					<Tr>
@@ -91,7 +85,7 @@ export const PartnersTable: React.FC<Props> = ({
 					{records.map((record) => {
 						return (
 							<Tr key={record.id} _hover={{ background: "blackAlpha.50" }}>
-								<Td>{record.id}</Td>
+								<Td>{record.registrationId}</Td>
 								<Td>{record.name}</Td>
 								<Td>{dateFormatter.format(new Date(record.createdAt))}</Td>
 								<Td>
@@ -103,7 +97,7 @@ export const PartnersTable: React.FC<Props> = ({
 				</Tbody>
 			</Table>
 
-			{!!isLoading && <TablePaginationSkeleton />}
+			{!!isFetching && <TablePaginationSkeleton />}
 		</TableWrapper>
 	)
 }
