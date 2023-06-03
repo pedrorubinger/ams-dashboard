@@ -12,6 +12,7 @@ enum ErrorCode {
 	/** 404 */
 	"404_USER_NOT_FOUND" = "Não encontramos este usuário.",
 	"404_TENANT_NOT_FOUND" = "Não encontramos esta instituição.",
+	"404_REGISTRATION_ID_NOT_FOUND" = "Não encontramos o último registro de matrícula do associado.",
 	/** 400 */
 	"400_EMAIL_ALREADY_REGISTERED" = "Este email já está sendo utilizado.",
 	"400_INVALID_CREDENTIALS" = "Usuário ou senha incorretos.",
