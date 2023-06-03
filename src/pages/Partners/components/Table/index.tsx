@@ -81,20 +81,22 @@ export const PartnersTable: React.FC<Props> = ({
 					</Tr>
 				</Thead>
 
-				<Tbody width="100%">
-					{records.map((record) => {
-						return (
-							<Tr key={record.id} _hover={{ background: "blackAlpha.50" }}>
-								<Td>{record.registrationId}</Td>
-								<Td>{record.name}</Td>
-								<Td>{dateFormatter.format(new Date(record.createdAt))}</Td>
-								<Td>
-									<TableRowActions actions={getActions(record)} />
-								</Td>
-							</Tr>
-						)
-					})}
-				</Tbody>
+				{!isFetching && (
+					<Tbody width="100%">
+						{records.map((record) => {
+							return (
+								<Tr key={record.id} _hover={{ background: "blackAlpha.50" }}>
+									<Td>{record.registrationId}</Td>
+									<Td>{record.name}</Td>
+									<Td>{dateFormatter.format(new Date(record.createdAt))}</Td>
+									<Td>
+										<TableRowActions actions={getActions(record)} />
+									</Td>
+								</Tr>
+							)
+						})}
+					</Tbody>
+				)}
 			</Table>
 
 			{!!isFetching && <TablePaginationSkeleton />}
