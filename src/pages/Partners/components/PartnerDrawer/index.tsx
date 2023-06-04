@@ -40,6 +40,7 @@ export const PartnerDrawer: React.FC<PartnerDrawerProps> = ({
 	onClose,
 }) => {
 	const isCreating = mode === "create"
+	const isUpdating = mode === "update"
 	const title = isCreating ? "Cadastrar novo associado" : "Editar associado"
 	const [errorMessage, setErrorMessage] = useState("")
 	const [isSubmitting, setIsSubmitting] = useState(false)
@@ -95,6 +96,10 @@ export const PartnerDrawer: React.FC<PartnerDrawerProps> = ({
 					content: data.partner.registrationId,
 				})
 			}
+		}
+
+		if (isUpdating) {
+			//
 		}
 
 		onCloseDrawer()

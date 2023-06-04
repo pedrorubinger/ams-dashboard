@@ -37,7 +37,8 @@ export const DrawerForm: React.FC<Props> = ({
 		if (partner && !isCreating) {
 			reset({
 				name: partner.name,
-				id: partner.id,
+				id: partner.registrationId,
+				autoRegistrationId: false,
 			})
 		}
 	}, [partner, isCreating])
