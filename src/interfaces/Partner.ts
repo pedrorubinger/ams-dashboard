@@ -1,5 +1,3 @@
-import { GetDataResponse } from "./GetDataResponse"
-
 export interface Partner {
 	id: string
 	registrationId: string // Matrícula
@@ -15,7 +13,9 @@ export enum FindPartnerField {
 
 export interface PartnerRecord extends Partner {}
 
-export interface PartnerValues extends Pick<Partner, "name" | "id"> {}
+export interface PartnerValues extends Pick<Partner, "name" | "id"> {
+	autoRegistrationId: boolean
+}
 
 export interface GetPartnerParams {
 	field: FindPartnerField
@@ -26,4 +26,12 @@ export interface SearchPartnerValues extends GetPartnerParams {}
 
 export interface GetPartnerResponse {
 	partners: Partner[]
+}
+
+export interface CreatePartnerPayload extends Pick<Partner, "name"> {
+	id?: string
+}
+
+export interface CreatePartnerResponse {
+	partner: Partner
 }

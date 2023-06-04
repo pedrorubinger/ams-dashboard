@@ -1,9 +1,16 @@
 import React, { useEffect } from "react"
 import { useFormContext } from "react-hook-form"
-import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react"
+import {
+	Button,
+	Checkbox,
+	FormControl,
+	FormErrorMessage,
+	Input,
+	Text,
+} from "@chakra-ui/react"
 
 import { PartnerValues, PartnerDrawerProps } from "~/interfaces"
-import { Form, InputLabel } from "~/components"
+import { Form, InputLabel, Tooltip } from "~/components"
 
 interface Props extends Pick<PartnerDrawerProps, "mode" | "partner"> {
 	isSubmitting: boolean
@@ -21,8 +28,10 @@ export const DrawerForm: React.FC<Props> = ({
 		handleSubmit,
 		register,
 		reset,
+		watch,
 		formState: { errors, isDirty },
 	} = useFormContext<PartnerValues>()
+	const watchedAutoRegistrationId = watch("autoRegistrationId")
 
 	useEffect(() => {
 		if (partner && !isCreating) {
@@ -35,19 +44,39 @@ export const DrawerForm: React.FC<Props> = ({
 
 	return (
 		<Form onSubmit={handleSubmit(onSubmit)}>
-			<FormControl mt={5} isInvalid={!!errors.id} isRequired>
-				<InputLabel htmlFor="id">Número da matrícula</InputLabel>
-
-				<Input
-					type="number"
-					id="id"
-					min="0"
-					placeholder="Informe a matrícula"
-					{...register("id")}
-				/>
-
-				<FormErrorMessage>{errors.id && errors.id.message}</FormErrorMessage>
+			<FormControl isInvalid={!!errors.autoRegistrationId} mt="5" width="100%">
+				<Checkbox
+					id="autoRegistrationId"
+					disabled={isSubmitting}
+					isChecked={watchedAutoRegistrationId}
+					{...register("autoRegistrationId")}
+				>
+					<Text width="100%" display="flex" alignItems="center" gap={2}>
+						Gerar a matrícula automaticamente
+						<Tooltip
+							label="Ao selecionar esta opção, o número de matrícula deste associado será gerado automaticamente baseado no número de matrícula do último associado cadastrado."
+							placement="top-start"
+						/>
+					</Text>
+				</Checkbox>
 			</FormControl>
+
+			{!watchedAutoRegistrationId && (
+				<FormControl mt={5} isInvalid={!!errors.id} isRequired>
+					<InputLabel htmlFor="id">Número da matrícula</InputLabel>
+
+					<Input
+						type="number"
+						id="id"
+						min="0"
+						placeholder="Informe a matrícula"
+						{...register("id")}
+						disabled={watchedAutoRegistrationId}
+					/>
+
+					<FormErrorMessage>{errors.id && errors.id.message}</FormErrorMessage>
+				</FormControl>
+			)}
 
 			<FormControl mt={5} isInvalid={!!errors.name} isRequired>
 				<InputLabel htmlFor="name">Nome do associado</InputLabel>

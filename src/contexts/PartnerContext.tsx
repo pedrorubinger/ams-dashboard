@@ -5,7 +5,6 @@ import {
 	GetPartnerParams,
 	GetPartnerResponse,
 	PartnerRecord,
-	PartnerValues,
 	SearchPartnerValues,
 } from "~/interfaces"
 import { getPartner } from "~/services"
@@ -54,10 +53,6 @@ export const PartnerProvider = ({ children }: PartnerProviderProps) => {
 			setData(response.data)
 		}
 	}, [])
-
-	// const createPartner = async (values: PartnerValues) => {
-
-	// }
 
 	return (
 		<PartnerContext.Provider
