@@ -1,5 +1,5 @@
 import React from "react"
-import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
+import { Table, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react"
 
 import {
 	Donation,
@@ -23,6 +23,8 @@ interface Props {
 }
 
 export const DonationListTable: React.FC<Props> = ({ records, isLoading }) => {
+	if (!records.length) return null
+
 	return (
 		<TableWrapper mt={5}>
 			<Table>
