@@ -55,7 +55,7 @@ export const DrawerForm: React.FC<Props> = ({
 					<Text width="100%" display="flex" alignItems="center" gap={2}>
 						Gerar a matrícula automaticamente
 						<Tooltip
-							label="Ao selecionar esta opção, o número de matrícula deste associado será gerado automaticamente baseado no número de matrícula do último associado cadastrado."
+							label="Ao selecionar esta opção, o número de matrícula deste associado será gerado automaticamente baseado no número de matrícula do último associado cadastrado. Caso seja o primeiro, a matrícula será '1'."
 							placement="top-start"
 						/>
 					</Text>

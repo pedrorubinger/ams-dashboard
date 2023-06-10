@@ -55,16 +55,30 @@ export const PartnerDrawer: React.FC<PartnerDrawerProps> = ({
 	}
 
 	const getDescription = () => {
-		const registrationIdMessage =
-			"Caso opte por inserir um número de matrícula manualmente, você assume o risco de cadastrar matrículas repetidas."
+		const registrationIdMessage = (
+			<>
+				Caso opte por inserir um número de matrícula manualmente,&nbsp;
+				<strong>você assume o risco de cadastrar matrículas repetidas</strong>.
+			</>
+		)
 
 		if (isSubmitting) return "Por favor, aguarde. Estamos enviando os dados."
 
 		if (isCreating) {
-			return `Preencha os campos para cadastrar o novo associado. ${registrationIdMessage}`
+			return (
+				<>
+					Preencha os campos para cadastrar o novo associado.&nbsp;
+					{registrationIdMessage}
+				</>
+			)
 		}
 
-		return `Preencha os campos para atualizar os dados do associado. ${registrationIdMessage}`
+		return (
+			<>
+				Preencha os campos para atualizar os dados do associado.&nbsp;
+				{registrationIdMessage}
+			</>
+		)
 	}
 
 	return (
@@ -79,9 +93,9 @@ export const PartnerDrawer: React.FC<PartnerDrawerProps> = ({
 					{errorMessage ? (
 						<DefaultAlert
 							status="error"
-							mb={5}
 							isVisible={!!errorMessage}
 							message={errorMessage}
+							mb={5}
 						/>
 					) : (
 						<Text mb="5">{getDescription()}</Text>
