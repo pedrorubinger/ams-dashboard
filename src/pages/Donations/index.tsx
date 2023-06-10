@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom"
 import { FormProvider, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { ArrowClockwise, FilePdf } from "phosphor-react"
-import { usePDF } from "@react-pdf/renderer"
+// import { usePDF } from "@react-pdf/renderer"
 
 import {
 	Donation,
@@ -20,105 +20,14 @@ import {
 	ReportCardsSkeleton,
 	DonationsReport,
 	ReportsDateFilter,
-	DonationsDocumentReport,
+	// DonationsDocumentReport,
 	SearchDonationSchema,
 } from "~/pages/Donations/components"
 import { ContentSection, PageTitle, TableActionsMenu } from "~/components"
 
 interface Props {}
 
-const initialValues: Donation[] = [
-	{
-		id: "1",
-		billingDate: ["04/2023"],
-		category: DonationCategory.PIX,
-		createdAt: new Date("2023-04-16"),
-		updatedAt: new Date("2023-04-16"),
-		partnerId: "1",
-		value: 15000,
-	},
-	{
-		id: "2",
-		billingDate: ["04/2023"],
-		category: DonationCategory.COPASA,
-		createdAt: new Date("2023-04-03"),
-		updatedAt: new Date("2023-04-03"),
-		partnerId: "1",
-		value: 45000,
-	},
-	{
-		id: "3",
-		billingDate: ["03/2023"],
-		category: DonationCategory.COPASA,
-		createdAt: new Date("2023-03-12"),
-		updatedAt: new Date("2023-03-12"),
-		partnerId: "1",
-		value: 32540,
-	},
-	{
-		id: "4",
-		billingDate: ["01/2023"],
-		category: DonationCategory.TICKET,
-		createdAt: new Date("2023-01-11"),
-		updatedAt: new Date("2023-01-11"),
-		partnerId: "1",
-		value: 21500,
-	},
-	{
-		id: "5",
-		billingDate: ["12/2022"],
-		category: DonationCategory.PIX,
-		createdAt: new Date("2022-12-14"),
-		updatedAt: new Date("2022-12-14"),
-		partnerId: "1",
-		value: 5600,
-	},
-	{
-		id: "6",
-		billingDate: ["11/2022"],
-		category: DonationCategory.PIX,
-		createdAt: new Date("2022-11-14"),
-		updatedAt: new Date("2022-11-14"),
-		partnerId: "1",
-		value: 5200,
-	},
-	{
-		id: "7",
-		billingDate: ["10/2022"],
-		category: DonationCategory.PIX,
-		createdAt: new Date("2022-10-03"),
-		updatedAt: new Date("2022-10-04"),
-		partnerId: "1",
-		value: 4500,
-	},
-	{
-		id: "8",
-		billingDate: ["08/2022"],
-		category: DonationCategory.COPASA,
-		createdAt: new Date("2022-08-12"),
-		updatedAt: new Date("2022-08-12"),
-		partnerId: "1",
-		value: 2300,
-	},
-	{
-		id: "9",
-		billingDate: ["08/2022"],
-		category: DonationCategory.PIX,
-		createdAt: new Date("2022-08-05"),
-		updatedAt: new Date("2022-08-05"),
-		partnerId: "1",
-		value: 12000,
-	},
-	{
-		id: "10",
-		billingDate: ["09/2022"],
-		category: DonationCategory.PIX,
-		createdAt: new Date("2023-03-09"),
-		updatedAt: new Date("2023-03-09"),
-		partnerId: "1",
-		value: 10000,
-	},
-]
+const initialValues: Donation[] = []
 
 export const Donations: React.FC<Props> = () => {
 	const { user } = useUserStore()
@@ -133,17 +42,17 @@ export const Donations: React.FC<Props> = () => {
 	const isLoading = !isMounted() || isFetching
 	const hasFilter = !!activeFilter
 
-	const [instance] = usePDF({
-		document: (
-			<DonationsDocumentReport
-				tenantId={String(user?.tenantId)}
-				isRange={hasFilter}
-				date={activeFilter}
-				records={records}
-			/>
-		),
-	})
-	const documentFileName = `Contribuicoes_${new Date().getTime()}.pdf`
+	// const [instance] = usePDF({
+	// 	document: (
+	// 		<DonationsDocumentReport
+	// 			tenantId={String(user?.tenantId)}
+	// 			isRange={hasFilter}
+	// 			date={activeFilter}
+	// 			records={records}
+	// 		/>
+	// 	),
+	// })
+	// const documentFileName = `Contribuicoes_${new Date().getTime()}.pdf`
 
 	const fetchRecords = useCallback(async (values?: SearchValues) => {
 		setIsFetching(true)
