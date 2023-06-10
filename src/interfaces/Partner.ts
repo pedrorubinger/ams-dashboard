@@ -46,3 +46,17 @@ export interface UpdatePartnerPayload {
 export interface UpdatePartnerResponse {
 	partner: Partner
 }
+
+export interface DeletePartnerPayload {
+	id: string
+}
+
+export interface DeletePartnerResponse {
+	success: boolean
+}
+
+export interface PartnerDeletionModalData {
+	registrationId: string
+	id: string
+	name: string
+}

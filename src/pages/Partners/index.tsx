@@ -12,6 +12,7 @@ import {
 	TableActionMenuItem,
 	PartnerDrawerProps,
 	FindPartnerField,
+	PartnerDeletionModalData,
 } from "~/interfaces"
 import {
 	PartnersTable,
@@ -20,12 +21,14 @@ import {
 	NewPartnerDonationDrawer,
 	PartnerDonationListDrawer,
 	PartnerDrawer,
+	PartnerDeletionModal,
 } from "~/pages/Partners/components"
 import { ContentSection, PageTitle } from "~/components"
 
 type PartnerDrawerType = null | Omit<PartnerDrawerProps, "onClose">
 type NewDonationDrawer = null | Omit<NewPartnerDonationDrawerProps, "onClose">
 type ListSupportsDrawer = null | Omit<PartnerDonationListDrawerProps, "onClose">
+type PartnerDeletionData = null | PartnerDeletionModalData
 
 const searchDefaultValues: SearchPartnerValues = {
 	field: FindPartnerField.ID,
@@ -43,6 +46,8 @@ export const Partners: React.FC = () => {
 	const [newPartnerDonationDrawer, setNewPartnerDonationDrawer] =
 		useState<NewDonationDrawer>(null)
 	const [partnerDrawer, setPartnerDrawer] = useState<PartnerDrawerType>(null)
+	const [partnerDeletionData, setPartnerDeletionData] =
+		useState<PartnerDeletionData>(null)
 
 	const onClosePartnerDrawer = () => setPartnerDrawer(null)
 
@@ -67,6 +72,11 @@ export const Partners: React.FC = () => {
 
 	const onViewPartnerDonationList = (partner: PartnerRecord) =>
 		setPartnerDonationListDrawer({ isVisible: true, partner })
+
+	const onDeletePartner = (partner: PartnerRecord) =>
+		setPartnerDeletionData(partner)
+
+	const onClosePartnerDeletionModal = () => setPartnerDeletionData(null)
 
 	const actionItems: TableActionMenuItem[] = [
 		{
@@ -128,11 +138,20 @@ export const Partners: React.FC = () => {
 					/>
 				)}
 
+				{!!partnerDeletionData && (
+					<PartnerDeletionModal
+						data={partnerDeletionData}
+						onClose={onClosePartnerDeletionModal}
+						isVisible
+					/>
+				)}
+
 				<PartnersTable
 					actionItems={actionItems}
 					onViewPartnerDonationList={onViewPartnerDonationList}
 					onAddNewPartnerDonation={onAddNewPartnerDonation}
 					onUpdatePartner={onUpdatePartner}
+					onDeletePartner={onDeletePartner}
 				/>
 			</ContentSection>
 		</>

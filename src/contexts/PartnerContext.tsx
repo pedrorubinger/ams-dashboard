@@ -21,6 +21,7 @@ interface PartnerContextType {
 	records: PartnerRecord[]
 	error: Error
 	findPartner: (values: SearchPartnerValues) => Promise<void>
+	clearRecords: () => void
 }
 
 export const PartnerContext = createContext({} as PartnerContextType)
@@ -54,9 +55,11 @@ export const PartnerProvider = ({ children }: PartnerProviderProps) => {
 		}
 	}, [])
 
+	const clearRecords = () => setData(null)
+
 	return (
 		<PartnerContext.Provider
-			value={{ findPartner, error, isFetching, records }}
+			value={{ findPartner, clearRecords, error, isFetching, records }}
 		>
 			{children}
 		</PartnerContext.Provider>

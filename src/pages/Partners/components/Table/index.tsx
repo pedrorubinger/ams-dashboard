@@ -23,6 +23,7 @@ interface Props {
 	onAddNewPartnerDonation: (partner: PartnerRecord) => void
 	onViewPartnerDonationList: (partner: PartnerRecord) => void
 	onUpdatePartner: (record: PartnerRecord) => void
+	onDeletePartner: (partner: PartnerRecord) => void
 }
 
 export const PartnersTable: React.FC<Props> = ({
@@ -30,6 +31,7 @@ export const PartnersTable: React.FC<Props> = ({
 	onAddNewPartnerDonation,
 	onViewPartnerDonationList,
 	onUpdatePartner,
+	onDeletePartner,
 }) => {
 	const { user } = useUserStore()
 	const { isFetching, records } = useContext(PartnerContext)
@@ -61,7 +63,7 @@ export const PartnersTable: React.FC<Props> = ({
 				type: "delete",
 				title: "Excluir este associado",
 				isDisabled,
-				onClick: () => {},
+				onClick: () => onDeletePartner(record),
 			},
 		]
 	}
