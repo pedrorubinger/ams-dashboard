@@ -101,3 +101,19 @@ export interface DonationListDrawerProps {
 	partner: PartnerRecord
 	onClose: () => void
 }
+
+export interface CreateDonationPayload
+	extends Omit<Donation, "createdAt" | "updatedAt" | "id"> {}
+
+export interface CreateDonationResponse {
+	donation: Donation
+}
+
+export interface GetDonationsPayload {
+	partnerId?: string
+	category?: DonationCategory
+}
+
+export interface GetDonationsResponse {
+	donations: Donation[]
+}
