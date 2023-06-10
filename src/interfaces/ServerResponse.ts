@@ -17,3 +17,8 @@ export interface GetDataParams {
 	size?: "all" | number | null | undefined
 	startAt?: string | null | undefined
 }
+
+export interface Pagination {
+	lastKey?: string | null | undefined
+	total?: number | undefined
+}

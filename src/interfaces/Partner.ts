@@ -60,3 +60,12 @@ export interface PartnerDeletionModalData {
 	id: string
 	name: string
 }
+
+type PartnerDrawerMode = "create" | "update"
+
+export interface PartnerDrawerProps {
+	isVisible: boolean
+	mode: PartnerDrawerMode
+	partner?: Partner
+	onClose: () => void
+}
