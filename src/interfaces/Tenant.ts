@@ -1,5 +1,4 @@
-import { GetDataParams } from "~/interfaces/GetDataParams"
-import { GetDataResponse } from "~/interfaces/GetDataResponse"
+import { GetDataParams, GetDataResponse } from "~/interfaces/GetData"
 
 export interface Tenant {
 	id: string
