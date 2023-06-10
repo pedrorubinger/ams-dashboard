@@ -1,4 +1,6 @@
-enum ErrorCode {
+import { AxiosError } from "axios"
+
+export enum ErrorCode {
 	"DEFAULT" = "Desculpe, algo deu errado. Tente novamente mais tarde ou entre em contato.",
 	/** 500 */
 	"500_INTERNAL_SERVER_ERROR" = "Desculpe, ocorreu um erro interno. Tente novamente mais tarde ou entre em contato.",
@@ -64,4 +66,44 @@ enum ErrorCode {
 	"400_AUTO_REGISTRATION_MUST_BE_BOOLEAN" = "Informe corretamente se deseja gerar uma matrícula automaticamente.",
 }
 
-export { ErrorCode }
+export interface ServerErrorResponse {
+	code?: ErrorCode
+	error: {
+		_original: object
+		details: [
+			{
+				message: ErrorCode
+				path: string[]
+				type: string
+				context: {
+					invalids: [
+						{
+							adjust: null
+							in: boolean
+							iterables: null
+							map: null
+							separator: string
+							type: string
+							ancestor: number
+							path: string
+							depth: number
+							key: string
+							root: string
+							display: string
+						}
+					]
+					label: string
+					value: string
+					key: string
+				}
+			}
+		]
+	}
+}
+
+export type RawError = AxiosError<ServerErrorResponse> | unknown
+
+export interface BadRequestErrorCode<T> {
+	code: ErrorCode
+	field: keyof T
+}

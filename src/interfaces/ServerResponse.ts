@@ -1,4 +1,4 @@
-import { ErrorCode } from "~/interfaces/ErrorCode"
+import { ErrorCode } from "~/interfaces/Error"
 
 export interface ServerResponse<T> {
 	data?: T | undefined
