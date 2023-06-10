@@ -1,6 +1,6 @@
 import * as Yup from "yup"
 
-export const NewPartnerDonationSchema = Yup.object().shape({
+export const NewDonationSchema = Yup.object().shape({
 	billingDate: Yup.array()
 		.of(Yup.string())
 		.required("Selecione o mês da competência!")

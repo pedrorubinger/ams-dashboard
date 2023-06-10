@@ -2,10 +2,10 @@ import React from "react"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
 
 import {
-	PartnerDonation,
-	PartnerDonationBillingMonthLabel as BillingMonthLabel,
-	PartnerDonationBillingMonth as BillingMonth,
-	PartnerDonationCategoryLabel as CategoryLabel,
+	Donation,
+	DonationBillingMonthLabel as BillingMonthLabel,
+	DonationBillingMonth as BillingMonth,
+	DonationCategoryLabel as CategoryLabel,
 } from "~/interfaces"
 import { partnerDonationColumns as columns } from "~/pages/Partners/utils"
 import {
@@ -18,14 +18,11 @@ import {
 import { dateFormatter, priceFormatter } from "~/utils"
 
 interface Props {
-	records: PartnerDonation[]
+	records: Donation[]
 	isLoading: boolean
 }
 
-export const PartnerDonationListTable: React.FC<Props> = ({
-	records,
-	isLoading,
-}) => {
+export const DonationListTable: React.FC<Props> = ({ records, isLoading }) => {
 	return (
 		<TableWrapper mt={5}>
 			<Table>

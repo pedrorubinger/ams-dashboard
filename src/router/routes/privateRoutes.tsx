@@ -10,14 +10,7 @@ import {
 import { PartnerProvider } from "~/contexts"
 
 import { RouteItem } from "~/interfaces"
-import {
-	Home,
-	PartnerDonations,
-	Partners,
-	Settings,
-	Tenants,
-	Users,
-} from "~/pages"
+import { Home, Donations, Partners, Settings, Tenants, Users } from "~/pages"
 
 export const privateRoutes: RouteItem[] = [
 	{
@@ -72,7 +65,7 @@ export const privateRoutes: RouteItem[] = [
 		label: "Contribuições",
 		title: "Clique para gerenciar as contribuições",
 		permissions: ["admin"],
-		element: <PartnerDonations />,
+		element: <Donations />,
 	},
 	{
 		Icon: UsersThree,

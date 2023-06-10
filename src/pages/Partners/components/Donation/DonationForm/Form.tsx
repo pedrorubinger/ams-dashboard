@@ -16,10 +16,10 @@ import { NumericFormat } from "react-number-format"
 import { MinusCircle, PlusCircle } from "phosphor-react"
 
 import {
-	PartnerDonationValues,
-	NewPartnerDonationDrawerProps,
-	PartnerDonationBillingMonthOption as MonthOption,
-	PartnerDonationBillingMonth as MonthValue,
+	DonationValues,
+	NewDonationDrawerProps,
+	DonationBillingMonthOption as MonthOption,
+	DonationBillingMonth as MonthValue,
 } from "~/interfaces"
 import {
 	partnerDonationOptions,
@@ -27,9 +27,9 @@ import {
 } from "~/pages/Partners/utils"
 import { Form, InputLabel } from "~/components"
 
-interface Props extends Pick<NewPartnerDonationDrawerProps, "mode"> {
+interface Props extends Pick<NewDonationDrawerProps, "mode"> {
 	isSubmitting: boolean
-	onSubmit: (values: PartnerDonationValues) => Promise<void>
+	onSubmit: (values: DonationValues) => Promise<void>
 }
 
 export const DrawerForm: React.FC<Props> = ({
@@ -46,7 +46,7 @@ export const DrawerForm: React.FC<Props> = ({
 		setValue,
 		control,
 		formState: { errors, isDirty, defaultValues },
-	} = useFormContext<PartnerDonationValues>()
+	} = useFormContext<DonationValues>()
 	const { fields, append, remove } = useFieldArray({
 		name: "billingDate" as never,
 		control,
@@ -68,7 +68,7 @@ export const DrawerForm: React.FC<Props> = ({
 		e: React.ChangeEvent<HTMLInputElement>,
 		index: number
 	) => {
-		const field = `billingDate.${index}` as keyof PartnerDonationValues
+		const field = `billingDate.${index}` as keyof DonationValues
 		const raw = e.target.value
 		const lastChar = raw.slice(-1)
 		let value = raw.replace(/\D/g, "")

@@ -17,29 +17,29 @@ import {
 } from "@chakra-ui/react"
 
 import {
-	PartnerDonationListDrawerProps as Props,
-	PartnerDonation,
-	PartnerDonationCategory,
+	DonationListDrawerProps as Props,
+	Donation,
+	DonationCategory,
 } from "~/interfaces"
 import { useIsMounted } from "~/hooks"
 import { priceFormatter } from "~/utils"
 import { getGroupedValues } from "~/pages/Partners/utils"
 import {
-	PartnerDonationListTable,
-	PartnerDonationPerMonthListTable,
+	DonationListTable,
+	DonationPerMonthListTable,
 } from "~/pages/Partners/components"
 import { DefaultAlert, Tooltip } from "~/components"
 
-export const PartnerDonationListDrawer: React.FC<Props> = ({
+export const DonationListDrawer: React.FC<Props> = ({
 	isVisible,
 	partner,
 	onClose,
 }) => {
-	const initialValues: PartnerDonation[] = [
+	const initialValues: Donation[] = [
 		{
 			id: "1",
 			billingDate: ["03/2023", "04/2023"],
-			category: PartnerDonationCategory.PIX,
+			category: DonationCategory.PIX,
 			createdAt: new Date("2023-05-08"),
 			updatedAt: new Date("2023-05-08"),
 			partnerId: partner.id,
@@ -48,7 +48,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		{
 			id: "2",
 			billingDate: ["04/2023"],
-			category: PartnerDonationCategory.COPASA,
+			category: DonationCategory.COPASA,
 			createdAt: new Date("2023-04-03"),
 			updatedAt: new Date("2023-04-03"),
 			partnerId: partner.id,
@@ -57,7 +57,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		{
 			id: "3",
 			billingDate: ["03/2023"],
-			category: PartnerDonationCategory.COPASA,
+			category: DonationCategory.COPASA,
 			createdAt: new Date("2023-03-12"),
 			updatedAt: new Date("2023-03-12"),
 			partnerId: partner.id,
@@ -66,7 +66,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		{
 			id: "4",
 			billingDate: ["01/2023"],
-			category: PartnerDonationCategory.TICKET,
+			category: DonationCategory.TICKET,
 			createdAt: new Date("2023-01-11"),
 			updatedAt: new Date("2023-01-11"),
 			partnerId: partner.id,
@@ -75,7 +75,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		{
 			id: "5",
 			billingDate: ["12/2022"],
-			category: PartnerDonationCategory.PIX,
+			category: DonationCategory.PIX,
 			createdAt: new Date("2022-12-14"),
 			updatedAt: new Date("2022-12-14"),
 			partnerId: partner.id,
@@ -84,7 +84,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		{
 			id: "6",
 			billingDate: ["11/2022"],
-			category: PartnerDonationCategory.PIX,
+			category: DonationCategory.PIX,
 			createdAt: new Date("2022-11-14"),
 			updatedAt: new Date("2022-11-14"),
 			partnerId: partner.id,
@@ -93,7 +93,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		{
 			id: "7",
 			billingDate: ["10/2022"],
-			category: PartnerDonationCategory.PIX,
+			category: DonationCategory.PIX,
 			createdAt: new Date("2022-10-03"),
 			updatedAt: new Date("2022-10-04"),
 			partnerId: partner.id,
@@ -102,7 +102,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		{
 			id: "8",
 			billingDate: ["08/2022"],
-			category: PartnerDonationCategory.COPASA,
+			category: DonationCategory.COPASA,
 			createdAt: new Date("2022-08-12"),
 			updatedAt: new Date("2022-08-12"),
 			partnerId: partner.id,
@@ -111,7 +111,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		{
 			id: "9",
 			billingDate: ["08/2022"],
-			category: PartnerDonationCategory.PIX,
+			category: DonationCategory.PIX,
 			createdAt: new Date("2022-08-05"),
 			updatedAt: new Date("2022-08-05"),
 			partnerId: partner.id,
@@ -120,7 +120,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 		{
 			id: "10",
 			billingDate: ["07/2022"],
-			category: PartnerDonationCategory.PIX,
+			category: DonationCategory.PIX,
 			createdAt: new Date("2023-03-09"),
 			updatedAt: new Date("2023-03-09"),
 			partnerId: partner.id,
@@ -131,7 +131,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 	const partnerName: string = partner?.name?.split(" ")?.[0] || "associado"
 	const [isFetching, setIsFetching] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
-	const [records, setRecords] = useState<PartnerDonation[]>(initialValues)
+	const [records, setRecords] = useState<Donation[]>(initialValues)
 	const isLoading = /* !isMounted() || */ isFetching
 	const { annualySum, monthlySum, totalSum } = getGroupedValues(records)
 
@@ -175,7 +175,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 							:&nbsp;<strong>{priceFormatter.format(annualySum / 100)}</strong>
 						</Flex>
 
-						<PartnerDonationPerMonthListTable
+						<DonationPerMonthListTable
 							records={monthlySum}
 							/** TO DO: Implement correct loading prop... */
 							isLoading={false}
@@ -206,7 +206,7 @@ export const PartnerDonationListDrawer: React.FC<Props> = ({
 							:&nbsp;<strong>{priceFormatter.format(totalSum / 100)}</strong>
 						</Flex>
 
-						<PartnerDonationListTable records={records} isLoading={false} />
+						<DonationListTable records={records} isLoading={false} />
 					</AccordionPanel>
 				</AccordionItem>
 			</Accordion>

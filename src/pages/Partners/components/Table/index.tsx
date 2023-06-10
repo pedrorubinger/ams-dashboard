@@ -20,16 +20,16 @@ import {
 
 interface Props {
 	actionItems: TableActionMenuItem[]
-	onAddNewPartnerDonation: (partner: PartnerRecord) => void
-	onViewPartnerDonationList: (partner: PartnerRecord) => void
+	onAddNewDonation: (partner: PartnerRecord) => void
+	onViewDonationList: (partner: PartnerRecord) => void
 	onUpdatePartner: (record: PartnerRecord) => void
 	onDeletePartner: (partner: PartnerRecord) => void
 }
 
 export const PartnersTable: React.FC<Props> = ({
 	actionItems,
-	onAddNewPartnerDonation,
-	onViewPartnerDonationList,
+	onAddNewDonation,
+	onViewDonationList,
 	onUpdatePartner,
 	onDeletePartner,
 }) => {
@@ -45,13 +45,13 @@ export const PartnersTable: React.FC<Props> = ({
 				type: "records",
 				title: "Visualizar lançamentos deste associado",
 				isDisabled,
-				onClick: () => onViewPartnerDonationList(record),
+				onClick: () => onViewDonationList(record),
 			},
 			{
 				type: "create",
 				title: "Realizar novo lançamento para este associado",
 				isDisabled,
-				onClick: () => onAddNewPartnerDonation(record),
+				onClick: () => onAddNewDonation(record),
 			},
 			{
 				type: "edit",

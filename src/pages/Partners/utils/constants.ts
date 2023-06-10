@@ -1,15 +1,15 @@
 import {
-	PartnerDonationCategoryLabel as CategoryLabel,
-	PartnerDonationCategory as CategoryValue,
-	PartnerDonationBillingMonth as MonthValue,
-	PartnerDonationBillingMonthLabel as MonthLabel,
-	PartnerDonationBillingMonthOption as MonthOption,
+	DonationCategoryLabel as CategoryLabel,
+	DonationCategory as CategoryValue,
+	DonationBillingMonth as MonthValue,
+	DonationBillingMonthLabel as MonthLabel,
+	DonationBillingMonthOption as MonthOption,
 	TableColumn,
-	PartnerDonationValues,
+	DonationValues,
 	FindPartnerField,
 } from "~/interfaces"
 
-interface PartnerDonationCategoryOption {
+interface DonationCategoryOption {
 	label: CategoryLabel
 	value: CategoryValue
 }
@@ -44,7 +44,7 @@ export const searchOptions: SearchTypeOption[] = [
 	{ label: "Nome", value: FindPartnerField.NAME },
 ]
 
-export const partnerDonationOptions: PartnerDonationCategoryOption[] = [
+export const partnerDonationOptions: DonationCategoryOption[] = [
 	{
 		label: CategoryLabel.COPASA,
 		value: CategoryValue.COPASA,
@@ -76,12 +76,11 @@ export const partnerDonationBillingMonthOptions: MonthOption[] = [
 
 const currMonthValue = new Date().getMonth() + 1 // count starts with 0
 const currMonth = MonthValue[currMonthValue] as unknown as MonthValue
-export const partnerDonationDrawerFormDefaultValues: Partial<PartnerDonationValues> =
-	{
-		billingDate: [
-			`${String(MonthValue[currMonth] as unknown as MonthValue).padStart(
-				2,
-				"0"
-			)}/${new Date().getFullYear()}`,
-		],
-	}
+export const partnerDonationDrawerFormDefaultValues: Partial<DonationValues> = {
+	billingDate: [
+		`${String(MonthValue[currMonth] as unknown as MonthValue).padStart(
+			2,
+			"0"
+		)}/${new Date().getFullYear()}`,
+	],
+}

@@ -11,33 +11,29 @@ import {
 import { FormProvider, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 
-import {
-	ErrorCode,
-	PartnerDonationValues,
-	NewPartnerDonationDrawerProps,
-} from "~/interfaces"
+import { ErrorCode, DonationValues, NewDonationDrawerProps } from "~/interfaces"
 import { PARTNER_DONATION_BAD_REQUEST_ERRORS } from "~/utils"
 import { useIsMounted } from "~/hooks"
 import { partnerDonationDrawerFormDefaultValues as defaultValues } from "~/pages/Partners/utils"
-import {
-	DrawerForm,
-	NewPartnerDonationSchema,
-} from "~/pages/Partners/components"
+import { DrawerForm, NewDonationSchema } from "~/pages/Partners/components"
 import { DefaultAlert } from "~/components"
 
-export const NewPartnerDonationDrawer: React.FC<
-	NewPartnerDonationDrawerProps
-> = ({ isVisible, mode, partner, onClose }) => {
+export const NewDonationDrawer: React.FC<NewDonationDrawerProps> = ({
+	isVisible,
+	mode,
+	partner,
+	onClose,
+}) => {
 	const isMounted = useIsMounted()
 	const isCreating = mode === "create"
 	const title = isCreating ? "Cadastrar novo lançamento" : ""
 	const [isFetching, setIsFetching] = useState(false)
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
-	const form = useForm<PartnerDonationValues>({
+	const form = useForm<DonationValues>({
 		defaultValues,
 		reValidateMode: "onChange",
-		resolver: yupResolver(NewPartnerDonationSchema),
+		resolver: yupResolver(NewDonationSchema),
 	})
 
 	const onCloseDrawer = () => {
@@ -55,7 +51,7 @@ export const NewPartnerDonationDrawer: React.FC<
 		else setErrorMessage(message)
 	}
 
-	const onSubmit = async (values: PartnerDonationValues) => {
+	const onSubmit = async (values: DonationValues) => {
 		console.log("submitted values:", values)
 
 		if (errorMessage) setErrorMessage("")
@@ -90,8 +86,8 @@ export const NewPartnerDonationDrawer: React.FC<
 	}
 
 	// useEffect(() => {
-	// 	void fetchPartnerDonation()
-	// }, [fetchPartnerDonation])
+	// 	void fetchDonation()
+	// }, [fetchDonation])
 
 	return (
 		<Drawer isOpen={isVisible} onClose={onCloseDrawer} size="md">

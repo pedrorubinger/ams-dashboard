@@ -1,18 +1,18 @@
 import { PartnerRecord } from "~/interfaces/Partner"
 
-export enum PartnerDonationCategory {
+export enum DonationCategory {
 	PIX = "PIX",
 	COPASA = "COPASA",
 	TICKET = "TICKET", // Carnê
 }
 
-export enum PartnerDonationCategoryLabel {
+export enum DonationCategoryLabel {
 	PIX = "Pix",
 	COPASA = "Copasa",
 	TICKET = "Carnê",
 }
 
-export enum PartnerDonationBillingMonth {
+export enum DonationBillingMonth {
 	JAN = 1,
 	FEB = 2,
 	MAR = 3,
@@ -27,26 +27,26 @@ export enum PartnerDonationBillingMonth {
 	DEC = 12,
 }
 
-export enum PartnerDonationBillingMonthStatus {
+export enum DonationBillingMonthStatus {
 	PENDING = "PENDING",
 	DONE = "DONE",
 }
 
-export enum PartnerDonationBillingMonthStatusLabel {
+export enum DonationBillingMonthStatusLabel {
 	PENDING = "Pendente",
 	DONE = "Pago",
 }
 
-export interface PartnerDonationPerMonth {
-	month: PartnerDonationBillingMonth
+export interface DonationPerMonth {
+	month: DonationBillingMonth
 	billingLabel: string
-	status: PartnerDonationBillingMonthStatus
+	status: DonationBillingMonthStatus
 	// year: number
 	/** value in cents */
 	value: number
 }
 
-export enum PartnerDonationBillingMonthLabel {
+export enum DonationBillingMonthLabel {
 	JAN = "Janeiro",
 	FEB = "Fevereiro",
 	MAR = "Março",
@@ -61,37 +61,37 @@ export enum PartnerDonationBillingMonthLabel {
 	DEC = "Dezembro",
 }
 
-export interface PartnerDonationBillingMonthOption {
-	label: PartnerDonationBillingMonthLabel
-	value: PartnerDonationBillingMonth
+export interface DonationBillingMonthOption {
+	label: DonationBillingMonthLabel
+	value: DonationBillingMonth
 }
 
-type PartnerDonationDrawerMode = "create"
+type DonationDrawerMode = "create"
 
-export interface NewPartnerDonationDrawerProps {
+export interface NewDonationDrawerProps {
 	isVisible: boolean
-	mode: PartnerDonationDrawerMode
+	mode: DonationDrawerMode
 	partner: PartnerRecord
 	onClose: () => void
 	// fetchRecords: (params?: GetUsersParams) => Promise<void>
 }
 
-export interface PartnerDonation {
+export interface Donation {
 	id: string
 	partnerId: string
 	billingDate: string[]
-	category: PartnerDonationCategory
+	category: DonationCategory
 	value: number // in cents
 	description?: string
 	createdAt: Date
 	updatedAt: Date
 }
 
-export interface PartnerDonationValues
-	extends Pick<PartnerDonation, "category" | "description" | "value"> {
+export interface DonationValues
+	extends Pick<Donation, "category" | "description" | "value"> {
 	billingDate: string[]
 }
 
-export interface PartnerDonationSearchValues {
+export interface DonationSearchValues {
 	date: string
 }

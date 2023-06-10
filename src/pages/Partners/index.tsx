@@ -5,8 +5,8 @@ import { FormProvider, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 
 import {
-	PartnerDonationListDrawerProps,
-	NewPartnerDonationDrawerProps,
+	DonationListDrawerProps,
+	NewDonationDrawerProps,
 	PartnerRecord,
 	SearchPartnerValues,
 	TableActionMenuItem,
@@ -18,16 +18,16 @@ import {
 	PartnersTable,
 	SearchPartner,
 	SearchPartnersSchema,
-	NewPartnerDonationDrawer,
-	PartnerDonationListDrawer,
+	NewDonationDrawer,
+	DonationListDrawer,
 	PartnerDrawer,
 	PartnerDeletionModal,
 } from "~/pages/Partners/components"
 import { ContentSection, PageTitle } from "~/components"
 
 type PartnerDrawerType = null | Omit<PartnerDrawerProps, "onClose">
-type NewDonationDrawer = null | Omit<NewPartnerDonationDrawerProps, "onClose">
-type ListSupportsDrawer = null | Omit<PartnerDonationListDrawerProps, "onClose">
+type NewDonationDrawer = null | Omit<NewDonationDrawerProps, "onClose">
+type ListSupportsDrawer = null | Omit<DonationListDrawerProps, "onClose">
 type PartnerDeletionData = null | PartnerDeletionModalData
 
 const searchDefaultValues: SearchPartnerValues = {
@@ -41,9 +41,9 @@ export const Partners: React.FC = () => {
 		resolver: yupResolver(SearchPartnersSchema),
 	})
 
-	const [partnerDonationListDrawer, setPartnerDonationListDrawer] =
+	const [partnerDonationListDrawer, setDonationListDrawer] =
 		useState<ListSupportsDrawer>(null)
-	const [newPartnerDonationDrawer, setNewPartnerDonationDrawer] =
+	const [newDonationDrawer, setNewDonationDrawer] =
 		useState<NewDonationDrawer>(null)
 	const [partnerDrawer, setPartnerDrawer] = useState<PartnerDrawerType>(null)
 	const [partnerDeletionData, setPartnerDeletionData] =
@@ -51,14 +51,12 @@ export const Partners: React.FC = () => {
 
 	const onClosePartnerDrawer = () => setPartnerDrawer(null)
 
-	const onCloseNewPartnerDonationDrawer = () =>
-		setNewPartnerDonationDrawer(null)
+	const onCloseNewDonationDrawer = () => setNewDonationDrawer(null)
 
-	const onClosePartnerDonationListDrawer = () =>
-		setPartnerDonationListDrawer(null)
+	const onCloseDonationListDrawer = () => setDonationListDrawer(null)
 
-	const onAddNewPartnerDonation = (partner: PartnerRecord) =>
-		setNewPartnerDonationDrawer({
+	const onAddNewDonation = (partner: PartnerRecord) =>
+		setNewDonationDrawer({
 			isVisible: true,
 			mode: "create",
 			partner,
@@ -70,8 +68,8 @@ export const Partners: React.FC = () => {
 	const onUpdatePartner = (partner: PartnerRecord) =>
 		setPartnerDrawer({ mode: "update", isVisible: true, partner })
 
-	const onViewPartnerDonationList = (partner: PartnerRecord) =>
-		setPartnerDonationListDrawer({ isVisible: true, partner })
+	const onViewDonationList = (partner: PartnerRecord) =>
+		setDonationListDrawer({ isVisible: true, partner })
 
 	const onDeletePartner = (partner: PartnerRecord) =>
 		setPartnerDeletionData(partner)
@@ -112,19 +110,19 @@ export const Partners: React.FC = () => {
 					busca é encontrado, a lista permanece vazia.
 				</Text>
 
-				{!!newPartnerDonationDrawer && (
-					<NewPartnerDonationDrawer
-						onClose={onCloseNewPartnerDonationDrawer}
-						mode={newPartnerDonationDrawer.mode}
-						partner={newPartnerDonationDrawer.partner}
+				{!!newDonationDrawer && (
+					<NewDonationDrawer
+						onClose={onCloseNewDonationDrawer}
+						mode={newDonationDrawer.mode}
+						partner={newDonationDrawer.partner}
 						isVisible
 					/>
 				)}
 
 				{!!partnerDonationListDrawer && (
-					<PartnerDonationListDrawer
+					<DonationListDrawer
 						partner={partnerDonationListDrawer.partner}
-						onClose={onClosePartnerDonationListDrawer}
+						onClose={onCloseDonationListDrawer}
 						isVisible
 					/>
 				)}
@@ -148,8 +146,8 @@ export const Partners: React.FC = () => {
 
 				<PartnersTable
 					actionItems={actionItems}
-					onViewPartnerDonationList={onViewPartnerDonationList}
-					onAddNewPartnerDonation={onAddNewPartnerDonation}
+					onViewDonationList={onViewDonationList}
+					onAddNewDonation={onAddNewDonation}
 					onUpdatePartner={onUpdatePartner}
 					onDeletePartner={onDeletePartner}
 				/>

@@ -1,16 +1,13 @@
 import React from "react"
 import { Page, Text, Document, StyleSheet } from "@react-pdf/renderer"
 
-import {
-	PartnerDonation,
-	PartnerDonationCategoryLabel as CategoryLabel,
-} from "~/interfaces"
+import { Donation, DonationCategoryLabel as CategoryLabel } from "~/interfaces"
 import { dateFormatter, getDateFormatter, priceFormatter } from "~/utils"
 
 interface Props {
 	tenantId: string
 	isRange: boolean
-	records: PartnerDonation[]
+	records: Donation[]
 	date?: string
 }
 

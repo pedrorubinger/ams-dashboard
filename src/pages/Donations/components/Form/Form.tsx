@@ -11,8 +11,8 @@ import { Eraser, MagnifyingGlass } from "phosphor-react"
 import { useFormContext } from "react-hook-form"
 import { RangeDatepicker } from "chakra-dayzed-datepicker"
 
-import { PartnerDonationSearchValues as Values } from "~/interfaces"
-import { FilterButton } from "~/pages/PartnerDonations/components/Form/styles"
+import { DonationSearchValues as Values } from "~/interfaces"
+import { FilterButton } from "~/pages/Donations/components/Form/styles"
 import { Form, InputLabel, Tooltip } from "~/components"
 
 interface Props {

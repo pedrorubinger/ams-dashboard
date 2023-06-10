@@ -7,31 +7,31 @@ import { ArrowClockwise, FilePdf } from "phosphor-react"
 import { usePDF } from "@react-pdf/renderer"
 
 import {
-	PartnerDonation,
-	PartnerDonationBillingMonth,
-	PartnerDonationCategory,
-	PartnerDonationSearchValues as SearchValues,
+	Donation,
+	DonationBillingMonth,
+	DonationCategory,
+	DonationSearchValues as SearchValues,
 	TableActionMenuItem,
 } from "~/interfaces"
 import { useIsMounted } from "~/hooks"
 import { useUserStore } from "~/store"
-import { ReportsSection } from "~/pages/PartnerDonations/styles"
+import { ReportsSection } from "~/pages/Donations/styles"
 import {
 	ReportCardsSkeleton,
-	PartnerDonationsReport,
+	DonationsReport,
 	ReportsDateFilter,
 	DonationsDocumentReport,
-	SearchPartnerDonationSchema,
-} from "~/pages/PartnerDonations/components"
+	SearchDonationSchema,
+} from "~/pages/Donations/components"
 import { ContentSection, PageTitle, TableActionsMenu } from "~/components"
 
 interface Props {}
 
-const initialValues: PartnerDonation[] = [
+const initialValues: Donation[] = [
 	{
 		id: "1",
 		billingDate: ["04/2023"],
-		category: PartnerDonationCategory.PIX,
+		category: DonationCategory.PIX,
 		createdAt: new Date("2023-04-16"),
 		updatedAt: new Date("2023-04-16"),
 		partnerId: "1",
@@ -40,7 +40,7 @@ const initialValues: PartnerDonation[] = [
 	{
 		id: "2",
 		billingDate: ["04/2023"],
-		category: PartnerDonationCategory.COPASA,
+		category: DonationCategory.COPASA,
 		createdAt: new Date("2023-04-03"),
 		updatedAt: new Date("2023-04-03"),
 		partnerId: "1",
@@ -49,7 +49,7 @@ const initialValues: PartnerDonation[] = [
 	{
 		id: "3",
 		billingDate: ["03/2023"],
-		category: PartnerDonationCategory.COPASA,
+		category: DonationCategory.COPASA,
 		createdAt: new Date("2023-03-12"),
 		updatedAt: new Date("2023-03-12"),
 		partnerId: "1",
@@ -58,7 +58,7 @@ const initialValues: PartnerDonation[] = [
 	{
 		id: "4",
 		billingDate: ["01/2023"],
-		category: PartnerDonationCategory.TICKET,
+		category: DonationCategory.TICKET,
 		createdAt: new Date("2023-01-11"),
 		updatedAt: new Date("2023-01-11"),
 		partnerId: "1",
@@ -67,7 +67,7 @@ const initialValues: PartnerDonation[] = [
 	{
 		id: "5",
 		billingDate: ["12/2022"],
-		category: PartnerDonationCategory.PIX,
+		category: DonationCategory.PIX,
 		createdAt: new Date("2022-12-14"),
 		updatedAt: new Date("2022-12-14"),
 		partnerId: "1",
@@ -76,7 +76,7 @@ const initialValues: PartnerDonation[] = [
 	{
 		id: "6",
 		billingDate: ["11/2022"],
-		category: PartnerDonationCategory.PIX,
+		category: DonationCategory.PIX,
 		createdAt: new Date("2022-11-14"),
 		updatedAt: new Date("2022-11-14"),
 		partnerId: "1",
@@ -85,7 +85,7 @@ const initialValues: PartnerDonation[] = [
 	{
 		id: "7",
 		billingDate: ["10/2022"],
-		category: PartnerDonationCategory.PIX,
+		category: DonationCategory.PIX,
 		createdAt: new Date("2022-10-03"),
 		updatedAt: new Date("2022-10-04"),
 		partnerId: "1",
@@ -94,7 +94,7 @@ const initialValues: PartnerDonation[] = [
 	{
 		id: "8",
 		billingDate: ["08/2022"],
-		category: PartnerDonationCategory.COPASA,
+		category: DonationCategory.COPASA,
 		createdAt: new Date("2022-08-12"),
 		updatedAt: new Date("2022-08-12"),
 		partnerId: "1",
@@ -103,7 +103,7 @@ const initialValues: PartnerDonation[] = [
 	{
 		id: "9",
 		billingDate: ["08/2022"],
-		category: PartnerDonationCategory.PIX,
+		category: DonationCategory.PIX,
 		createdAt: new Date("2022-08-05"),
 		updatedAt: new Date("2022-08-05"),
 		partnerId: "1",
@@ -112,7 +112,7 @@ const initialValues: PartnerDonation[] = [
 	{
 		id: "10",
 		billingDate: ["09/2022"],
-		category: PartnerDonationCategory.PIX,
+		category: DonationCategory.PIX,
 		createdAt: new Date("2023-03-09"),
 		updatedAt: new Date("2023-03-09"),
 		partnerId: "1",
@@ -120,15 +120,15 @@ const initialValues: PartnerDonation[] = [
 	},
 ]
 
-export const PartnerDonations: React.FC<Props> = () => {
+export const Donations: React.FC<Props> = () => {
 	const { user } = useUserStore()
 	const form = useForm<SearchValues>({
 		defaultValues: { date: "" },
-		resolver: yupResolver(SearchPartnerDonationSchema),
+		resolver: yupResolver(SearchDonationSchema),
 	})
 	const isMounted = useIsMounted()
 	const [isFetching, setIsFetching] = useState(false)
-	const [records, setRecords] = useState<PartnerDonation[]>(initialValues)
+	const [records, setRecords] = useState<Donation[]>(initialValues)
 	const [activeFilter, setActiveFilter] = useState<string | undefined>()
 	const isLoading = !isMounted() || isFetching
 	const hasFilter = !!activeFilter
@@ -224,10 +224,7 @@ export const PartnerDonations: React.FC<Props> = () => {
 			<ReportsSection $hasFilter={hasFilter}>
 				{!!isLoading && <ReportCardsSkeleton hasFilter={hasFilter} />}
 				{!isLoading && (
-					<PartnerDonationsReport
-						hasFilter={hasFilter}
-						dateRange={activeFilter}
-					/>
+					<DonationsReport hasFilter={hasFilter} dateRange={activeFilter} />
 				)}
 			</ReportsSection>
 		</>

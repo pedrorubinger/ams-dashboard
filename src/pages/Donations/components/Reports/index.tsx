@@ -2,8 +2,8 @@ import React from "react"
 import { Flex, Text } from "@chakra-ui/react"
 
 import {
-	PartnerDonationBillingMonth as Month,
-	PartnerDonationBillingMonthLabel as MonthLabel,
+	DonationBillingMonth as Month,
+	DonationBillingMonthLabel as MonthLabel,
 } from "~/interfaces"
 import { dateFormatter } from "~/utils"
 import { ContentSection, Tooltip } from "~/components"
@@ -15,10 +15,7 @@ interface Props {
 
 type MonthKey = keyof typeof MonthLabel
 
-export const PartnerDonationsReport: React.FC<Props> = ({
-	hasFilter,
-	dateRange,
-}) => {
+export const DonationsReport: React.FC<Props> = ({ hasFilter, dateRange }) => {
 	const d = new Date()
 	const today = dateFormatter.format(d)
 	const month: string = MonthLabel[Month[d.getMonth() + 1] as MonthKey]
