@@ -26,7 +26,7 @@ import {
 import { ContentSection, PageTitle } from "~/components"
 
 type PartnerDrawerType = null | Omit<PartnerDrawerProps, "onClose">
-type NewDonationDrawer = null | Omit<NewDonationDrawerProps, "onClose">
+type INewDonationDrawer = null | Omit<NewDonationDrawerProps, "onClose">
 type ListSupportsDrawer = null | Omit<DonationListDrawerProps, "onClose">
 type PartnerDeletionData = null | PartnerDeletionModalData
 
@@ -44,7 +44,7 @@ export const Partners: React.FC = () => {
 	const [partnerDonationListDrawer, setDonationListDrawer] =
 		useState<ListSupportsDrawer>(null)
 	const [newDonationDrawer, setNewDonationDrawer] =
-		useState<NewDonationDrawer>(null)
+		useState<INewDonationDrawer>(null)
 	const [partnerDrawer, setPartnerDrawer] = useState<PartnerDrawerType>(null)
 	const [partnerDeletionData, setPartnerDeletionData] =
 		useState<PartnerDeletionData>(null)

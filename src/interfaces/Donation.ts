@@ -95,3 +95,9 @@ export interface DonationValues
 export interface DonationSearchValues {
 	date: string
 }
+
+export interface DonationListDrawerProps {
+	isVisible: boolean
+	partner: PartnerRecord
+	onClose: () => void
+}
