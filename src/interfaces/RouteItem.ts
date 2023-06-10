@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/named
 import { IconProps } from "phosphor-react"
 
-import { UserRole } from "~/interfaces/UserRole"
+import { UserRole } from "~/interfaces"
 
 type Permission = UserRole | "*"
 
