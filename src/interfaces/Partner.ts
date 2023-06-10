@@ -29,9 +29,20 @@ export interface GetPartnerResponse {
 }
 
 export interface CreatePartnerPayload extends Pick<Partner, "name"> {
-	id?: string
+	registrationId?: string
 }
 
 export interface CreatePartnerResponse {
+	partner: Partner
+}
+
+export interface UpdatePartnerPayload {
+	id: string
+	registrationId?: string
+	name?: string
+	autoRegistration?: boolean
+}
+
+export interface UpdatePartnerResponse {
 	partner: Partner
 }

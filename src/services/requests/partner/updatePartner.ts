@@ -1,18 +1,21 @@
 import { Api } from "~/services"
 import {
 	ServerResponse,
-	CreatePartnerPayload,
-	CreatePartnerResponse,
+	UpdatePartnerPayload,
+	UpdatePartnerResponse,
 } from "~/interfaces"
 import { handleError } from "~/utils"
 
-export const createPartner = async ({
+export const updatePartner = async ({
+	id,
 	registrationId,
+	autoRegistration,
 	name,
-}: CreatePartnerPayload): Promise<ServerResponse<CreatePartnerResponse>> => {
+}: UpdatePartnerPayload): Promise<ServerResponse<UpdatePartnerResponse>> => {
 	try {
-		const { data } = await Api.post<CreatePartnerResponse>("/partners", {
+		const { data } = await Api.put<UpdatePartnerResponse>(`/partners/${id}`, {
 			registrationId,
+			autoRegistration,
 			name,
 		})
 

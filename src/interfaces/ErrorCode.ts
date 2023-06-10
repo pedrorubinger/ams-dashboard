@@ -61,6 +61,7 @@ enum ErrorCode {
 	"400_DONATION_VALUE_MUST_BE_NUMBER" = "O valor da contribuição deve ser numérico.",
 	"400_DONATION_VALUE_IS_REQUIRED" = "Informe o valor da contribuição.",
 	"400_DONATION_DESCRIPTION_MUST_BE_TEXT" = "A descrição da contribuição possui um formato inválido.",
+	"400_AUTO_REGISTRATION_MUST_BE_BOOLEAN" = "Informe corretamente se deseja gerar uma matrícula automaticamente.",
 }
 
 export { ErrorCode }
