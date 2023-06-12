@@ -5,7 +5,7 @@ import {
 	AccountFormValues,
 	TenantFormValues,
 	UserFormValues,
-	PartnerDonationValues,
+	DonationValues,
 	PartnerValues,
 } from "~/interfaces"
 
@@ -14,7 +14,7 @@ type AccountFields = Omit<AccountFormValues, "changePassword">
 type UserFields = Omit<UserFormValues, "isCreating">
 type TenantFields = TenantFormValues
 type PartnerFields = PartnerValues
-type PartnerDonationFields = PartnerDonationValues
+type DonationFields = DonationValues
 
 export const LOGIN_BAD_REQUEST_ERRORS: BadRequestErrorCode<LoginFields>[] = [
 	{ code: ErrorCode["400_INVALID_CREDENTIALS"], field: "all" },
@@ -89,5 +89,5 @@ export const PARTNER_BAD_REQUEST_ERRORS: BadRequestErrorCode<PartnerFields>[] =
 	[]
 
 /** TO DO: Add list of errors for the entity... */
-export const PARTNER_DONATION_BAD_REQUEST_ERRORS: BadRequestErrorCode<PartnerDonationFields>[] =
+export const PARTNER_DONATION_BAD_REQUEST_ERRORS: BadRequestErrorCode<DonationFields>[] =
 	[]

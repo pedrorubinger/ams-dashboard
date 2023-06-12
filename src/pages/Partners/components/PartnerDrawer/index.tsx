@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import {
 	Drawer,
 	DrawerBody,
@@ -11,13 +11,19 @@ import {
 import { FormProvider, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 
-import { ErrorCode, PartnerDrawerProps, PartnerValues } from "~/interfaces"
-import { PARTNER_BAD_REQUEST_ERRORS } from "~/utils"
+import { PartnerDrawerProps, PartnerValues } from "~/interfaces"
+import { usePartnerUpdater } from "~/pages/Partners/hooks"
 import {
 	DrawerForm,
 	PartnerSchema,
 } from "~/pages/Partners/components/PartnerDrawer/Form"
 import { DefaultAlert } from "~/components"
+
+const defaultValues: PartnerValues = {
+	id: "",
+	name: "",
+	autoRegistrationId: true,
+}
 
 export const PartnerDrawer: React.FC<PartnerDrawerProps> = ({
 	isVisible,
@@ -25,54 +31,60 @@ export const PartnerDrawer: React.FC<PartnerDrawerProps> = ({
 	partner,
 	onClose,
 }) => {
-	const [errorMessage, setErrorMessage] = useState("")
 	const isCreating = mode === "create"
 	const title = isCreating ? "Cadastrar novo associado" : "Editar associado"
-	const [isSubmitting, setIsSubmitting] = useState(false)
 	const form = useForm<PartnerValues>({
+		defaultValues,
 		resolver: yupResolver(PartnerSchema),
+	})
+
+	const { isSubmitting, errorMessage, submit } = usePartnerUpdater({
+		mode,
+		form,
+		partner,
 	})
 
 	const onCloseDrawer = () => {
 		if (!isSubmitting) onClose()
 	}
 
-	const handleFormError = (error: ErrorCode | undefined) => {
-		const message =
-			error || "Desculpe, ocorreu um erro interno. Tente novamente mais tarde."
-		const badRequest = PARTNER_BAD_REQUEST_ERRORS.find(
-			(item) => item.code === message
-		)
-
-		if (badRequest) form.setError(badRequest.field, { type: "custom", message })
-		else setErrorMessage(message)
-	}
-
 	const onSubmit = async (values: PartnerValues) => {
-		if (errorMessage) setErrorMessage("")
-		setIsSubmitting(true)
+		const { success } = await submit(values)
 
-		if (isCreating) {
-			/** TO DO: Call API methods... */
-
-			setIsSubmitting(false)
-
-			// if (error) return handleFormError(error)
-			// else await fetchRecords()
-		}
-
-		onCloseDrawer()
+		if (success) onCloseDrawer()
 	}
 
 	const getDescription = () => {
+		const registrationIdMessage = (
+			<>
+				Caso opte por inserir um número de matrícula manualmente,&nbsp;
+				<strong>você assume o risco de cadastrar matrículas repetidas</strong>.
+			</>
+		)
+
 		if (isSubmitting) return "Por favor, aguarde. Estamos enviando os dados."
-		if (isCreating) return "Preencha os campos para cadastrar o novo associado."
-		return "Preencha os campos para atualizar os dados do associado."
+
+		if (isCreating) {
+			return (
+				<>
+					Preencha os campos para cadastrar o novo associado.&nbsp;
+					{registrationIdMessage}
+				</>
+			)
+		}
+
+		return (
+			<>
+				Preencha os campos para atualizar os dados do associado.&nbsp;
+				{registrationIdMessage}
+			</>
+		)
 	}
 
 	return (
 		<Drawer isOpen={isVisible} onClose={onCloseDrawer} size="md">
 			<DrawerOverlay />
+
 			<DrawerContent>
 				<DrawerCloseButton />
 				<DrawerHeader>{title}</DrawerHeader>
@@ -81,9 +93,9 @@ export const PartnerDrawer: React.FC<PartnerDrawerProps> = ({
 					{errorMessage ? (
 						<DefaultAlert
 							status="error"
-							mb={5}
 							isVisible={!!errorMessage}
 							message={errorMessage}
+							mb={5}
 						/>
 					) : (
 						<Text mb="5">{getDescription()}</Text>

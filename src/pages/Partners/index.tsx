@@ -1,74 +1,62 @@
-import { useCallback, useState } from "react"
+import { useState } from "react"
 import { Text } from "@chakra-ui/react"
 import { PlusCircle } from "phosphor-react"
 import { FormProvider, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 
 import {
-	PartnerDonationListDrawerProps,
-	NewPartnerDonationDrawerProps,
+	DonationListDrawerProps,
+	NewDonationDrawerProps,
 	PartnerRecord,
 	SearchPartnerValues,
 	TableActionMenuItem,
 	PartnerDrawerProps,
+	FindPartnerField,
+	PartnerDeletionModalData,
 } from "~/interfaces"
 import {
 	PartnersTable,
 	SearchPartner,
 	SearchPartnersSchema,
-	NewPartnerDonationDrawer,
-	PartnerDonationListDrawer,
+	NewDonationDrawer,
+	DonationListDrawer,
 	PartnerDrawer,
+	PartnerDeletionModal,
 } from "~/pages/Partners/components"
 import { ContentSection, PageTitle } from "~/components"
 
 type PartnerDrawerType = null | Omit<PartnerDrawerProps, "onClose">
-type NewDonationDrawer = null | Omit<NewPartnerDonationDrawerProps, "onClose">
-type ListSupportsDrawer = null | Omit<PartnerDonationListDrawerProps, "onClose">
+type INewDonationDrawer = null | Omit<NewDonationDrawerProps, "onClose">
+type ListSupportsDrawer = null | Omit<DonationListDrawerProps, "onClose">
+type PartnerDeletionData = null | PartnerDeletionModalData
 
-const searchDefaultValues: SearchPartnerValues = { type: "id", value: "" }
-const mockedData: PartnerRecord[] = [
-	{
-		createdAt: new Date("2022-09-19"),
-		updatedAt: new Date("2022-09-19"),
-		id: "93489",
-		name: "Pedro Henrique",
-	},
-]
+const searchDefaultValues: SearchPartnerValues = {
+	field: FindPartnerField.ID,
+	content: "",
+}
 
 export const Partners: React.FC = () => {
 	const form = useForm<SearchPartnerValues>({
 		defaultValues: searchDefaultValues,
 		resolver: yupResolver(SearchPartnersSchema),
 	})
-	const [isFetching, setIsFetching] = useState(false)
-	const [records, setRecords] = useState<PartnerRecord[]>([])
-	const [partnerDonationListDrawer, setPartnerDonationListDrawer] =
+
+	const [partnerDonationListDrawer, setDonationListDrawer] =
 		useState<ListSupportsDrawer>(null)
-	const [newPartnerDonationDrawer, setNewPartnerDonationDrawer] =
-		useState<NewDonationDrawer>(null)
+	const [newDonationDrawer, setNewDonationDrawer] =
+		useState<INewDonationDrawer>(null)
 	const [partnerDrawer, setPartnerDrawer] = useState<PartnerDrawerType>(null)
-
-	const fetchRecords = useCallback(async (params: SearchPartnerValues) => {
-		setIsFetching(true)
-		console.log("params:", params)
-
-		setTimeout(() => {
-			setIsFetching(false)
-			setRecords(mockedData)
-		}, 3000)
-	}, [])
+	const [partnerDeletionData, setPartnerDeletionData] =
+		useState<PartnerDeletionData>(null)
 
 	const onClosePartnerDrawer = () => setPartnerDrawer(null)
 
-	const onCloseNewPartnerDonationDrawer = () =>
-		setNewPartnerDonationDrawer(null)
+	const onCloseNewDonationDrawer = () => setNewDonationDrawer(null)
 
-	const onClosePartnerDonationListDrawer = () =>
-		setPartnerDonationListDrawer(null)
+	const onCloseDonationListDrawer = () => setDonationListDrawer(null)
 
-	const onAddNewPartnerDonation = (partner: PartnerRecord) =>
-		setNewPartnerDonationDrawer({
+	const onAddNewDonation = (partner: PartnerRecord) =>
+		setNewDonationDrawer({
 			isVisible: true,
 			mode: "create",
 			partner,
@@ -80,11 +68,13 @@ export const Partners: React.FC = () => {
 	const onUpdatePartner = (partner: PartnerRecord) =>
 		setPartnerDrawer({ mode: "update", isVisible: true, partner })
 
-	const onViewPartnerDonationList = (partner: PartnerRecord) =>
-		setPartnerDonationListDrawer({
-			isVisible: true,
-			partner,
-		})
+	const onViewDonationList = (partner: PartnerRecord) =>
+		setDonationListDrawer({ isVisible: true, partner })
+
+	const onDeletePartner = (partner: PartnerRecord) =>
+		setPartnerDeletionData(partner)
+
+	const onClosePartnerDeletionModal = () => setPartnerDeletionData(null)
 
 	const actionItems: TableActionMenuItem[] = [
 		{
@@ -107,7 +97,7 @@ export const Partners: React.FC = () => {
 				</Text>
 
 				<FormProvider {...form}>
-					<SearchPartner isLoading={isFetching} fetchRecords={fetchRecords} />
+					<SearchPartner />
 				</FormProvider>
 			</ContentSection>
 
@@ -116,22 +106,23 @@ export const Partners: React.FC = () => {
 
 				<Text>
 					Nesta seção você encontra a lista de associados da APAE. A lista
-					aparece assim que uma busca é feita.
+					aparece assim que uma busca é feita. Se nenhum resultado para sua
+					busca é encontrado, a lista permanece vazia.
 				</Text>
 
-				{!!newPartnerDonationDrawer && (
-					<NewPartnerDonationDrawer
-						onClose={onCloseNewPartnerDonationDrawer}
-						mode={newPartnerDonationDrawer.mode}
-						partner={newPartnerDonationDrawer.partner}
+				{!!newDonationDrawer && (
+					<NewDonationDrawer
+						onClose={onCloseNewDonationDrawer}
+						mode={newDonationDrawer.mode}
+						partner={newDonationDrawer.partner}
 						isVisible
 					/>
 				)}
 
 				{!!partnerDonationListDrawer && (
-					<PartnerDonationListDrawer
+					<DonationListDrawer
 						partner={partnerDonationListDrawer.partner}
-						onClose={onClosePartnerDonationListDrawer}
+						onClose={onCloseDonationListDrawer}
 						isVisible
 					/>
 				)}
@@ -145,13 +136,20 @@ export const Partners: React.FC = () => {
 					/>
 				)}
 
+				{!!partnerDeletionData && (
+					<PartnerDeletionModal
+						data={partnerDeletionData}
+						onClose={onClosePartnerDeletionModal}
+						isVisible
+					/>
+				)}
+
 				<PartnersTable
-					records={records}
 					actionItems={actionItems}
-					isLoading={isFetching}
-					onViewPartnerDonationList={onViewPartnerDonationList}
-					onAddNewPartnerDonation={onAddNewPartnerDonation}
+					onViewDonationList={onViewDonationList}
+					onAddNewDonation={onAddNewDonation}
 					onUpdatePartner={onUpdatePartner}
+					onDeletePartner={onDeletePartner}
 				/>
 			</ContentSection>
 		</>
