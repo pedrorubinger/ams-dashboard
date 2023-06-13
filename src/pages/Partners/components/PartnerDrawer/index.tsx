@@ -49,7 +49,14 @@ export const PartnerDrawer: React.FC<PartnerDrawerProps> = ({
 	}
 
 	const onSubmit = async (values: PartnerValues) => {
-		const { success } = await submit(values)
+		const { success } = await submit({
+			autoRegistrationId: values.autoRegistrationId,
+			id:
+				!isCreating && partner?.registrationId === values.id
+					? undefined
+					: values.id,
+			name: values.name,
+		})
 
 		if (success) onCloseDrawer()
 	}
