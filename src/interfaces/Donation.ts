@@ -40,8 +40,8 @@ export enum DonationBillingMonthStatusLabel {
 export interface DonationPerMonth {
 	month: DonationBillingMonth
 	billingLabel: string
+	billingMonthAmount: number
 	status: DonationBillingMonthStatus
-	// year: number
 	/** value in cents */
 	value: number
 }
@@ -88,7 +88,8 @@ export interface Donation {
 }
 
 export interface DonationValues
-	extends Pick<Donation, "category" | "description" | "value"> {
+	extends Pick<Donation, "category" | "description"> {
+	value: string
 	billingDate: string[]
 }
 
@@ -109,7 +110,7 @@ export interface CreateDonationResponse {
 	donation: Donation
 }
 
-export interface GetDonationsPayload {
+export interface GetDonationsParams {
 	partnerId?: string
 	category?: DonationCategory
 }

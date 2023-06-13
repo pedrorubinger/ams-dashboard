@@ -14,7 +14,7 @@ interface GetGroupedValuesResponse {
 }
 
 export const getGroupedValues = (
-	records: Donation[]
+	records: Donation[] = []
 ): GetGroupedValuesResponse => {
 	const currentYear: number = new Date().getFullYear()
 
@@ -25,20 +25,35 @@ export const getGroupedValues = (
 		.map((_: undefined, i: number) => {
 			const month = (i + 1) as DonationBillingMonth
 			const recordsPerMonth = records.filter((record) => {
-				const recordMonth = Number(String(record?.billingDate).split("/")?.[0])
-				const recordYear = Number(String(record?.billingDate).split("/")?.[1])
+				const recordMonth = record.billingDate?.find(
+					(date) => Number(String(date).split("/")?.[0]) === month
+				) as DonationBillingMonth | undefined
+				const recordYear = record.billingDate?.find(
+					(date) => Number(String(date).split("/")?.[1]) === currentYear
+				)
 
-				return recordMonth === month && recordYear === currentYear
+				return recordMonth && recordYear
 			})
 			const status = recordsPerMonth.length
 				? DonationBillingMonthStatus.DONE
 				: DonationBillingMonthStatus.PENDING
+			const billingMonthAmount = recordsPerMonth.map(
+				(record) => record.billingDate.length
+			)[0]
 
 			return {
 				billingLabel: `${String(month).padStart(2, "0")}/${currentYear}`,
-				value: recordsPerMonth.reduce((prev, curr) => prev + curr.value, 0),
+				value: recordsPerMonth.reduce(
+					(prev, curr) =>
+						prev +
+						(curr.billingDate?.length > 1
+							? curr.value / curr.billingDate.length
+							: curr.value),
+					0
+				),
 				month,
 				status,
+				billingMonthAmount,
 			}
 		})
 

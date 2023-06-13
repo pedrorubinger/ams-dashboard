@@ -7,9 +7,9 @@ import {
 	UsersThree,
 	Users as UsersIcon,
 } from "phosphor-react"
-import { PartnerProvider } from "~/contexts"
 
 import { RouteItem } from "~/interfaces"
+import { DonationProvider, PartnerProvider } from "~/contexts"
 import { Home, Donations, Partners, Settings, Tenants, Users } from "~/pages"
 
 export const privateRoutes: RouteItem[] = [
@@ -65,7 +65,11 @@ export const privateRoutes: RouteItem[] = [
 		label: "Contribuições",
 		title: "Clique para gerenciar as contribuições",
 		permissions: ["admin"],
-		element: <Donations />,
+		element: (
+			<DonationProvider>
+				<Donations />
+			</DonationProvider>
+		),
 	},
 	{
 		Icon: UsersThree,

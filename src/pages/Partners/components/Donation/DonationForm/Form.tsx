@@ -62,8 +62,6 @@ export const DrawerForm: React.FC<Props> = ({
 		return yearNum >= 1900 && yearNum <= 2300
 	}
 
-	console.log("errors", errors)
-
 	const onChangeBillingDate = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		index: number
@@ -95,7 +93,7 @@ export const DrawerForm: React.FC<Props> = ({
 		const month: string = value.slice(0, 2)
 
 		if (parseInt(month) > 12) {
-			return setValue(field, 12)
+			return setValue(field, "12")
 		}
 
 		const year = value.slice(2)
@@ -113,9 +111,7 @@ export const DrawerForm: React.FC<Props> = ({
 		setValue(field, value)
 
 		if (isValid) {
-			if (errors.billingDate?.[index]) {
-				clearErrors(field)
-			}
+			if (errors.billingDate?.[index]) clearErrors(field)
 		} else invalidate()
 	}
 
@@ -177,7 +173,6 @@ export const DrawerForm: React.FC<Props> = ({
 					type="button"
 					title="Clique para adicionar mais um mês de competência para este lançamento"
 					size="xs"
-					isLoading={isSubmitting}
 					isDisabled={isSubmitting}
 					rightIcon={<PlusCircle />}
 					onClick={() => append(defaultValues?.billingDate)}
@@ -191,7 +186,6 @@ export const DrawerForm: React.FC<Props> = ({
 						type="button"
 						title="Clique para remover a última competência adicionada"
 						size="xs"
-						isLoading={isSubmitting}
 						isDisabled={isSubmitting}
 						rightIcon={<MinusCircle />}
 						onClick={() => remove(fields.length - 1)}

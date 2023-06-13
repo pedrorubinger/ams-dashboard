@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from "axios"
 import { Api } from "~/services"
 import {
 	ServerResponse,
-	GetDonationsPayload,
+	GetDonationsParams,
 	GetDonationsResponse,
 } from "~/interfaces"
 import { handleError } from "~/utils"
@@ -12,9 +12,9 @@ import { handleError } from "~/utils"
 export const getDonations = async ({
 	category,
 	partnerId,
-}: GetDonationsPayload): Promise<ServerResponse<GetDonationsResponse>> => {
+}: GetDonationsParams): Promise<ServerResponse<GetDonationsResponse>> => {
 	try {
-		const config: AxiosRequestConfig<GetDonationsPayload> = {
+		const config: AxiosRequestConfig<GetDonationsParams> = {
 			params: {
 				category,
 				partnerId,

@@ -140,7 +140,7 @@ export const UsersDrawer: React.FC<UsersDrawerProps> = ({
 				<DrawerCloseButton />
 				<DrawerHeader>{title}</DrawerHeader>
 
-				{(!!isFetching || !isMounted()) && (
+				{(!!isFetching || !isMounted) && (
 					<DrawerBody>
 						<TenantsSkeleton />
 					</DrawerBody>

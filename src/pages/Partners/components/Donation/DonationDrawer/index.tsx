@@ -7,13 +7,18 @@ import {
 	DrawerContent,
 	DrawerCloseButton,
 	Text,
+	useToast,
 } from "@chakra-ui/react"
 import { FormProvider, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 
+import { createDonation } from "~/services"
 import { ErrorCode, DonationValues, NewDonationDrawerProps } from "~/interfaces"
-import { PARTNER_DONATION_BAD_REQUEST_ERRORS } from "~/utils"
-import { useIsMounted } from "~/hooks"
+import {
+	convertCurrencyToNumber,
+	PARTNER_DONATION_BAD_REQUEST_ERRORS,
+	TOAST_OPTIONS,
+} from "~/utils"
 import { partnerDonationDrawerFormDefaultValues as defaultValues } from "~/pages/Partners/utils"
 import { DrawerForm, NewDonationSchema } from "~/pages/Partners/components"
 import { DefaultAlert } from "~/components"
@@ -24,10 +29,8 @@ export const NewDonationDrawer: React.FC<NewDonationDrawerProps> = ({
 	partner,
 	onClose,
 }) => {
-	const isMounted = useIsMounted()
 	const isCreating = mode === "create"
 	const title = isCreating ? "Cadastrar novo lançamento" : ""
-	const [isFetching, setIsFetching] = useState(false)
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
 	const form = useForm<DonationValues>({
@@ -35,6 +38,7 @@ export const NewDonationDrawer: React.FC<NewDonationDrawerProps> = ({
 		reValidateMode: "onChange",
 		resolver: yupResolver(NewDonationSchema),
 	})
+	const toast = useToast()
 
 	const onCloseDrawer = () => {
 		if (!isSubmitting) onClose()
@@ -52,21 +56,30 @@ export const NewDonationDrawer: React.FC<NewDonationDrawerProps> = ({
 	}
 
 	const onSubmit = async (values: DonationValues) => {
-		console.log("submitted values:", values)
-
 		if (errorMessage) setErrorMessage("")
 		setIsSubmitting(true)
 
 		if (isCreating) {
-			/** TO DO: Call API methods... */
+			const { error } = await createDonation({
+				partnerId: partner.id,
+				billingDate: values.billingDate,
+				category: values.category,
+				description: values.description,
+				value: convertCurrencyToNumber(values.value) * 100,
+			})
 
 			setIsSubmitting(false)
 
-			// if (error) return handleFormError(error)
-			// else await fetchRecords()
-		}
+			if (error) return handleFormError(error)
 
-		onCloseDrawer()
+			toast({
+				...TOAST_OPTIONS,
+				status: "success",
+				title: "Lançamento realizado!",
+				description: `O lançamento no valor de ${values.value} para o associado ${partner.name} foi realizado com sucesso!`,
+			})
+			onCloseDrawer()
+		}
 	}
 
 	const getDescription = () => {
@@ -85,10 +98,6 @@ export const NewDonationDrawer: React.FC<NewDonationDrawerProps> = ({
 		)
 	}
 
-	// useEffect(() => {
-	// 	void fetchDonation()
-	// }, [fetchDonation])
-
 	return (
 		<Drawer isOpen={isVisible} onClose={onCloseDrawer} size="md">
 			<DrawerOverlay />
@@ -96,35 +105,26 @@ export const NewDonationDrawer: React.FC<NewDonationDrawerProps> = ({
 				<DrawerCloseButton />
 				<DrawerHeader>{title}</DrawerHeader>
 
-				{/* {(!!isFetching || !isMounted()) && (
-					<DrawerBody>
-						Carregando...
-						// TO DO: Add skeleton loader...
-					</DrawerBody>
-				)} */}
+				<DrawerBody>
+					{errorMessage ? (
+						<DefaultAlert
+							status="error"
+							mb={5}
+							isVisible={!!errorMessage}
+							message={errorMessage}
+						/>
+					) : (
+						<Text mb="5">{getDescription()}</Text>
+					)}
 
-				{!isFetching && (
-					<DrawerBody>
-						{errorMessage ? (
-							<DefaultAlert
-								status="error"
-								mb={5}
-								isVisible={!!errorMessage}
-								message={errorMessage}
-							/>
-						) : (
-							<Text mb="5">{getDescription()}</Text>
-						)}
-
-						<FormProvider {...form}>
-							<DrawerForm
-								isSubmitting={isSubmitting}
-								mode={mode}
-								onSubmit={onSubmit}
-							/>
-						</FormProvider>
-					</DrawerBody>
-				)}
+					<FormProvider {...form}>
+						<DrawerForm
+							isSubmitting={isSubmitting}
+							mode={mode}
+							onSubmit={onSubmit}
+						/>
+					</FormProvider>
+				</DrawerBody>
 			</DrawerContent>
 		</Drawer>
 	)
