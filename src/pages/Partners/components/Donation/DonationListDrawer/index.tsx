@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useContext, useEffect } from "react"
 import {
 	Accordion,
 	AccordionButton,
@@ -16,40 +16,35 @@ import {
 	Text,
 } from "@chakra-ui/react"
 
-import {
-	DonationListDrawerProps as Props,
-	Donation,
-	DonationCategory,
-} from "~/interfaces"
+import { DonationListDrawerProps, ErrorCode } from "~/interfaces"
 import { useIsMounted } from "~/hooks"
 import { priceFormatter } from "~/utils"
+import { DonationContext } from "~/contexts"
 import { getGroupedValues } from "~/pages/Partners/utils"
 import {
 	DonationListTable,
 	DonationPerMonthListTable,
 } from "~/pages/Partners/components"
-import { DefaultAlert, Tooltip } from "~/components"
+import { DefaultAlert, TablePaginationSkeleton, Tooltip } from "~/components"
 
-export const DonationListDrawer: React.FC<Props> = ({
+export const DonationListDrawer: React.FC<DonationListDrawerProps> = ({
 	isVisible,
 	partner,
 	onClose,
 }) => {
-	const initialValues: Donation[] = []
 	const isMounted = useIsMounted()
 	const partnerName: string = partner?.name?.split(" ")?.[0] || "associado"
-	const [isFetching, setIsFetching] = useState(false)
-	const [errorMessage, setErrorMessage] = useState("")
-	const [records, setRecords] = useState<Donation[]>(initialValues)
-	const isLoading = /* !isMounted() || */ isFetching
+	const { isFetching, records, error, fetchDonations } =
+		useContext(DonationContext)
 	const { annualySum, monthlySum, totalSum } = getGroupedValues(records)
+	const isLoading = isFetching || !isMounted
 
 	const ErrorContent = (
 		<DefaultAlert
 			status="error"
 			mb={5}
-			isVisible={!!errorMessage}
-			message={errorMessage}
+			isVisible={!!error}
+			message={error as ErrorCode}
 		/>
 	)
 
@@ -86,8 +81,7 @@ export const DonationListDrawer: React.FC<Props> = ({
 
 						<DonationPerMonthListTable
 							records={monthlySum}
-							/** TO DO: Implement correct loading prop... */
-							isLoading={false}
+							isLoading={isLoading}
 						/>
 					</AccordionPanel>
 				</AccordionItem>
@@ -122,6 +116,12 @@ export const DonationListDrawer: React.FC<Props> = ({
 		</>
 	)
 
+	useEffect(() => {
+		if (partner) {
+			void fetchDonations({ partnerId: partner.id })
+		}
+	}, [partner])
+
 	return (
 		<Drawer isOpen={isVisible} onClose={onClose} size="lg">
 			<DrawerOverlay />
@@ -129,15 +129,15 @@ export const DonationListDrawer: React.FC<Props> = ({
 				<DrawerCloseButton />
 				<DrawerHeader>Lançamentos de {partnerName}</DrawerHeader>
 
-				{/* {!!isLoading && (
+				{!!isLoading && (
 					<DrawerBody>
-						Carregando...
-						// TO DO: Add skeleton loader...
+						<TablePaginationSkeleton />
+						<TablePaginationSkeleton />
 					</DrawerBody>
-				)} */}
+				)}
 
 				{!isLoading && (
-					<DrawerBody>{errorMessage ? ErrorContent : MainContent}</DrawerBody>
+					<DrawerBody>{error ? ErrorContent : MainContent}</DrawerBody>
 				)}
 			</DrawerContent>
 		</Drawer>

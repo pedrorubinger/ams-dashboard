@@ -22,7 +22,10 @@ interface Props {
 	isLoading: boolean
 }
 
-export const DonationListTable: React.FC<Props> = ({ records, isLoading }) => {
+export const DonationListTable: React.FC<Props> = ({
+	records = [],
+	isLoading,
+}) => {
 	if (!records.length) return null
 
 	return (

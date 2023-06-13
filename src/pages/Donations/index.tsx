@@ -39,7 +39,7 @@ export const Donations: React.FC<Props> = () => {
 	const [isFetching, setIsFetching] = useState(false)
 	const [records, setRecords] = useState<Donation[]>(initialValues)
 	const [activeFilter, setActiveFilter] = useState<string | undefined>()
-	const isLoading = !isMounted() || isFetching
+	const isLoading = isFetching || !isMounted
 	const hasFilter = !!activeFilter
 
 	// const [instance] = usePDF({

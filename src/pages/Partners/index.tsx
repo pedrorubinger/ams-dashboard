@@ -24,6 +24,7 @@ import {
 	PartnerDeletionModal,
 } from "~/pages/Partners/components"
 import { ContentSection, PageTitle } from "~/components"
+import { DonationProvider } from "~/contexts"
 
 type PartnerDrawerType = null | Omit<PartnerDrawerProps, "onClose">
 type INewDonationDrawer = null | Omit<NewDonationDrawerProps, "onClose">
@@ -120,11 +121,13 @@ export const Partners: React.FC = () => {
 				)}
 
 				{!!partnerDonationListDrawer && (
-					<DonationListDrawer
-						partner={partnerDonationListDrawer.partner}
-						onClose={onCloseDonationListDrawer}
-						isVisible
-					/>
+					<DonationProvider>
+						<DonationListDrawer
+							partner={partnerDonationListDrawer.partner}
+							onClose={onCloseDonationListDrawer}
+							isVisible
+						/>
+					</DonationProvider>
 				)}
 
 				{!!partnerDrawer && (
