@@ -32,11 +32,13 @@ export const DonationListDrawer: React.FC<DonationListDrawerProps> = ({
 	onClose,
 }) => {
 	const isMounted = useIsMounted()
-	const partnerName: string = partner?.name?.split(" ")?.[0] || "associado"
+	const partnerName: string = partner?.name || "associado"
 	const { isFetching, records, error, fetchDonations } =
 		useContext(DonationContext)
 	const { annualySum, monthlySum, totalSum, monthlySumWholePeriod } =
 		getDonationGroupedValues(records)
+	const haveValuesFromOtherYears: boolean =
+		monthlySumWholePeriod.flat().length > 12
 	const isLoading = isFetching || !isMounted
 
 	const ErrorContent = (
@@ -56,35 +58,37 @@ export const DonationListDrawer: React.FC<DonationListDrawerProps> = ({
 			</Text>
 
 			<Accordion allowToggle>
-				<AccordionItem>
-					<AccordionButton>
-						<Box
-							as="span"
-							flex="1"
-							textAlign="left"
-							fontWeight="bold"
-							color="blackAlpha.700"
-						>
-							Ver valores de todos os anos (por mês)
-						</Box>
-						<AccordionIcon />
-					</AccordionButton>
+				{!!haveValuesFromOtherYears && (
+					<AccordionItem>
+						<AccordionButton>
+							<Box
+								as="span"
+								flex="1"
+								textAlign="left"
+								fontWeight="bold"
+								color="blackAlpha.700"
+							>
+								Ver valores de todos os anos (por mês)
+							</Box>
+							<AccordionIcon />
+						</AccordionButton>
 
-					<AccordionPanel>
-						<Flex>
-							<Flex alignItems="center">
-								<Text>Valor total</Text>&nbsp;
-								<Tooltip label="Corresponde à somatória, separada por meses, de todos os lançamentos já feitos para o associado, contando a partir do ano do primeiro lançamento." />
+						<AccordionPanel>
+							<Flex>
+								<Flex alignItems="center">
+									<Text>Valor total</Text>&nbsp;
+									<Tooltip label="Corresponde à somatória, separada por meses, de todos os lançamentos já feitos para o associado, contando a partir do ano do primeiro lançamento." />
+								</Flex>
+								:&nbsp;<strong>{priceFormatter.format(totalSum / 100)}</strong>
 							</Flex>
-							:&nbsp;<strong>{priceFormatter.format(totalSum / 100)}</strong>
-						</Flex>
 
-						<DonationPerMonthListTable
-							records={monthlySumWholePeriod.flat()}
-							isLoading={isLoading}
-						/>
-					</AccordionPanel>
-				</AccordionItem>
+							<DonationPerMonthListTable
+								records={monthlySumWholePeriod.flat()}
+								isLoading={isLoading}
+							/>
+						</AccordionPanel>
+					</AccordionItem>
+				)}
 
 				<AccordionItem>
 					<AccordionButton>
@@ -153,7 +157,7 @@ export const DonationListDrawer: React.FC<DonationListDrawerProps> = ({
 	}, [partner])
 
 	return (
-		<Drawer isOpen={isVisible} onClose={onClose} size="lg">
+		<Drawer isOpen={isVisible} onClose={onClose} size="xl">
 			<DrawerOverlay />
 			<DrawerContent>
 				<DrawerCloseButton />
