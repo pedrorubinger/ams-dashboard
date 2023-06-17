@@ -7,17 +7,12 @@ import { ArrowClockwise, FilePdf } from "phosphor-react"
 // import { usePDF } from "@react-pdf/renderer"
 
 import {
-	Donation,
-	DonationBillingMonth,
-	DonationCategory,
 	DonationSearchValues as SearchValues,
 	TableActionMenuItem,
 } from "~/interfaces"
 import { useIsMounted } from "~/hooks"
 import { useUserStore } from "~/store"
-import { ReportsSection } from "~/pages/Donations/styles"
 import {
-	ReportCardsSkeleton,
 	DonationsReport,
 	ReportsDateFilter,
 	// DonationsDocumentReport,
@@ -125,12 +120,11 @@ export const Donations: React.FC<Props> = () => {
 				</Flex>
 			</ContentSection>
 
-			<ReportsSection $hasFilter={hasFilter}>
-				{!!isLoading && <ReportCardsSkeleton hasFilter={hasFilter} />}
-				{!isLoading && (
-					<DonationsReport hasFilter={hasFilter} dateRange={activeFilter} />
-				)}
-			</ReportsSection>
+			<DonationsReport
+				activeFilter={activeFilter}
+				isLoading={isLoading}
+				hasFilter={hasFilter}
+			/>
 		</>
 	)
 }
