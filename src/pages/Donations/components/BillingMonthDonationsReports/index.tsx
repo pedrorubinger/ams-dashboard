@@ -54,7 +54,7 @@ export const BillingMonthDonationsReports: React.FC<Props> = ({
 				<ContentSection mt={4}>
 					<Flex alignItems="center">
 						<Text color="gray.500" fontSize={15}>
-							Diário ({todayLabel})
+							Hoje ({todayLabel})
 						</Text>
 						&nbsp;
 						<Tooltip
@@ -71,7 +71,7 @@ export const BillingMonthDonationsReports: React.FC<Props> = ({
 				<ContentSection mt={4}>
 					<Flex alignItems="center">
 						<Text color="gray.500" fontSize={15}>
-							Mensal ({monthLabel})
+							Este mês ({monthLabel})
 						</Text>
 						&nbsp;
 						<Tooltip
@@ -88,7 +88,7 @@ export const BillingMonthDonationsReports: React.FC<Props> = ({
 				<ContentSection mt={4}>
 					<Flex alignItems="center">
 						<Text color="gray.500" fontSize={15}>
-							Anual ({year})
+							Este ano ({year})
 						</Text>
 						&nbsp;
 						<Tooltip
@@ -105,7 +105,7 @@ export const BillingMonthDonationsReports: React.FC<Props> = ({
 					<ContentSection mt={4} flexGrow={1}>
 						<Flex alignItems="center">
 							<Text color="gray.500" fontSize={15}>
-								Período
+								Período selecionado
 							</Text>
 							&nbsp;
 							<Tooltip

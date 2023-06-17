@@ -5,6 +5,12 @@ import { DonationContext } from "~/contexts"
 import { ContentSection, Tooltip } from "~/components"
 import { useDonationCurrentDates } from "~/pages/Donations/hooks"
 import { ReportsSection } from "~/pages/Donations/components/Reports"
+import {
+	getAnnuallyIncomeDateDonationsSum,
+	getDailyIncomeDateDonationsSum,
+	getMonthlyIncomeDateDonationsSum,
+	priceFormatter,
+} from "~/utils"
 
 interface Props {
 	hasFilter: boolean
@@ -16,7 +22,20 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 	dateRange,
 }) => {
 	const { records } = useContext(DonationContext)
-	const { todayLabel, month, monthLabel, year } = useDonationCurrentDates()
+	const { todayLabel, today, month, monthLabel, year } =
+		useDonationCurrentDates()
+	const dailySum = useMemo(
+		() => getDailyIncomeDateDonationsSum(records, today),
+		[records, today]
+	)
+	const monthlySum = useMemo(
+		() => getMonthlyIncomeDateDonationsSum(records, month),
+		[records, month]
+	)
+	const annuallySum = useMemo(
+		() => getAnnuallyIncomeDateDonationsSum(records, Number(year)),
+		[records, year]
+	)
 
 	return (
 		<Flex flexDirection="column" width="100%">
@@ -30,7 +49,7 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 				<ContentSection mt={4}>
 					<Flex alignItems="center">
 						<Text color="gray.500" fontSize={15}>
-							Diário ({todayLabel})
+							Hoje ({todayLabel})
 						</Text>
 						&nbsp;
 						<Tooltip
@@ -40,14 +59,14 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 					</Flex>
 
 					<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
-						-
+						{priceFormatter.format(dailySum / 100)}
 					</Text>
 				</ContentSection>
 
 				<ContentSection mt={4}>
 					<Flex alignItems="center">
 						<Text color="gray.500" fontSize={15}>
-							Mensal ({monthLabel})
+							Este mês ({monthLabel})
 						</Text>
 						&nbsp;
 						<Tooltip
@@ -57,14 +76,14 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 					</Flex>
 
 					<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
-						-
+						{priceFormatter.format(monthlySum / 100)}
 					</Text>
 				</ContentSection>
 
 				<ContentSection mt={4}>
 					<Flex alignItems="center">
 						<Text color="gray.500" fontSize={15}>
-							Anual ({year})
+							Este ano ({year})
 						</Text>
 						&nbsp;
 						<Tooltip
@@ -73,7 +92,7 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 						/>
 					</Flex>
 					<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
-						-
+						{priceFormatter.format(annuallySum / 100)}
 					</Text>
 				</ContentSection>
 
@@ -81,7 +100,7 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 					<ContentSection mt={4} flexGrow={1}>
 						<Flex alignItems="center">
 							<Text color="gray.500" fontSize={15}>
-								Período
+								Período selecionado
 							</Text>
 							&nbsp;
 							<Tooltip
