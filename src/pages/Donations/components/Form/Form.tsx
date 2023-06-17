@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import {
 	Box,
 	FormControl,
@@ -6,14 +6,17 @@ import {
 	InputGroup,
 	InputLeftElement,
 	InputRightElement,
+	useToast,
 } from "@chakra-ui/react"
 import { Eraser, MagnifyingGlass } from "phosphor-react"
 import { useFormContext } from "react-hook-form"
 import { RangeDatepicker } from "chakra-dayzed-datepicker"
 
+import { DonationContext } from "~/contexts"
 import { DonationSearchValues as Values } from "~/interfaces"
-import { FilterButton } from "~/pages/Donations/components/Form/styles"
 import { Form, InputLabel, Tooltip } from "~/components"
+import { FilterButton } from "~/pages/Donations/components/Form/styles"
+import { TOAST_OPTIONS } from "~/utils"
 
 interface Props {
 	fetchRecords: (values?: Values) => Promise<void>
@@ -26,6 +29,8 @@ export const ReportsDateFilter: React.FC<Props> = ({
 	hasActiveFilter,
 	isLoading,
 }) => {
+	const toast = useToast()
+	const { error } = useContext(DonationContext)
 	const {
 		handleSubmit,
 		register,
@@ -57,6 +62,17 @@ export const ReportsDateFilter: React.FC<Props> = ({
 		return "Clique para filtrar a busca por data"
 	}
 
+	useEffect(() => {
+		if (error) {
+			toast({
+				...TOAST_OPTIONS,
+				description: error,
+				title: "Erro ao buscar as contribuições",
+				status: "error",
+			})
+		}
+	}, [error])
+
 	return (
 		<Box mt={8} mb={4}>
 			<Form onSubmit={handleSubmit(onSubmit)}>
@@ -86,13 +102,9 @@ export const ReportsDateFilter: React.FC<Props> = ({
 								dayOfMonthBtnProps: {
 									defaultBtnProps: {
 										borderColor: "gray.200",
-										_hover: {
-											background: "gray.300",
-										},
+										_hover: { background: "gray.300" },
 									},
-									isInRangeBtnProps: {
-										background: "orange.100",
-									},
+									isInRangeBtnProps: { background: "orange.100" },
 									selectedBtnProps: {
 										background: "azure",
 										borderColor: "ActiveBorder",

@@ -11,12 +11,12 @@ interface GetGroupedValuesResponse {
 	/** value in cents */
 	totalSum: number
 	monthlySum: DonationPerMonth[]
-	totalMonthlySum: DonationPerMonth[][]
+	monthlySumWholePeriod: DonationPerMonth[][]
 }
 
 const currentYear: number = new Date().getFullYear()
 
-const getMonthlySum = (
+const getDonationsPerMonth = (
 	records: Donation[],
 	targetYear = currentYear
 ): DonationPerMonth[] => {
@@ -56,7 +56,7 @@ const getMonthlySum = (
 	})
 }
 
-const getMonthlySumWholePeriod = (
+const getDonationsPerMonthWholePeriod = (
 	records: Donation[]
 ): DonationPerMonth[][] => {
 	const years: number[] = Array.from(
@@ -68,18 +68,44 @@ const getMonthlySumWholePeriod = (
 				.sort((a, b) => a - b)
 		)
 	)
-	const monthlySum = years.map((year) => getMonthlySum(records, year))
+	const monthlySum = years.map((year) => getDonationsPerMonth(records, year))
 
 	return monthlySum
 }
 
-export const getGroupedValues = (
-	records: Donation[] = []
-): GetGroupedValuesResponse => {
-	const totalSum: number = records.reduce((prev, curr) => prev + curr.value, 0)
-	const totalMonthlySum = getMonthlySumWholePeriod(records)
-	const monthlySum: DonationPerMonth[] = getMonthlySum(records)
-	const annualySum = monthlySum.reduce((prev, curr) => prev + curr.value, 0)
+const getDonationsTotalSum = (records: Donation[]) => {
+	return records.reduce((prev, curr) => prev + curr.value, 0)
+}
 
-	return { annualySum, monthlySum, totalSum, totalMonthlySum }
+const getDonationsAnnuallySum = (monthlySum: DonationPerMonth[]): number => {
+	return monthlySum.reduce((prev, curr) => prev + curr.value, 0)
+}
+
+const getDonationsMonthlySum = (
+	donationsPerMonth: DonationPerMonth[],
+	month: DonationBillingMonth
+): number => {
+	return donationsPerMonth
+		.filter((donation) => donation.month === month)
+		.reduce((curr, prev) => curr + prev.value, 0)
+}
+
+const getDonationGroupedValues = (
+	records: Donation[]
+): GetGroupedValuesResponse => {
+	const totalSum: number = getDonationsTotalSum(records)
+	const monthlySumWholePeriod = getDonationsPerMonthWholePeriod(records)
+	const monthlySum: DonationPerMonth[] = getDonationsPerMonth(records)
+	const annualySum = getDonationsAnnuallySum(monthlySum)
+
+	return { annualySum, monthlySum, totalSum, monthlySumWholePeriod }
+}
+
+export {
+	getDonationsPerMonth,
+	getDonationsPerMonthWholePeriod,
+	getDonationsTotalSum,
+	getDonationsAnnuallySum,
+	getDonationGroupedValues,
+	getDonationsMonthlySum,
 }

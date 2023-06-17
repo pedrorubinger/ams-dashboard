@@ -19,7 +19,7 @@ interface DonationContextType {
 	isFetching: boolean
 	records: Donation[]
 	error: Error
-	fetchDonations: (values: GetDonationsParams) => Promise<void>
+	fetchDonations: (values?: GetDonationsParams) => Promise<void>
 	clearRecords: () => void
 }
 

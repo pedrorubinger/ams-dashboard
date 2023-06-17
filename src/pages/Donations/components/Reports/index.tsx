@@ -1,11 +1,14 @@
-import React from "react"
+import React, { useContext, useMemo } from "react"
 import { Flex, Text } from "@chakra-ui/react"
 
 import {
-	DonationBillingMonth as Month,
-	DonationBillingMonthLabel as MonthLabel,
-} from "~/interfaces"
-import { dateFormatter } from "~/utils"
+	priceFormatter,
+	getDonationsPerMonth,
+	getDonationsAnnuallySum,
+	getDonationsMonthlySum,
+} from "~/utils"
+import { DonationContext } from "~/contexts"
+import { useDonationCurrentDates } from "~/pages/Donations/hooks"
 import { ContentSection, Tooltip } from "~/components"
 
 interface Props {
@@ -13,13 +16,21 @@ interface Props {
 	dateRange?: string
 }
 
-type MonthKey = keyof typeof MonthLabel
-
 export const DonationsReport: React.FC<Props> = ({ hasFilter, dateRange }) => {
-	const d = new Date()
-	const today = dateFormatter.format(d)
-	const month: string = MonthLabel[Month[d.getMonth() + 1] as MonthKey]
-	const year = String(d.getFullYear())
+	const { records } = useContext(DonationContext)
+	const { today, month, monthLabel, year } = useDonationCurrentDates()
+	const donationsPerMonth = useMemo(
+		() => getDonationsPerMonth(records),
+		[records]
+	)
+	const annuallySum: number = useMemo(
+		() => getDonationsAnnuallySum(donationsPerMonth),
+		[donationsPerMonth]
+	)
+	const monthlySum: number = useMemo(
+		() => getDonationsMonthlySum(donationsPerMonth, month),
+		[donationsPerMonth, month]
+	)
 
 	return (
 		<>
@@ -36,24 +47,24 @@ export const DonationsReport: React.FC<Props> = ({ hasFilter, dateRange }) => {
 				</Flex>
 
 				<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
-					R$ 144,55
+					-
 				</Text>
 			</ContentSection>
 
 			<ContentSection mt={6}>
 				<Flex alignItems="center">
 					<Text color="gray.500" fontSize={15}>
-						Mensal ({month})
+						Mensal ({monthLabel})
 					</Text>
 					&nbsp;
 					<Tooltip
-						label={`Somatória de todos os lançamentos feitos no mês corrente (${month})`}
+						label={`Somatória de todos os lançamentos feitos no mês corrente (${monthLabel})`}
 						placement="top-start"
 					/>
 				</Flex>
 
 				<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
-					R$ 484,62
+					{priceFormatter.format(monthlySum / 100)}
 				</Text>
 			</ContentSection>
 
@@ -69,7 +80,7 @@ export const DonationsReport: React.FC<Props> = ({ hasFilter, dateRange }) => {
 					/>
 				</Flex>
 				<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
-					R$ 914,55
+					{priceFormatter.format(annuallySum / 100)}
 				</Text>
 			</ContentSection>
 

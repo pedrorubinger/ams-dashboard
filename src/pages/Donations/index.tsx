@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useContext, useEffect, useState } from "react"
 import { Flex, Link, Text } from "@chakra-ui/react"
 import { Link as RouterLink } from "react-router-dom"
 import { FormProvider, useForm } from "react-hook-form"
@@ -24,20 +24,18 @@ import {
 	SearchDonationSchema,
 } from "~/pages/Donations/components"
 import { ContentSection, PageTitle, TableActionsMenu } from "~/components"
+import { DonationContext } from "~/contexts"
 
 interface Props {}
 
-const initialValues: Donation[] = []
-
 export const Donations: React.FC<Props> = () => {
 	const { user } = useUserStore()
+	const { isFetching, fetchDonations } = useContext(DonationContext)
 	const form = useForm<SearchValues>({
 		defaultValues: { date: "" },
 		resolver: yupResolver(SearchDonationSchema),
 	})
 	const isMounted = useIsMounted()
-	const [isFetching, setIsFetching] = useState(false)
-	const [records, setRecords] = useState<Donation[]>(initialValues)
 	const [activeFilter, setActiveFilter] = useState<string | undefined>()
 	const isLoading = isFetching || !isMounted
 	const hasFilter = !!activeFilter
@@ -55,13 +53,10 @@ export const Donations: React.FC<Props> = () => {
 	// const documentFileName = `Contribuicoes_${new Date().getTime()}.pdf`
 
 	const fetchRecords = useCallback(async (values?: SearchValues) => {
-		setIsFetching(true)
-		setActiveFilter(values?.date)
-		console.log("fetchRecords > values:", values)
+		console.log("values:", values)
 
-		setTimeout(() => {
-			setIsFetching(false)
-		}, 3000)
+		setActiveFilter(values?.date)
+		await fetchDonations()
 	}, [])
 
 	const actionItems: TableActionMenuItem[] = [

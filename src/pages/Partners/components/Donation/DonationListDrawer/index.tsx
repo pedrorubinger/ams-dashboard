@@ -18,9 +18,8 @@ import {
 
 import { DonationListDrawerProps, ErrorCode } from "~/interfaces"
 import { useIsMounted } from "~/hooks"
-import { priceFormatter } from "~/utils"
+import { priceFormatter, getDonationGroupedValues } from "~/utils"
 import { DonationContext } from "~/contexts"
-import { getGroupedValues } from "~/pages/Partners/utils"
 import {
 	DonationListTable,
 	DonationPerMonthListTable,
@@ -36,8 +35,8 @@ export const DonationListDrawer: React.FC<DonationListDrawerProps> = ({
 	const partnerName: string = partner?.name?.split(" ")?.[0] || "associado"
 	const { isFetching, records, error, fetchDonations } =
 		useContext(DonationContext)
-	const { annualySum, monthlySum, totalSum, totalMonthlySum } =
-		getGroupedValues(records)
+	const { annualySum, monthlySum, totalSum, monthlySumWholePeriod } =
+		getDonationGroupedValues(records)
 	const isLoading = isFetching || !isMounted
 
 	const ErrorContent = (
@@ -81,7 +80,7 @@ export const DonationListDrawer: React.FC<DonationListDrawerProps> = ({
 						</Flex>
 
 						<DonationPerMonthListTable
-							records={totalMonthlySum.flat()}
+							records={monthlySumWholePeriod.flat()}
 							isLoading={isLoading}
 						/>
 					</AccordionPanel>
