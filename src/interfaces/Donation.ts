@@ -81,7 +81,7 @@ export interface Donation {
 	partnerId: string
 	billingDate: string[]
 	category: DonationCategory
-	incomeDate: Date
+	incomeDate: string
 	value: number // in cents
 	description?: string
 	createdAt: Date

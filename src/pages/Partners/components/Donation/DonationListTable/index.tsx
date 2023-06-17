@@ -4,7 +4,7 @@ import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
 import { Donation, DonationCategoryLabel as CategoryLabel } from "~/interfaces"
 import { partnerDonationColumns as columns } from "~/pages/Partners/utils"
 import { TablePaginationSkeleton, TableWrapper } from "~/components"
-import { dateFormatter, priceFormatter } from "~/utils"
+import { dateFormatter, getDateFormatter, priceFormatter } from "~/utils"
 
 interface Props {
 	records: Donation[]
@@ -30,19 +30,22 @@ export const DonationListTable: React.FC<Props> = ({
 
 				<Tbody width="100%">
 					{records.map((record) => {
-						const createdAt = new Date(record.createdAt)
-						const incomeDate = new Date(record.incomeDate)
+						const createdAt = getDateFormatter({
+							dateStyle: "short",
+							timeStyle: "short",
+						}).format(new Date(record.createdAt))
+						const incomeDate = dateFormatter.format(new Date(record.incomeDate))
 						const category = CategoryLabel[record.category] as string
-						const monthValues = record.billingDate.join(", ")
+						const monthValues = record.billingDate.join(", ")?.toString()
 						const value = priceFormatter.format(record.value / 100)
 
 						return (
 							<Tr key={record.id} _hover={{ background: "blackAlpha.50" }}>
 								<Td>{category}</Td>
-								<Td>{monthValues.toString()}</Td>
+								<Td>{monthValues}</Td>
 								<Td>{value}</Td>
-								<Td>{dateFormatter.format(createdAt)}</Td>
-								<Td>{dateFormatter.format(incomeDate)}</Td>
+								<Td>{incomeDate}</Td>
+								<Td>{createdAt}</Td>
 							</Tr>
 						)
 					})}
