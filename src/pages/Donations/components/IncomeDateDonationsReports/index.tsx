@@ -78,7 +78,7 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 				</ContentSection>
 
 				{!!hasFilter && (
-					<ContentSection mt={6} flexGrow={1}>
+					<ContentSection mt={4} flexGrow={1}>
 						<Flex alignItems="center">
 							<Text color="gray.500" fontSize={15}>
 								Período
