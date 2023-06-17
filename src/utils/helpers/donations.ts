@@ -20,8 +20,6 @@ const d = new Date()
 const currentYear: number = d.getFullYear()
 const currentDay: number = d.getDay()
 
-/* From here, get values by billing date */
-
 const getDonationsPerBillingMonth = (
 	records: Donation[],
 	targetYear = currentYear
@@ -121,39 +119,7 @@ const getBillingMonthDonationGroupedValues = (
 	return { annualySum, monthlySum, totalSum, monthlySumWholePeriod, dailySum }
 }
 
-/* From here, get values by income dates */
-
-const getMonthlyIncomeDateDonationsSum = (
-	records: Donation[],
-	month: number
-): number => {
-	return records
-		.filter(
-			(donation) => new Date(donation.incomeDate).getMonth() + 1 === month
-		)
-		.reduce((curr, prev) => curr + prev.value, 0)
-}
-
-const getDailyIncomeDateDonationsSum = (
-	records: Donation[],
-	day: number
-): number => {
-	return records
-		.filter((donation) => new Date(donation.incomeDate).getDay() === day)
-		.reduce((curr, prev) => curr + prev.value, 0)
-}
-
-const getAnnuallyIncomeDateDonationsSum = (
-	records: Donation[],
-	year: number
-): number => {
-	return records
-		.filter((donation) => new Date(donation.incomeDate).getFullYear() === year)
-		.reduce((curr, prev) => curr + prev.value, 0)
-}
-
 export {
-	/* Billing Date */
 	getDonationsPerBillingMonth,
 	getWholePeriodDonationsPerBillingMonth,
 	getAnuallyDonationsPerBillingMonth,
@@ -161,8 +127,4 @@ export {
 	getDailyBillingMonthDonationsSum,
 	getDonationsTotalSum,
 	getBillingMonthDonationGroupedValues,
-	/* Income Date */
-	getMonthlyIncomeDateDonationsSum,
-	getDailyIncomeDateDonationsSum,
-	getAnnuallyIncomeDateDonationsSum,
 }

@@ -10,7 +10,7 @@ export const useDonationCurrentDates = () => {
 	const month = d.getMonth() + 1
 	const monthLabel =
 		DonationBillingMonthLabel[DonationBillingMonth[month] as MonthKey]
-	const year = String(d.getFullYear())
+	const year = d.getFullYear()
 
 	return { todayLabel, today, monthLabel, month, year }
 }

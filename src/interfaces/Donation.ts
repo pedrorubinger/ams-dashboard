@@ -119,3 +119,5 @@ export interface GetDonationsParams {
 export interface GetDonationsResponse {
 	donations: Donation[]
 }
+
+export type DonationReportDateMode = "INCOME" | "BILLING"
