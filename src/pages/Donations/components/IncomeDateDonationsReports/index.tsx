@@ -29,7 +29,7 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 		<Flex flexDirection="column" width="100%">
 			<Box mt={8}>
 				<Text fontWeight="bold" fontSize={20} color="blackAlpha.700">
-					Pagamento de contribuições
+					Recebimento de contribuições
 				</Text>
 			</Box>
 
@@ -41,7 +41,7 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 						</Text>
 						&nbsp;
 						<Tooltip
-							label={`Somatória de todos os pagamentos feitos no dia de hoje (${todayLabel})`}
+							label={`Somatória de todos os pagamentos de contribuições de associados recebidos no dia de hoje (${todayLabel})`}
 							placement="top-start"
 						/>
 					</Flex>
@@ -58,7 +58,7 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 						</Text>
 						&nbsp;
 						<Tooltip
-							label={`Somatória de todos os pagamentos feitos no mês corrente (${monthLabel})`}
+							label={`Somatória de todos os pagamentos de contribuições de associados recebidos no mês corrente (${monthLabel})`}
 							placement="top-start"
 						/>
 					</Flex>
@@ -75,7 +75,7 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 						</Text>
 						&nbsp;
 						<Tooltip
-							label={`Somatória de todos os pagamentos feitos no ano corrente (${year})`}
+							label={`Somatória de todos os pagamentos de contribuições de associados recebidos no ano corrente (${year})`}
 							placement="top-start"
 						/>
 					</Flex>

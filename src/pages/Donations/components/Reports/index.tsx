@@ -25,7 +25,7 @@ export const DonationsReport: React.FC<Props> = ({
 				{!!isLoading && <ReportCardsSkeleton hasFilter={hasFilter} />}
 
 				{!isLoading && (
-					<BillingMonthDonationsReports
+					<IncomeDateDonationsReports
 						hasFilter={hasFilter}
 						dateRange={activeFilter}
 					/>
@@ -36,7 +36,7 @@ export const DonationsReport: React.FC<Props> = ({
 				{!!isLoading && <ReportCardsSkeleton hasFilter={hasFilter} />}
 
 				{!isLoading && (
-					<IncomeDateDonationsReports
+					<BillingMonthDonationsReports
 						hasFilter={hasFilter}
 						dateRange={activeFilter}
 					/>
