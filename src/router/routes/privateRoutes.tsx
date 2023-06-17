@@ -59,19 +59,6 @@ export const privateRoutes: RouteItem[] = [
 		element: <Users />,
 	},
 	{
-		Icon: Money,
-		id: "partnerDonations",
-		path: "/contribuicoes",
-		label: "Contribuições",
-		title: "Clique para gerenciar as contribuições",
-		permissions: ["admin"],
-		element: (
-			<DonationProvider>
-				<Donations />
-			</DonationProvider>
-		),
-	},
-	{
 		Icon: UsersThree,
 		id: "partners",
 		path: "/associados",
@@ -82,6 +69,19 @@ export const privateRoutes: RouteItem[] = [
 			<PartnerProvider>
 				<Partners />
 			</PartnerProvider>
+		),
+	},
+	{
+		Icon: Money,
+		id: "partnerDonations",
+		path: "/contribuicoes",
+		label: "Contribuições",
+		title: "Clique para gerenciar as contribuições",
+		permissions: ["admin"],
+		element: (
+			<DonationProvider>
+				<Donations />
+			</DonationProvider>
 		),
 	},
 ]
