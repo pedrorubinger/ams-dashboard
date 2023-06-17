@@ -3,7 +3,7 @@ import { Flex } from "@chakra-ui/react"
 
 import { ReportsSection } from "~/pages/Donations/components/Reports/styles"
 import {
-	BillingMonthDonationsReports,
+	// BillingMonthDonationsReports,
 	IncomeDateDonationsReports,
 	ReportCardsSkeleton,
 } from "~/pages/Donations/components"
@@ -32,7 +32,7 @@ export const DonationsReport: React.FC<Props> = ({
 				)}
 			</Flex>
 
-			<Flex>
+			{/* <Flex>
 				{!!isLoading && <ReportCardsSkeleton hasFilter={hasFilter} />}
 
 				{!isLoading && (
@@ -41,7 +41,7 @@ export const DonationsReport: React.FC<Props> = ({
 						dateRange={activeFilter}
 					/>
 				)}
-			</Flex>
+			</Flex> */}
 		</>
 	)
 }
