@@ -62,6 +62,7 @@ export const NewDonationDrawer: React.FC<NewDonationDrawerProps> = ({
 		if (isCreating) {
 			const { error } = await createDonation({
 				partnerId: partner.id,
+				incomeDate: values.incomeDate,
 				billingDate: values.billingDate,
 				category: values.category,
 				description: values.description,
