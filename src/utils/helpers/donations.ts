@@ -16,7 +16,7 @@ interface GetGroupedValuesResponse {
 
 const currentYear: number = new Date().getFullYear()
 
-const getDonationsPerMonth = (
+const getDonationsPerBillingMonth = (
 	records: Donation[],
 	targetYear = currentYear
 ): DonationPerMonth[] => {
@@ -56,7 +56,7 @@ const getDonationsPerMonth = (
 	})
 }
 
-const getDonationsPerMonthWholePeriod = (
+const getWholePeriodDonationsPerBillingMonth = (
 	records: Donation[]
 ): DonationPerMonth[][] => {
 	const years: number[] = Array.from(
@@ -68,7 +68,9 @@ const getDonationsPerMonthWholePeriod = (
 				.sort((a, b) => a - b)
 		)
 	)
-	const monthlySum = years.map((year) => getDonationsPerMonth(records, year))
+	const monthlySum = years.map((year) =>
+		getDonationsPerBillingMonth(records, year)
+	)
 
 	return monthlySum
 }
@@ -77,11 +79,13 @@ const getDonationsTotalSum = (records: Donation[]) => {
 	return records.reduce((prev, curr) => prev + curr.value, 0)
 }
 
-const getDonationsAnnuallySum = (monthlySum: DonationPerMonth[]): number => {
+const getAnuallyDonationsPerBillingMonth = (
+	monthlySum: DonationPerMonth[]
+): number => {
 	return monthlySum.reduce((prev, curr) => prev + curr.value, 0)
 }
 
-const getDonationsMonthlySum = (
+const getMonthlyBillingMonthDonationsSum = (
 	donationsPerMonth: DonationPerMonth[],
 	month: DonationBillingMonth
 ): number => {
@@ -94,18 +98,18 @@ const getDonationGroupedValues = (
 	records: Donation[]
 ): GetGroupedValuesResponse => {
 	const totalSum: number = getDonationsTotalSum(records)
-	const monthlySumWholePeriod = getDonationsPerMonthWholePeriod(records)
-	const monthlySum: DonationPerMonth[] = getDonationsPerMonth(records)
-	const annualySum = getDonationsAnnuallySum(monthlySum)
+	const monthlySumWholePeriod = getWholePeriodDonationsPerBillingMonth(records)
+	const monthlySum: DonationPerMonth[] = getDonationsPerBillingMonth(records)
+	const annualySum = getAnuallyDonationsPerBillingMonth(monthlySum)
 
 	return { annualySum, monthlySum, totalSum, monthlySumWholePeriod }
 }
 
 export {
-	getDonationsPerMonth,
-	getDonationsPerMonthWholePeriod,
+	getDonationsPerBillingMonth,
+	getWholePeriodDonationsPerBillingMonth,
+	getAnuallyDonationsPerBillingMonth,
+	getMonthlyBillingMonthDonationsSum,
 	getDonationsTotalSum,
-	getDonationsAnnuallySum,
 	getDonationGroupedValues,
-	getDonationsMonthlySum,
 }

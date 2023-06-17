@@ -3,9 +3,9 @@ import { Flex, Text } from "@chakra-ui/react"
 
 import {
 	priceFormatter,
-	getDonationsPerMonth,
-	getDonationsAnnuallySum,
-	getDonationsMonthlySum,
+	getDonationsPerBillingMonth,
+	getAnuallyDonationsPerBillingMonth,
+	getMonthlyBillingMonthDonationsSum,
 } from "~/utils"
 import { DonationContext } from "~/contexts"
 import { useDonationCurrentDates } from "~/pages/Donations/hooks"
@@ -20,15 +20,15 @@ export const DonationsReport: React.FC<Props> = ({ hasFilter, dateRange }) => {
 	const { records } = useContext(DonationContext)
 	const { today, month, monthLabel, year } = useDonationCurrentDates()
 	const donationsPerMonth = useMemo(
-		() => getDonationsPerMonth(records),
+		() => getDonationsPerBillingMonth(records),
 		[records]
 	)
 	const annuallySum: number = useMemo(
-		() => getDonationsAnnuallySum(donationsPerMonth),
+		() => getAnuallyDonationsPerBillingMonth(donationsPerMonth),
 		[donationsPerMonth]
 	)
 	const monthlySum: number = useMemo(
-		() => getDonationsMonthlySum(donationsPerMonth, month),
+		() => getMonthlyBillingMonthDonationsSum(donationsPerMonth, month),
 		[donationsPerMonth, month]
 	)
 
