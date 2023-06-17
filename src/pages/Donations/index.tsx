@@ -47,11 +47,10 @@ export const Donations: React.FC<Props> = () => {
 	// })
 	// const documentFileName = `Contribuicoes_${new Date().getTime()}.pdf`
 
-	const fetchRecords = useCallback(async (values?: SearchValues) => {
+	const onSearchValues = useCallback((values?: SearchValues) => {
 		console.log("values:", values)
 
 		setActiveFilter(values?.date)
-		await fetchDonations()
 	}, [])
 
 	const actionItems: TableActionMenuItem[] = [
@@ -60,9 +59,7 @@ export const Donations: React.FC<Props> = () => {
 			label: "Recarregar registros",
 			title: "Clique para atualizar a listagem de contribuições",
 			Icon: <ArrowClockwise />,
-			onClick: () => {
-				void fetchRecords(activeFilter ? { date: activeFilter } : undefined)
-			},
+			onClick: () => void fetchDonations(),
 		},
 		// {
 		// 	id: "download",
@@ -77,8 +74,8 @@ export const Donations: React.FC<Props> = () => {
 	]
 
 	useEffect(() => {
-		void fetchRecords()
-	}, [fetchRecords])
+		void fetchDonations()
+	}, [fetchDonations])
 
 	return (
 		<>
@@ -112,7 +109,7 @@ export const Donations: React.FC<Props> = () => {
 						<ReportsDateFilter
 							isLoading={isLoading}
 							hasActiveFilter={hasFilter}
-							fetchRecords={fetchRecords}
+							onSearchValues={onSearchValues}
 						/>
 					</FormProvider>
 

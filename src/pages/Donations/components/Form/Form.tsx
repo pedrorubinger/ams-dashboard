@@ -19,13 +19,13 @@ import { Form, InputLabel, Tooltip } from "~/components"
 import { FilterButton } from "~/pages/Donations/components/Form/styles"
 
 interface Props {
-	fetchRecords: (values?: Values) => Promise<void>
+	onSearchValues: (values?: Values) => void
 	isLoading: boolean
 	hasActiveFilter: boolean
 }
 
 export const ReportsDateFilter: React.FC<Props> = ({
-	fetchRecords,
+	onSearchValues,
 	hasActiveFilter,
 	isLoading,
 }) => {
@@ -40,15 +40,15 @@ export const ReportsDateFilter: React.FC<Props> = ({
 	const [selected, setSelected] = useState<Date[]>([])
 	const isSearchButtonDisabled = isLoading || selected.length !== 2
 
-	const onSubmit = async (values: Values): Promise<void> => {
-		await fetchRecords(values)
+	const onSubmit = (values: Values): void => {
+		onSearchValues(values)
 	}
 
-	const onReset = async () => {
+	const onReset = () => {
 		setValue("date", defaultValues?.date || "")
 		setSelected([])
 
-		if (hasActiveFilter) await fetchRecords()
+		if (hasActiveFilter) onSearchValues()
 	}
 
 	const getResetButtonDescription = () => {
