@@ -3,9 +3,9 @@ import {
 	Gear,
 	House,
 	Money,
-	SignOut,
 	UsersThree,
 	Users as UsersIcon,
+	Power,
 } from "phosphor-react"
 
 import { RouteItem } from "~/interfaces"
@@ -89,7 +89,7 @@ export const privateRoutes: RouteItem[] = [
 export const sideMenuItems: RouteItem[] = [
 	...privateRoutes,
 	{
-		Icon: SignOut,
+		Icon: Power,
 		id: "logout",
 		label: "Sair",
 		title: "Clique para encerrar a sessão atual e sair",
