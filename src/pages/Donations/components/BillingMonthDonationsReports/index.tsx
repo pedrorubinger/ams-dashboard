@@ -6,6 +6,7 @@ import {
 	getDonationsPerBillingMonth,
 	getAnuallyDonationsPerBillingMonth,
 	getMonthlyBillingMonthDonationsSum,
+	getDailyBillingMonthDonationsSum,
 } from "~/utils"
 import { DonationContext } from "~/contexts"
 import { ContentSection, Tooltip } from "~/components"
@@ -22,7 +23,8 @@ export const BillingMonthDonationsReports: React.FC<Props> = ({
 	dateRange,
 }) => {
 	const { records } = useContext(DonationContext)
-	const { today, month, monthLabel, year } = useDonationCurrentDates()
+	const { today, todayLabel, month, monthLabel, year } =
+		useDonationCurrentDates()
 	const donationsPerMonth = useMemo(
 		() => getDonationsPerBillingMonth(records),
 		[records]
@@ -34,6 +36,10 @@ export const BillingMonthDonationsReports: React.FC<Props> = ({
 	const monthlySum: number = useMemo(
 		() => getMonthlyBillingMonthDonationsSum(donationsPerMonth, month),
 		[donationsPerMonth, month]
+	)
+	const dailySum: number = useMemo(
+		() => getDailyBillingMonthDonationsSum(records, today),
+		[records, today]
 	)
 
 	return (
@@ -48,17 +54,17 @@ export const BillingMonthDonationsReports: React.FC<Props> = ({
 				<ContentSection mt={4}>
 					<Flex alignItems="center">
 						<Text color="gray.500" fontSize={15}>
-							Diário ({today})
+							Diário ({todayLabel})
 						</Text>
 						&nbsp;
 						<Tooltip
-							label={`Somatória de todos os lançamentos feitos no dia de hoje (${today})`}
+							label={`Somatória de todos os lançamentos feitos no dia de hoje (${todayLabel})`}
 							placement="top-start"
 						/>
 					</Flex>
 
 					<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
-						-
+						{priceFormatter.format(dailySum / 100)}
 					</Text>
 				</ContentSection>
 

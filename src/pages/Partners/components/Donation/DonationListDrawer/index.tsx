@@ -18,7 +18,7 @@ import {
 
 import { DonationListDrawerProps, ErrorCode } from "~/interfaces"
 import { useIsMounted } from "~/hooks"
-import { priceFormatter, getDonationGroupedValues } from "~/utils"
+import { priceFormatter, getBillingMonthDonationGroupedValues } from "~/utils"
 import { DonationContext } from "~/contexts"
 import {
 	DonationListTable,
@@ -36,7 +36,7 @@ export const DonationListDrawer: React.FC<DonationListDrawerProps> = ({
 	const { isFetching, records, error, fetchDonations } =
 		useContext(DonationContext)
 	const { annualySum, monthlySum, totalSum, monthlySumWholePeriod } =
-		getDonationGroupedValues(records)
+		getBillingMonthDonationGroupedValues(records)
 	const haveValuesFromOtherYears: boolean =
 		monthlySumWholePeriod.flat().length > 12
 	const isLoading = isFetching || !isMounted

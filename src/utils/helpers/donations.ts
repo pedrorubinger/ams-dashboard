@@ -10,11 +10,15 @@ interface GetGroupedValuesResponse {
 	annualySum: number
 	/** value in cents */
 	totalSum: number
+	/** value in cents */
+	dailySum: number
 	monthlySum: DonationPerMonth[]
 	monthlySumWholePeriod: DonationPerMonth[][]
 }
 
-const currentYear: number = new Date().getFullYear()
+const d = new Date()
+const currentYear: number = d.getFullYear()
+const currentDay: number = d.getDay()
 
 const getDonationsPerBillingMonth = (
 	records: Donation[],
@@ -94,15 +98,25 @@ const getMonthlyBillingMonthDonationsSum = (
 		.reduce((curr, prev) => curr + prev.value, 0)
 }
 
-const getDonationGroupedValues = (
+const getDailyBillingMonthDonationsSum = (
+	records: Donation[],
+	day: number
+): number => {
+	return records
+		.filter((donation) => new Date(donation.createdAt).getDay() === day)
+		.reduce((curr, prev) => curr + prev.value, 0)
+}
+
+const getBillingMonthDonationGroupedValues = (
 	records: Donation[]
 ): GetGroupedValuesResponse => {
 	const totalSum: number = getDonationsTotalSum(records)
 	const monthlySumWholePeriod = getWholePeriodDonationsPerBillingMonth(records)
 	const monthlySum: DonationPerMonth[] = getDonationsPerBillingMonth(records)
 	const annualySum = getAnuallyDonationsPerBillingMonth(monthlySum)
+	const dailySum = getDailyBillingMonthDonationsSum(records, currentDay)
 
-	return { annualySum, monthlySum, totalSum, monthlySumWholePeriod }
+	return { annualySum, monthlySum, totalSum, monthlySumWholePeriod, dailySum }
 }
 
 export {
@@ -110,6 +124,7 @@ export {
 	getWholePeriodDonationsPerBillingMonth,
 	getAnuallyDonationsPerBillingMonth,
 	getMonthlyBillingMonthDonationsSum,
+	getDailyBillingMonthDonationsSum,
 	getDonationsTotalSum,
-	getDonationGroupedValues,
+	getBillingMonthDonationGroupedValues,
 }

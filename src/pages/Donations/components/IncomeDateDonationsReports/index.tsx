@@ -16,7 +16,7 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 	dateRange,
 }) => {
 	const { records } = useContext(DonationContext)
-	const { today, month, monthLabel, year } = useDonationCurrentDates()
+	const { todayLabel, month, monthLabel, year } = useDonationCurrentDates()
 
 	return (
 		<Flex flexDirection="column" width="100%">
@@ -30,11 +30,11 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 				<ContentSection mt={4}>
 					<Flex alignItems="center">
 						<Text color="gray.500" fontSize={15}>
-							Diário ({today})
+							Diário ({todayLabel})
 						</Text>
 						&nbsp;
 						<Tooltip
-							label={`Somatória de todos os pagamentos feitos no dia de hoje (${today})`}
+							label={`Somatória de todos os pagamentos feitos no dia de hoje (${todayLabel})`}
 							placement="top-start"
 						/>
 					</Flex>
