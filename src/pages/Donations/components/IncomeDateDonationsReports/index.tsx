@@ -29,7 +29,7 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 		<Flex flexDirection="column" width="100%">
 			<Box mt={8}>
 				<Text fontWeight="bold" fontSize={20} color="blackAlpha.700">
-					Recebimento de contribuições
+					Pagamentos recebidos
 				</Text>
 			</Box>
 
