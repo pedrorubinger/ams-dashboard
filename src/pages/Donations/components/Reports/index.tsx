@@ -1,8 +1,12 @@
 import React from "react"
+import { Flex } from "@chakra-ui/react"
 
 import { ReportsSection } from "~/pages/Donations/components/Reports/styles"
-import { ReportCardsSkeleton } from "~/pages/Donations/components"
-import { BillingMonthDonationsReporta } from "~/pages/Donations/components/Reports/BillingMonthDonationReports"
+import {
+	BillingMonthDonationsReports,
+	IncomeDateDonationsReports,
+	ReportCardsSkeleton,
+} from "~/pages/Donations/components"
 
 interface Props {
 	hasFilter: boolean
@@ -16,14 +20,30 @@ export const DonationsReport: React.FC<Props> = ({
 	isLoading,
 }) => {
 	return (
-		<ReportsSection $hasFilter={hasFilter}>
-			{!!isLoading && <ReportCardsSkeleton hasFilter={hasFilter} />}
-			{!isLoading && (
-				<BillingMonthDonationsReporta
-					hasFilter={hasFilter}
-					dateRange={activeFilter}
-				/>
-			)}
-		</ReportsSection>
+		<>
+			<Flex>
+				{!!isLoading && <ReportCardsSkeleton hasFilter={hasFilter} />}
+
+				{!isLoading && (
+					<BillingMonthDonationsReports
+						hasFilter={hasFilter}
+						dateRange={activeFilter}
+					/>
+				)}
+			</Flex>
+
+			<Flex>
+				{!!isLoading && <ReportCardsSkeleton hasFilter={hasFilter} />}
+
+				{!isLoading && (
+					<IncomeDateDonationsReports
+						hasFilter={hasFilter}
+						dateRange={activeFilter}
+					/>
+				)}
+			</Flex>
+		</>
 	)
 }
+
+export { ReportsSection }

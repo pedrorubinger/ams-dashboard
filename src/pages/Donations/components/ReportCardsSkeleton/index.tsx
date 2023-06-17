@@ -1,4 +1,4 @@
-import { Skeleton, Stack } from "@chakra-ui/react"
+import { Flex, Skeleton, Stack } from "@chakra-ui/react"
 
 import { ContentSection } from "~/components"
 
@@ -8,7 +8,7 @@ interface Props {
 
 export const ReportCardsSkeleton: React.FC<Props> = ({ hasFilter }) => {
 	return (
-		<>
+		<Flex width="100%" gap="0 15px">
 			<ContentSection mt={6}>
 				<Stack mt="2" w="100%">
 					<Skeleton height="15px" width="60%" background="" />
@@ -38,6 +38,6 @@ export const ReportCardsSkeleton: React.FC<Props> = ({ hasFilter }) => {
 					</Stack>
 				</ContentSection>
 			)}
-		</>
+		</Flex>
 	)
 }
