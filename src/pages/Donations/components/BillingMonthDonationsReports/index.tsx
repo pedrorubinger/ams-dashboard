@@ -1,16 +1,12 @@
-import React, { useContext, useMemo } from "react"
+import React from "react"
 import { Box, Flex, Text } from "@chakra-ui/react"
 
-import {
-	priceFormatter,
-	getDonationsPerBillingMonth,
-	getAnuallyDonationsPerBillingMonth,
-	getMonthlyBillingMonthDonationsSum,
-	getDailyBillingMonthDonationsSum,
-} from "~/utils"
-import { DonationContext } from "~/contexts"
+import { priceFormatter } from "~/utils"
 import { ContentSection, Tooltip } from "~/components"
-import { useDonationCurrentDates } from "~/pages/Donations/hooks"
+import {
+	useDonationCurrentDates,
+	useDonationReports,
+} from "~/pages/Donations/hooks"
 import { ReportsSection } from "~/pages/Donations/components/Reports"
 
 interface Props {
@@ -22,25 +18,12 @@ export const BillingMonthDonationsReports: React.FC<Props> = ({
 	hasFilter,
 	dateRange,
 }) => {
-	const { records } = useContext(DonationContext)
 	const { today, todayLabel, month, monthLabel, year } =
 		useDonationCurrentDates()
-	const donationsPerMonth = useMemo(
-		() => getDonationsPerBillingMonth(records),
-		[records]
-	)
-	const annuallySum: number = useMemo(
-		() => getAnuallyDonationsPerBillingMonth(donationsPerMonth),
-		[donationsPerMonth]
-	)
-	const monthlySum: number = useMemo(
-		() => getMonthlyBillingMonthDonationsSum(donationsPerMonth, month),
-		[donationsPerMonth, month]
-	)
-	const dailySum: number = useMemo(
-		() => getDailyBillingMonthDonationsSum(records, today),
-		[records, today]
-	)
+	const { dailySum, monthlySum, annuallySum } = useDonationReports({
+		date: { today, month, year },
+		mode: "BILLING",
+	})
 
 	return (
 		<Flex flexDirection="column" width="100%">
