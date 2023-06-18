@@ -37,7 +37,7 @@ export const PartnerReports: React.FC<Props> = () => {
 						</Text>
 						&nbsp;
 						<Tooltip
-							label="Lista de associados com contribuições não pagas. Apenas considera-se as contribuições não pagas a partir da primeira data de pagamento registrada."
+							label="Lista de associados com contribuições não pagas. São consideradas apenas as contribuições não pagas a partir da primeira data de pagamento registrada."
 							placement="top-start"
 						/>
 					</Flex>
