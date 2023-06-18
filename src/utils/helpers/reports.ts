@@ -34,7 +34,7 @@ const getDailyDonationsSum = (
 		.reduce((curr, prev) => curr + prev.value, 0)
 }
 
-const getAnnuallyIncomeDateDonationsSum = (
+const getAnnuallyDonationsSum = (
 	records: Donation[],
 	year: number,
 	mode: DonationReportDateMode
@@ -48,8 +48,4 @@ const getAnnuallyIncomeDateDonationsSum = (
 		.reduce((curr, prev) => curr + prev.value, 0)
 }
 
-export {
-	getMonthlyDonationsSum,
-	getDailyDonationsSum,
-	getAnnuallyIncomeDateDonationsSum,
-}
+export { getMonthlyDonationsSum, getDailyDonationsSum, getAnnuallyDonationsSum }

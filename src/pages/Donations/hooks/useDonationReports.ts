@@ -3,7 +3,7 @@ import { useContext, useMemo } from "react"
 import { DonationContext } from "~/contexts"
 import { DonationReportDateMode } from "~/interfaces"
 import {
-	getAnnuallyIncomeDateDonationsSum,
+	getAnnuallyDonationsSum,
 	getDailyDonationsSum,
 	getMonthlyDonationsSum,
 } from "~/utils"
@@ -29,7 +29,7 @@ export const useDonationReports = ({ date, mode }: Params) => {
 		[records, month]
 	)
 	const annuallySum = useMemo(
-		() => getAnnuallyIncomeDateDonationsSum(records, Number(year), mode),
+		() => getAnnuallyDonationsSum(records, Number(year), mode),
 		[records, year]
 	)
 
