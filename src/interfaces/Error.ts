@@ -43,6 +43,7 @@ export enum ErrorCode {
 	"400_TENANT_IS_REQUIRED" = "Informe uma instituição.",
 	"400_REGISTRATION_ID_MUST_BE_TEXT" = "A matrícula possui um formato inválido.",
 	"400_REGISTRATION_ID_IS_REQUIRED" = "Informe a matrícula.",
+	"400_REGISTRATION_ID_MUST_BE_NUMERIC" = "A matrícula deve ser um número válido.",
 	"400_CONTENT_MUST_BE_TEXT" = "O conteúdo da pesquisa deve ser um texto.",
 	"400_CONTENT_EXCEEDS_LENGTH_100" = "O conteúdo da pesquisa não pode exceder 100 caracteres.",
 	"400_CONTENT_IS_REQUIRED" = "Informe o conteúdo.",

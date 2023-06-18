@@ -18,7 +18,7 @@ import {
 	SearchDonationSchema,
 } from "~/pages/Donations/components"
 import { ContentSection, PageTitle, TableActionsMenu } from "~/components"
-import { DonationContext } from "~/contexts"
+import { DonationContext, PartnerContext } from "~/contexts"
 import { TOAST_OPTIONS } from "~/utils"
 
 interface Props {}
@@ -26,13 +26,18 @@ interface Props {}
 export const Donations: React.FC<Props> = () => {
 	const toast = useToast()
 	const { error, isFetching, fetchDonations } = useContext(DonationContext)
+	const {
+		error: partnersError,
+		isFetching: isFetchingPartners,
+		fetchPartners,
+	} = useContext(PartnerContext)
 	const form = useForm<SearchValues>({
 		defaultValues: { date: "" },
 		resolver: yupResolver(SearchDonationSchema),
 	})
 	const isMounted = useIsMounted()
 	const [activeFilter, setActiveFilter] = useState<string[] | undefined>()
-	const isLoading = isFetching || !isMounted
+	const isLoading = isFetching || !isMounted || isFetchingPartners
 	const hasFilter = !!activeFilter
 
 	// const [instance] = usePDF({
@@ -82,7 +87,11 @@ export const Donations: React.FC<Props> = () => {
 
 	useEffect(() => {
 		void fetchDonations()
-	}, [fetchDonations])
+	}, [])
+
+	useEffect(() => {
+		void fetchPartners()
+	}, [])
 
 	useEffect(() => {
 		if (error) {
@@ -94,6 +103,17 @@ export const Donations: React.FC<Props> = () => {
 			})
 		}
 	}, [error])
+
+	useEffect(() => {
+		if (partnersError) {
+			toast({
+				...TOAST_OPTIONS,
+				description: partnersError,
+				title: "Erro ao buscar os associados",
+				status: "error",
+			})
+		}
+	}, [partnersError])
 
 	return (
 		<Box mb={3}>

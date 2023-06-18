@@ -2,11 +2,25 @@ import React from "react"
 import { Box, Flex, Text } from "@chakra-ui/react"
 
 import { ContentSection, Tooltip } from "~/components"
+import { usePartnerReports } from "~/pages/Donations/hooks"
 import { ReportsSection } from "~/pages/Donations/components/Reports"
 
 interface Props {}
 
 export const PartnerReports: React.FC<Props> = () => {
+	const { arrearsPartners, upToDatePartners } = usePartnerReports()
+
+	const getUpdateToDatePartnersLabel = () => {
+		return <>{upToDatePartners?.length || 0} associado(s) em dia</>
+	}
+
+	const getArrearsPartnersLabel = () => {
+		return <>{arrearsPartners?.length || 0} associado(s) em atraso</>
+	}
+
+	console.log("upToDatePartners", upToDatePartners)
+	console.log("arrearsPartners", arrearsPartners)
+
 	return (
 		<Flex flexDirection="column" width="100%">
 			<Box mt={8}>
@@ -29,7 +43,7 @@ export const PartnerReports: React.FC<Props> = () => {
 					</Flex>
 
 					<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
-						-
+						{getUpdateToDatePartnersLabel()}
 					</Text>
 				</ContentSection>
 
@@ -46,7 +60,7 @@ export const PartnerReports: React.FC<Props> = () => {
 					</Flex>
 
 					<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
-						-
+						{getArrearsPartnersLabel()}
 					</Text>
 				</ContentSection>
 

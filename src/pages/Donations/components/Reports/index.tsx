@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { Flex, Text } from "@chakra-ui/react"
 
 import { DonationCategory } from "~/interfaces"
-import { DonationContext } from "~/contexts"
+import { DonationContext, PartnerContext } from "~/contexts"
 import { ReportsSection } from "~/pages/Donations/components/Reports/styles"
 import {
 	CategoryDonationsReport,
@@ -28,9 +28,10 @@ export const DonationsReport: React.FC<Props> = ({
 	hasFilter,
 	isLoading,
 }) => {
-	const { error } = useContext(DonationContext)
+	const { error: donationsError } = useContext(DonationContext)
+	const { error: partnersError } = useContext(PartnerContext)
 
-	if (error) {
+	if (donationsError && partnersError) {
 		return (
 			<Flex mt={7} justifyContent="center">
 				<Text
