@@ -1,13 +1,11 @@
-import React, { useState } from "react"
+import React from "react"
 import { Controller, useFieldArray, useFormContext } from "react-hook-form"
 import {
-	Box,
 	Button,
 	Divider,
 	Flex,
 	FormControl,
 	FormErrorMessage,
-	IconButton,
 	Input,
 	InputGroup,
 	Select,
@@ -15,17 +13,9 @@ import {
 import { NumericFormat } from "react-number-format"
 import { MinusCircle, PlusCircle } from "phosphor-react"
 
-import {
-	DonationValues,
-	NewDonationDrawerProps,
-	DonationBillingMonthOption as MonthOption,
-	DonationBillingMonth as MonthValue,
-} from "~/interfaces"
-import {
-	partnerDonationOptions,
-	partnerDonationBillingMonthOptions,
-} from "~/pages/Partners/utils"
-import { Form, InputLabel } from "~/components"
+import { DonationValues, NewDonationDrawerProps } from "~/interfaces"
+import { partnerDonationOptions } from "~/pages/Partners/utils"
+import { Form, InputLabel, Tooltip } from "~/components"
 
 interface Props extends Pick<NewDonationDrawerProps, "mode"> {
 	isSubmitting: boolean
@@ -138,7 +128,30 @@ export const DrawerForm: React.FC<Props> = ({
 				</FormErrorMessage>
 			</FormControl>
 
-			<Divider mb={3} mt={3} />
+			<FormControl isRequired isInvalid={!!errors.incomeDate} mt={5}>
+				<Flex gap={1} margin={0} padding={0}>
+					<InputLabel htmlFor="incomeDate" marginRight={0}>
+						Data do pagamento
+					</InputLabel>
+
+					<Tooltip
+						label="Você deve informar a data em que o pagamento foi feito. Quanto à data do lançamento, saiba que ela é gerada automaticamente após você finalizar o preenchimento destes campos."
+						placement="top-start"
+					/>
+				</Flex>
+
+				<Input
+					type="date"
+					id="incomeDate"
+					placeholder="DD/MM/AAAA"
+					{...register("incomeDate")}
+					disabled={isSubmitting}
+				/>
+
+				<FormErrorMessage>
+					{errors.incomeDate && errors.incomeDate.message}
+				</FormErrorMessage>
+			</FormControl>
 
 			{fields.map((field, index) => {
 				return (

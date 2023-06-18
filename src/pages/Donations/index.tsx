@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react"
-import { Flex, Link, Text } from "@chakra-ui/react"
+import React, { useCallback, useContext, useEffect, useState } from "react"
+import { Box, Flex, Link, Text, useToast } from "@chakra-ui/react"
 import { Link as RouterLink } from "react-router-dom"
 import { FormProvider, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -7,38 +7,31 @@ import { ArrowClockwise, FilePdf } from "phosphor-react"
 // import { usePDF } from "@react-pdf/renderer"
 
 import {
-	Donation,
-	DonationBillingMonth,
-	DonationCategory,
 	DonationSearchValues as SearchValues,
 	TableActionMenuItem,
 } from "~/interfaces"
 import { useIsMounted } from "~/hooks"
-import { useUserStore } from "~/store"
-import { ReportsSection } from "~/pages/Donations/styles"
 import {
-	ReportCardsSkeleton,
 	DonationsReport,
 	ReportsDateFilter,
 	// DonationsDocumentReport,
 	SearchDonationSchema,
 } from "~/pages/Donations/components"
 import { ContentSection, PageTitle, TableActionsMenu } from "~/components"
+import { DonationContext } from "~/contexts"
+import { TOAST_OPTIONS } from "~/utils"
 
 interface Props {}
 
-const initialValues: Donation[] = []
-
 export const Donations: React.FC<Props> = () => {
-	const { user } = useUserStore()
+	const toast = useToast()
+	const { error, isFetching, fetchDonations } = useContext(DonationContext)
 	const form = useForm<SearchValues>({
 		defaultValues: { date: "" },
 		resolver: yupResolver(SearchDonationSchema),
 	})
 	const isMounted = useIsMounted()
-	const [isFetching, setIsFetching] = useState(false)
-	const [records, setRecords] = useState<Donation[]>(initialValues)
-	const [activeFilter, setActiveFilter] = useState<string | undefined>()
+	const [activeFilter, setActiveFilter] = useState<string[] | undefined>()
 	const isLoading = isFetching || !isMounted
 	const hasFilter = !!activeFilter
 
@@ -54,14 +47,17 @@ export const Donations: React.FC<Props> = () => {
 	// })
 	// const documentFileName = `Contribuicoes_${new Date().getTime()}.pdf`
 
-	const fetchRecords = useCallback(async (values?: SearchValues) => {
-		setIsFetching(true)
-		setActiveFilter(values?.date)
-		console.log("fetchRecords > values:", values)
+	const onSearchValues = useCallback((values?: SearchValues) => {
+		const format = (value: string) =>
+			value?.trim()?.split("/")?.reverse()?.join("-")
 
-		setTimeout(() => {
-			setIsFetching(false)
-		}, 3000)
+		const dates = values?.date?.split("-")
+		const initialDate = dates?.[0] ? format(dates[0]) : undefined
+		const finalDate = dates?.[1] ? format(dates[1]) : undefined
+		const formattedDates =
+			initialDate && finalDate ? [initialDate, finalDate] : undefined
+
+		setActiveFilter(formattedDates)
 	}, [])
 
 	const actionItems: TableActionMenuItem[] = [
@@ -70,9 +66,7 @@ export const Donations: React.FC<Props> = () => {
 			label: "Recarregar registros",
 			title: "Clique para atualizar a listagem de contribuições",
 			Icon: <ArrowClockwise />,
-			onClick: () => {
-				void fetchRecords(activeFilter ? { date: activeFilter } : undefined)
-			},
+			onClick: () => void fetchDonations(),
 		},
 		// {
 		// 	id: "download",
@@ -87,11 +81,22 @@ export const Donations: React.FC<Props> = () => {
 	]
 
 	useEffect(() => {
-		void fetchRecords()
-	}, [fetchRecords])
+		void fetchDonations()
+	}, [fetchDonations])
+
+	useEffect(() => {
+		if (error) {
+			toast({
+				...TOAST_OPTIONS,
+				description: error,
+				title: "Erro ao buscar as contribuições",
+				status: "error",
+			})
+		}
+	}, [error])
 
 	return (
-		<>
+		<Box mb={3}>
 			<ContentSection>
 				<PageTitle>Contribuições</PageTitle>
 
@@ -122,7 +127,7 @@ export const Donations: React.FC<Props> = () => {
 						<ReportsDateFilter
 							isLoading={isLoading}
 							hasActiveFilter={hasFilter}
-							fetchRecords={fetchRecords}
+							onSearchValues={onSearchValues}
 						/>
 					</FormProvider>
 
@@ -130,12 +135,11 @@ export const Donations: React.FC<Props> = () => {
 				</Flex>
 			</ContentSection>
 
-			<ReportsSection $hasFilter={hasFilter}>
-				{!!isLoading && <ReportCardsSkeleton hasFilter={hasFilter} />}
-				{!isLoading && (
-					<DonationsReport hasFilter={hasFilter} dateRange={activeFilter} />
-				)}
-			</ReportsSection>
-		</>
+			<DonationsReport
+				activeFilter={activeFilter}
+				isLoading={isLoading}
+				hasFilter={hasFilter}
+			/>
+		</Box>
 	)
 }

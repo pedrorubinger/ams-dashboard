@@ -18,6 +18,7 @@ import {
 	convertCurrencyToNumber,
 	PARTNER_DONATION_BAD_REQUEST_ERRORS,
 	TOAST_OPTIONS,
+	transformDateToISO,
 } from "~/utils"
 import { partnerDonationDrawerFormDefaultValues as defaultValues } from "~/pages/Partners/utils"
 import { DrawerForm, NewDonationSchema } from "~/pages/Partners/components"
@@ -62,7 +63,8 @@ export const NewDonationDrawer: React.FC<NewDonationDrawerProps> = ({
 		if (isCreating) {
 			const { error } = await createDonation({
 				partnerId: partner.id,
-				billingDate: values.billingDate,
+				incomeDate: transformDateToISO(values.incomeDate),
+				billingDate: Array.from(new Set(values.billingDate)),
 				category: values.category,
 				description: values.description,
 				value: convertCurrencyToNumber(values.value) * 100,

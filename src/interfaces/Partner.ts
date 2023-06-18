@@ -13,8 +13,9 @@ export enum FindPartnerField {
 
 export interface PartnerRecord extends Partner {}
 
-export interface PartnerValues extends Pick<Partner, "name" | "id"> {
+export interface PartnerValues extends Pick<Partner, "name"> {
 	autoRegistrationId: boolean
+	id?: string
 }
 
 export interface GetPartnerParams {

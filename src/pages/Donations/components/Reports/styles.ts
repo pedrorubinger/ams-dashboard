@@ -7,10 +7,12 @@ interface Props extends FlexProps {
 }
 
 export const ReportsSection = styled(Flex).attrs(() => ({
-	gap: "0 20px",
+	gap: "0 15px",
 }))<Props>`
 	@media (max-width: ${({ $hasFilter }) => ($hasFilter ? 1400 : 1200)}px) {
 		flex-direction: column;
 		margin-bottom: 15px;
 	}
+
+	width: 100%;
 `

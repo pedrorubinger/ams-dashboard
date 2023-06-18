@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import {
 	Box,
 	FormControl,
@@ -12,17 +12,18 @@ import { useFormContext } from "react-hook-form"
 import { RangeDatepicker } from "chakra-dayzed-datepicker"
 
 import { DonationSearchValues as Values } from "~/interfaces"
-import { FilterButton } from "~/pages/Donations/components/Form/styles"
+import { DonationContext } from "~/contexts"
 import { Form, InputLabel, Tooltip } from "~/components"
+import { FilterButton } from "~/pages/Donations/components/Form/styles"
 
 interface Props {
-	fetchRecords: (values?: Values) => Promise<void>
+	onSearchValues: (values?: Values) => void
 	isLoading: boolean
 	hasActiveFilter: boolean
 }
 
 export const ReportsDateFilter: React.FC<Props> = ({
-	fetchRecords,
+	onSearchValues,
 	hasActiveFilter,
 	isLoading,
 }) => {
@@ -32,18 +33,20 @@ export const ReportsDateFilter: React.FC<Props> = ({
 		setValue,
 		formState: { errors, defaultValues, isDirty },
 	} = useFormContext<Values>()
+	const { error } = useContext(DonationContext)
 	const [selected, setSelected] = useState<Date[]>([])
-	const isSearchButtonDisabled = isLoading || selected.length !== 2
+	const isSearchButtonDisabled = isLoading || selected.length !== 2 || !!error
+	const isClearButtonDisabled = isLoading || !!error
 
-	const onSubmit = async (values: Values): Promise<void> => {
-		await fetchRecords(values)
+	const onSubmit = (values: Values): void => {
+		onSearchValues(values)
 	}
 
-	const onReset = async () => {
+	const onReset = () => {
 		setValue("date", defaultValues?.date || "")
 		setSelected([])
 
-		if (hasActiveFilter) await fetchRecords()
+		if (hasActiveFilter) onSearchValues()
 	}
 
 	const getResetButtonDescription = () => {
@@ -70,7 +73,7 @@ export const ReportsDateFilter: React.FC<Props> = ({
 								placement="top-start"
 							>
 								<FilterButton
-									isDisabled={isLoading}
+									isDisabled={isClearButtonDisabled}
 									icon={<Eraser size={14} />}
 									marginBottom={2}
 									aria-label="Desfazer filtros"
@@ -86,13 +89,9 @@ export const ReportsDateFilter: React.FC<Props> = ({
 								dayOfMonthBtnProps: {
 									defaultBtnProps: {
 										borderColor: "gray.200",
-										_hover: {
-											background: "gray.300",
-										},
+										_hover: { background: "gray.300" },
 									},
-									isInRangeBtnProps: {
-										background: "orange.100",
-									},
+									isInRangeBtnProps: { background: "orange.100" },
 									selectedBtnProps: {
 										background: "azure",
 										borderColor: "ActiveBorder",

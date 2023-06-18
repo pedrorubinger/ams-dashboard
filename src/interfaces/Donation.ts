@@ -81,6 +81,7 @@ export interface Donation {
 	partnerId: string
 	billingDate: string[]
 	category: DonationCategory
+	incomeDate: string
 	value: number // in cents
 	description?: string
 	createdAt: Date
@@ -88,7 +89,7 @@ export interface Donation {
 }
 
 export interface DonationValues
-	extends Pick<Donation, "category" | "description"> {
+	extends Pick<Donation, "category" | "description" | "incomeDate"> {
 	value: string
 	billingDate: string[]
 }
@@ -118,3 +119,5 @@ export interface GetDonationsParams {
 export interface GetDonationsResponse {
 	donations: Donation[]
 }
+
+export type DonationReportDateMode = "INCOME" | "BILLING"

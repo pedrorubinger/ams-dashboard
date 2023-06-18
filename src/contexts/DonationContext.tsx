@@ -19,7 +19,7 @@ interface DonationContextType {
 	isFetching: boolean
 	records: Donation[]
 	error: Error
-	fetchDonations: (values: GetDonationsParams) => Promise<void>
+	fetchDonations: (values?: GetDonationsParams) => Promise<void>
 	clearRecords: () => void
 }
 
@@ -33,8 +33,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
 
 	const fetchDonations = useCallback(async (values?: GetDonationsParams) => {
 		setIsFetching(true)
-
-		if (error) setError(null)
+		setError(null)
 
 		const params: GetDonationsParams = {
 			category: values?.category,

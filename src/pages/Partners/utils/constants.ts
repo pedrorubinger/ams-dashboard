@@ -30,7 +30,8 @@ export const partnerDonationColumns: TableColumn[] = [
 	{ id: 1, label: "Categoria" },
 	{ id: 2, label: "Competência(s)" },
 	{ id: 3, label: "Valor" },
-	{ id: 4, label: "Lançado em" },
+	{ id: 4, label: "Pago em" },
+	{ id: 5, label: "Lançado em" },
 ]
 
 export const partnerDonationPerMonthColumns: TableColumn[] = [
@@ -45,18 +46,9 @@ export const searchOptions: SearchTypeOption[] = [
 ]
 
 export const partnerDonationOptions: DonationCategoryOption[] = [
-	{
-		label: CategoryLabel.COPASA,
-		value: CategoryValue.COPASA,
-	},
-	{
-		label: CategoryLabel.PIX,
-		value: CategoryValue.PIX,
-	},
-	{
-		label: CategoryLabel.TICKET,
-		value: CategoryValue.TICKET,
-	},
+	{ label: CategoryLabel.COPASA, value: CategoryValue.COPASA },
+	{ label: CategoryLabel.PIX, value: CategoryValue.PIX },
+	{ label: CategoryLabel.TICKET, value: CategoryValue.TICKET },
 ]
 
 export const partnerDonationBillingMonthOptions: MonthOption[] = [
@@ -76,6 +68,7 @@ export const partnerDonationBillingMonthOptions: MonthOption[] = [
 
 const currMonthValue = new Date().getMonth() + 1 // count starts with 0
 const currMonth = MonthValue[currMonthValue] as unknown as MonthValue
+
 export const partnerDonationDrawerFormDefaultValues: Partial<DonationValues> = {
 	billingDate: [
 		`${String(MonthValue[currMonth] as unknown as MonthValue).padStart(
@@ -83,4 +76,9 @@ export const partnerDonationDrawerFormDefaultValues: Partial<DonationValues> = {
 			"0"
 		)}/${new Date().getFullYear()}`,
 	],
+	incomeDate: new Date()
+		.toLocaleDateString("pt-BR")
+		.split("/")
+		.reverse()
+		.join("-"),
 }

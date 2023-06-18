@@ -64,6 +64,8 @@ export enum ErrorCode {
 	"400_DONATION_VALUE_IS_REQUIRED" = "Informe o valor da contribuição.",
 	"400_DONATION_DESCRIPTION_MUST_BE_TEXT" = "A descrição da contribuição possui um formato inválido.",
 	"400_AUTO_REGISTRATION_MUST_BE_BOOLEAN" = "Informe corretamente se deseja gerar uma matrícula automaticamente.",
+	"400_DONATION_INCOME_DATE_MUST_BE_DATE" = "A data de pagamento deve ser estar no formato correto de data!",
+	"400_DONATION_INCOME_DATE_IS_REQUIRED" = "Informe a data de pagamento da contribuição.",
 }
 
 export interface ServerErrorResponse {

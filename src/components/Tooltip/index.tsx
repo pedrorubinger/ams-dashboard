@@ -1,6 +1,10 @@
 /* eslint-disable import/named */
 import React from "react"
-import { Tooltip as ChakraUITooltip, TooltipProps } from "@chakra-ui/react"
+import {
+	IconProps,
+	Tooltip as ChakraUITooltip,
+	TooltipProps,
+} from "@chakra-ui/react"
 import { Question } from "phosphor-react"
 
 interface Props extends Partial<TooltipProps> {

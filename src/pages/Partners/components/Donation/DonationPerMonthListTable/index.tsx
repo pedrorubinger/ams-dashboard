@@ -37,7 +37,10 @@ export const DonationPerMonthListTable: React.FC<Props> = ({
 									: "orange"
 
 							return (
-								<Tr key={record.month} _hover={{ background: "blackAlpha.50" }}>
+								<Tr
+									key={record.billingLabel}
+									_hover={{ background: "blackAlpha.50" }}
+								>
 									<Td>{record.billingLabel}</Td>
 									<Td>{value}</Td>
 									<Td>

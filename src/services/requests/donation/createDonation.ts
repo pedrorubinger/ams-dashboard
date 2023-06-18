@@ -12,9 +12,11 @@ export const createDonation = async ({
 	partnerId,
 	value,
 	description,
+	incomeDate,
 }: CreateDonationPayload): Promise<ServerResponse<CreateDonationResponse>> => {
 	try {
 		const { data } = await Api.post<CreateDonationResponse>("/donations", {
+			incomeDate,
 			billingDate,
 			category,
 			partnerId,
