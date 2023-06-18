@@ -45,6 +45,8 @@ export const NewDonationDrawer: React.FC<NewDonationDrawerProps> = ({
 		if (!isSubmitting) onClose()
 	}
 
+	console.log("defaultValues", defaultValues)
+
 	const handleFormError = (error: ErrorCode | undefined) => {
 		const message =
 			error || "Desculpe, ocorreu um erro interno. Tente novamente mais tarde."

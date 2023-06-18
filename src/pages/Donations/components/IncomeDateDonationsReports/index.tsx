@@ -21,9 +21,10 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 }) => {
 	const { todayLabel, today, year, month, monthLabel } =
 		useDonationCurrentDates()
-	const { dailySum, monthlySum, annuallySum } = useDonationReports({
+	const { dailySum, monthlySum, annuallySum, rangeSum } = useDonationReports({
 		date: { month, today, year },
 		mode: "INCOME",
+		range: dateRange,
 	})
 
 	const formattedRange = dateRange
@@ -104,7 +105,7 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 							/>
 						</Flex>
 						<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
-							-
+							{priceFormatter.format(rangeSum / 100)}
 						</Text>
 					</ContentSection>
 				)}

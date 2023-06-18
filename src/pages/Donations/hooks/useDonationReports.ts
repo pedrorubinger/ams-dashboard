@@ -5,6 +5,7 @@ import { DonationReportDateMode } from "~/interfaces"
 import {
 	getAnnuallyDonationsSum,
 	getDailyDonationsSum,
+	getDonationsSumByRange,
 	getMonthlyDonationsSum,
 } from "~/utils"
 
@@ -15,23 +16,35 @@ interface Params {
 		year: number
 	}
 	mode: DonationReportDateMode
+	range?: string[]
 }
 
-export const useDonationReports = ({ date, mode }: Params) => {
+interface Response {
+	dailySum: number
+	annuallySum: number
+	monthlySum: number
+	rangeSum: number
+}
+
+export const useDonationReports = ({ date, mode, range }: Params): Response => {
 	const { month, today, year } = date
 	const { records } = useContext(DonationContext)
 	const dailySum = useMemo(
-		() => getDailyDonationsSum(records, today, mode),
+		() => getDailyDonationsSum({ records, target: today, mode }),
 		[records, today]
 	)
 	const monthlySum = useMemo(
-		() => getMonthlyDonationsSum(records, month, mode),
+		() => getMonthlyDonationsSum({ records, target: month, mode }),
 		[records, month]
 	)
 	const annuallySum = useMemo(
-		() => getAnnuallyDonationsSum(records, Number(year), mode),
+		() => getAnnuallyDonationsSum({ records, target: year, mode }),
 		[records, year]
 	)
+	const rangeSum = useMemo(
+		() => getDonationsSumByRange({ records, range, mode }),
+		[records, range, mode]
+	)
 
-	return { dailySum, annuallySum, monthlySum }
+	return { dailySum, annuallySum, monthlySum, rangeSum }
 }

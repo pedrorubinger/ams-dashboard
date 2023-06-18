@@ -1,51 +1,92 @@
-/* From here, get values by income dates */
-
 import { Donation, DonationReportDateMode } from "~/interfaces"
 
 const getPropName = (mode: DonationReportDateMode): keyof Donation => {
 	if (mode === "INCOME") return "incomeDate" as keyof Donation
-
 	return "createdAt" as keyof Donation
 }
 
-const getMonthlyDonationsSum = (
-	records: Donation[],
-	month: number,
+interface DefaultParams {
+	records: Donation[]
+	target: number
 	mode: DonationReportDateMode
-): number => {
+}
+
+const getMonthlyDonationsSum = ({
+	records,
+	target,
+	mode,
+}: DefaultParams): number => {
 	const prop = getPropName(mode)
 
 	return records
 		.filter(
-			(donation) => new Date(donation[prop] as Date).getMonth() + 1 === month
+			(donation) => new Date(donation[prop] as Date).getMonth() + 1 === target
 		)
 		.reduce((curr, prev) => curr + prev.value, 0)
 }
 
-const getDailyDonationsSum = (
-	records: Donation[],
-	day: number,
-	mode: DonationReportDateMode
-): number => {
+const getDailyDonationsSum = ({
+	records,
+	target,
+	mode,
+}: DefaultParams): number => {
 	const prop = getPropName(mode)
 
 	return records
-		.filter((donation) => new Date(donation[prop] as Date).getDay() === day)
+		.filter((donation) => {
+			console.log(
+				"donation",
+				donation[prop],
+				new Date(donation[prop] as Date).getDay(),
+				target
+			)
+
+			return new Date(donation[prop] as Date).getDay() === target
+		})
 		.reduce((curr, prev) => curr + prev.value, 0)
 }
 
-const getAnnuallyDonationsSum = (
-	records: Donation[],
-	year: number,
-	mode: DonationReportDateMode
-): number => {
+const getAnnuallyDonationsSum = ({
+	records,
+	target,
+	mode,
+}: DefaultParams): number => {
 	const prop = getPropName(mode)
 
 	return records
 		.filter(
-			(donation) => new Date(donation[prop] as Date).getFullYear() === year
+			(donation) => new Date(donation[prop] as Date).getFullYear() === target
 		)
 		.reduce((curr, prev) => curr + prev.value, 0)
 }
 
-export { getMonthlyDonationsSum, getDailyDonationsSum, getAnnuallyDonationsSum }
+interface GetByRangeParams extends Omit<DefaultParams, "target"> {
+	range?: string[]
+}
+
+const getDonationsSumByRange = ({
+	records,
+	mode,
+	range,
+}: GetByRangeParams): number => {
+	if (!range) return 0
+
+	const prop = getPropName(mode)
+	const startDate = range[0]
+	const endDate = range[1]
+
+	return records
+		.filter((donation) => {
+			const date = new Date(donation[prop] as Date).toISOString().split("T")[0]
+
+			return date >= startDate && date <= endDate
+		})
+		.reduce((total, { value }) => total + value, 0)
+}
+
+export {
+	getMonthlyDonationsSum,
+	getDailyDonationsSum,
+	getAnnuallyDonationsSum,
+	getDonationsSumByRange,
+}
