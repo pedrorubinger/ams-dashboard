@@ -18,7 +18,7 @@ interface GetGroupedValuesResponse {
 
 const d = new Date()
 const currentYear: number = d.getFullYear()
-const currentDay: number = d.getDay()
+const currentDay: number = d.getDate()
 
 const getDonationsPerBillingMonth = (
 	records: Donation[],
@@ -103,7 +103,7 @@ const getDailyBillingMonthDonationsSum = (
 	day: number
 ): number => {
 	return records
-		.filter((donation) => new Date(donation.createdAt).getDay() === day)
+		.filter((donation) => new Date(donation.createdAt).getDate() === day)
 		.reduce((curr, prev) => curr + prev.value, 0)
 }
 
