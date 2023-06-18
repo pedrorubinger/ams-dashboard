@@ -22,7 +22,10 @@ export const PartnerReports: React.FC<Props> = () => {
 							Em dia
 						</Text>
 						&nbsp;
-						<Tooltip label="Lista de associados em dia" placement="top-start" />
+						<Tooltip
+							label="Lista de associados em dia, ou seja, sem atrasos de pagamento. São consideradas apenas as contribuições pagas a partir da primeira data de pagamento registrada."
+							placement="top-start"
+						/>
 					</Flex>
 
 					<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
