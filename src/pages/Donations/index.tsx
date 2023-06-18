@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react"
-import { Flex, Link, Text } from "@chakra-ui/react"
+import { Box, Flex, Link, Text } from "@chakra-ui/react"
 import { Link as RouterLink } from "react-router-dom"
 import { FormProvider, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -83,7 +83,7 @@ export const Donations: React.FC<Props> = () => {
 	}, [fetchDonations])
 
 	return (
-		<>
+		<Box mb={3}>
 			<ContentSection>
 				<PageTitle>Contribuições</PageTitle>
 
@@ -127,6 +127,6 @@ export const Donations: React.FC<Props> = () => {
 				isLoading={isLoading}
 				hasFilter={hasFilter}
 			/>
-		</>
+		</Box>
 	)
 }
