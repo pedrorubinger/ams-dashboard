@@ -11,7 +11,6 @@ import {
 	TableActionMenuItem,
 } from "~/interfaces"
 import { useIsMounted } from "~/hooks"
-import { useUserStore } from "~/store"
 import {
 	DonationsReport,
 	ReportsDateFilter,
@@ -24,14 +23,13 @@ import { DonationContext } from "~/contexts"
 interface Props {}
 
 export const Donations: React.FC<Props> = () => {
-	const { user } = useUserStore()
 	const { isFetching, fetchDonations } = useContext(DonationContext)
 	const form = useForm<SearchValues>({
 		defaultValues: { date: "" },
 		resolver: yupResolver(SearchDonationSchema),
 	})
 	const isMounted = useIsMounted()
-	const [activeFilter, setActiveFilter] = useState<string | undefined>()
+	const [activeFilter, setActiveFilter] = useState<string[] | undefined>()
 	const isLoading = isFetching || !isMounted
 	const hasFilter = !!activeFilter
 
@@ -48,9 +46,19 @@ export const Donations: React.FC<Props> = () => {
 	// const documentFileName = `Contribuicoes_${new Date().getTime()}.pdf`
 
 	const onSearchValues = useCallback((values?: SearchValues) => {
-		console.log("values:", values)
+		const format = (value: string) =>
+			value?.trim()?.split("/")?.reverse()?.join("-")
 
-		setActiveFilter(values?.date)
+		const dates = values?.date?.split("-")
+		const initialDate = dates?.[0] ? format(dates[0]) : undefined
+		const finalDate = dates?.[1] ? format(dates[1]) : undefined
+
+		const formattedDates =
+			initialDate && finalDate ? [initialDate, finalDate] : undefined
+		// const formattedDates =
+		// 	initialDate && finalDate ? `${initialDate}#${finalDate}` : undefined
+
+		setActiveFilter(formattedDates)
 	}, [])
 
 	const actionItems: TableActionMenuItem[] = [

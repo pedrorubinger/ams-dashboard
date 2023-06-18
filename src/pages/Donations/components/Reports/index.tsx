@@ -11,7 +11,7 @@ import {
 interface Props {
 	hasFilter: boolean
 	isLoading: boolean
-	activeFilter: string | undefined
+	activeFilter: string[] | undefined
 }
 
 export const DonationsReport: React.FC<Props> = ({

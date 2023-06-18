@@ -7,11 +7,11 @@ import {
 	useDonationReports,
 } from "~/pages/Donations/hooks"
 import { ReportsSection } from "~/pages/Donations/components/Reports"
-import { priceFormatter } from "~/utils"
+import { dateFormatter, priceFormatter, transformDateToISO } from "~/utils"
 
 interface Props {
 	hasFilter: boolean
-	dateRange?: string
+	dateRange?: string[]
 }
 
 export const IncomeDateDonationsReports: React.FC<Props> = ({
@@ -24,6 +24,15 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 		date: { month, today, year },
 		mode: "INCOME",
 	})
+
+	const formatDate = (value: string) =>
+		dateFormatter.format(new Date(transformDateToISO(value)))
+
+	const formattedRange = dateRange
+		? `${formatDate(dateRange[0])} - ${formatDate(dateRange[1])}`
+		: ""
+
+	console.log("date range", dateRange)
 
 	return (
 		<Flex flexDirection="column" width="100%">
@@ -92,9 +101,7 @@ export const IncomeDateDonationsReports: React.FC<Props> = ({
 							</Text>
 							&nbsp;
 							<Tooltip
-								label={`Somatória de todos os pagamentos feitos no intervalo de datas selecionado${
-									dateRange ? ` (${dateRange})` : ""
-								}`}
+								label={`Somatória de todos os pagamentos feitos no intervalo de datas selecionado (${formattedRange})`}
 								placement="top-start"
 							/>
 						</Flex>
