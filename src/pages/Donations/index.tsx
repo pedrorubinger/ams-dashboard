@@ -55,8 +55,6 @@ export const Donations: React.FC<Props> = () => {
 
 		const formattedDates =
 			initialDate && finalDate ? [initialDate, finalDate] : undefined
-		// const formattedDates =
-		// 	initialDate && finalDate ? `${initialDate}#${finalDate}` : undefined
 
 		setActiveFilter(formattedDates)
 	}, [])
