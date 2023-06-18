@@ -37,8 +37,8 @@ export const DonationsReport: React.FC<Props> = ({
 				<Text
 					fontWeight="bold"
 					color="blackAlpha.600"
-					fontSize={18}
 					textAlign="center"
+					fontSize={18}
 				>
 					Desculpe, não foi possível gerar os seus relatórios neste momento. Por
 					favor, tente novamente mais tarde.
@@ -50,6 +50,11 @@ export const DonationsReport: React.FC<Props> = ({
 	return (
 		<>
 			<Flex>
+				{!!isLoading && <ReportCardsSkeleton hasFilter={false} />}
+				{!isLoading && <PartnerReports />}
+			</Flex>
+
+			<Flex>
 				{!!isLoading && <ReportCardsSkeleton hasFilter={hasFilter} />}
 				{!isLoading && (
 					<IncomeDateDonationsReports
@@ -57,11 +62,6 @@ export const DonationsReport: React.FC<Props> = ({
 						dateRange={activeFilter}
 					/>
 				)}
-			</Flex>
-
-			<Flex>
-				{!!isLoading && <ReportCardsSkeleton hasFilter={false} />}
-				{!isLoading && <PartnerReports />}
 			</Flex>
 
 			{CATEGORIES.map((category) => {

@@ -64,7 +64,9 @@ export const ReportsDateFilter: React.FC<Props> = ({
 		<Box mt={8} mb={4}>
 			<Form onSubmit={handleSubmit(onSubmit)}>
 				<FormControl isInvalid={!!errors.date} width="sm">
-					<InputLabel htmlFor="date">Filtrar por datas</InputLabel>
+					<InputLabel htmlFor="date">
+						Filtrar por datas (apenas para pagamentos)
+					</InputLabel>
 
 					<InputGroup>
 						<InputLeftElement>
