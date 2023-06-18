@@ -4,8 +4,8 @@ import { Flex } from "@chakra-ui/react"
 import { ReportsSection } from "~/pages/Donations/components/Reports/styles"
 import {
 	CategoryDonationsReport,
-	// BillingMonthDonationsReports,
 	IncomeDateDonationsReports,
+	PartnerReports,
 	ReportCardsSkeleton,
 } from "~/pages/Donations/components"
 import { DonationCategory } from "~/interfaces"
@@ -40,6 +40,8 @@ export const DonationsReport: React.FC<Props> = ({
 				)}
 			</Flex>
 
+			<PartnerReports />
+
 			{CATEGORIES.map((category) => {
 				return (
 					<Flex key={category}>
@@ -55,17 +57,6 @@ export const DonationsReport: React.FC<Props> = ({
 					</Flex>
 				)
 			})}
-
-			{/* <Flex>
-				{!!isLoading && <ReportCardsSkeleton hasFilter={hasFilter} />}
-
-				{!isLoading && (
-					<BillingMonthDonationsReports
-						hasFilter={hasFilter}
-						dateRange={activeFilter}
-					/>
-				)}
-			</Flex> */}
 		</>
 	)
 }
