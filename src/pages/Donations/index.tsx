@@ -52,7 +52,6 @@ export const Donations: React.FC<Props> = () => {
 		const dates = values?.date?.split("-")
 		const initialDate = dates?.[0] ? format(dates[0]) : undefined
 		const finalDate = dates?.[1] ? format(dates[1]) : undefined
-
 		const formattedDates =
 			initialDate && finalDate ? [initialDate, finalDate] : undefined
 
