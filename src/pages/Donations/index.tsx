@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react"
-import { Box, Flex, Link, Text } from "@chakra-ui/react"
+import { Box, Flex, Link, Text, useToast } from "@chakra-ui/react"
 import { Link as RouterLink } from "react-router-dom"
 import { FormProvider, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -19,11 +19,13 @@ import {
 } from "~/pages/Donations/components"
 import { ContentSection, PageTitle, TableActionsMenu } from "~/components"
 import { DonationContext } from "~/contexts"
+import { TOAST_OPTIONS } from "~/utils"
 
 interface Props {}
 
 export const Donations: React.FC<Props> = () => {
-	const { isFetching, fetchDonations } = useContext(DonationContext)
+	const toast = useToast()
+	const { error, isFetching, fetchDonations } = useContext(DonationContext)
 	const form = useForm<SearchValues>({
 		defaultValues: { date: "" },
 		resolver: yupResolver(SearchDonationSchema),
@@ -81,6 +83,17 @@ export const Donations: React.FC<Props> = () => {
 	useEffect(() => {
 		void fetchDonations()
 	}, [fetchDonations])
+
+	useEffect(() => {
+		if (error) {
+			toast({
+				...TOAST_OPTIONS,
+				description: error,
+				title: "Erro ao buscar as contribuições",
+				status: "error",
+			})
+		}
+	}, [error])
 
 	return (
 		<Box mb={3}>

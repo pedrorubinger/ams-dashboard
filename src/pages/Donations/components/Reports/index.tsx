@@ -1,7 +1,8 @@
-import React from "react"
-import { Flex } from "@chakra-ui/react"
+import React, { useContext } from "react"
+import { Flex, Text } from "@chakra-ui/react"
 
 import { DonationCategory } from "~/interfaces"
+import { DonationContext } from "~/contexts"
 import { ReportsSection } from "~/pages/Donations/components/Reports/styles"
 import {
 	CategoryDonationsReport,
@@ -27,6 +28,24 @@ export const DonationsReport: React.FC<Props> = ({
 	hasFilter,
 	isLoading,
 }) => {
+	const { error } = useContext(DonationContext)
+
+	if (error) {
+		return (
+			<Flex mt={7} justifyContent="center">
+				<Text
+					fontWeight="bold"
+					color="blackAlpha.600"
+					fontSize={18}
+					textAlign="center"
+				>
+					Desculpe, não foi possível gerar os seus relatórios neste momento. Por
+					favor, tente novamente mais tarde.
+				</Text>
+			</Flex>
+		)
+	}
+
 	return (
 		<>
 			<Flex>

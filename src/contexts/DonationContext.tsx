@@ -33,8 +33,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
 
 	const fetchDonations = useCallback(async (values?: GetDonationsParams) => {
 		setIsFetching(true)
-
-		if (error) setError(null)
+		setError(null)
 
 		const params: GetDonationsParams = {
 			category: values?.category,
