@@ -34,13 +34,6 @@ const getDailyDonationsSum = ({
 
 	return records
 		.filter((donation) => {
-			console.log(
-				"donation",
-				donation[prop],
-				new Date(donation[prop] as Date).getDay(),
-				target
-			)
-
 			return new Date(donation[prop] as Date).getDay() === target
 		})
 		.reduce((curr, prev) => curr + prev.value, 0)
