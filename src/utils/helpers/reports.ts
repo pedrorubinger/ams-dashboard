@@ -161,11 +161,11 @@ const getPassedMonths = (firstDate: string) => {
 	return passed
 }
 
-const getUpToDatePartners = ({
+const getPartnerPayments = ({
 	partners,
 	donations,
 }: DefaultPartnerParams): PartnerReportRecord[] => {
-	return partners.map((partner) => {
+	const records = partners.map((partner) => {
 		const partnerDonations = donations.filter(
 			(donation) => donation.partnerId === partner.id
 		)
@@ -185,6 +185,8 @@ const getUpToDatePartners = ({
 			arrears: passedMonths.filter((month) => !billingMonths.includes(month)),
 		}
 	}) as PartnerReportRecord[]
+
+	return records.filter(Boolean)
 }
 
 export {
@@ -194,5 +196,5 @@ export {
 	getAnnuallyDonationsSum,
 	getDonationsSumByRange,
 	/* Partner Reports */
-	getUpToDatePartners,
+	getPartnerPayments,
 }
