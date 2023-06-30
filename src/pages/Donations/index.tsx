@@ -32,7 +32,8 @@ interface Props {}
 export const Donations: React.FC<Props> = () => {
 	const toast = useToast()
 	const hasRendered = useRef(true)
-	const { error, isFetching, fetchDonations } = useContext(DonationContext)
+	const { error, isFetching, fetchDonations, clearRecords } =
+		useContext(DonationContext)
 	const {
 		error: partnersError,
 		isFetching: isFetchingPartners,
@@ -78,7 +79,10 @@ export const Donations: React.FC<Props> = () => {
 			label: "Recarregar registros",
 			title: "Clique para atualizar a listagem de contribuições",
 			Icon: <ArrowClockwise />,
-			onClick: () => void fetchDonations(),
+			onClick: () => {
+				clearRecords()
+				void fetchDonations()
+			},
 		},
 		// {
 		// 	id: "download",
@@ -95,7 +99,7 @@ export const Donations: React.FC<Props> = () => {
 	useEffect(() => {
 		if (hasRendered.current) {
 			hasRendered.current = false
-			void fetchDonations({ size: 1000 })
+			void fetchDonations()
 		}
 	}, [])
 
