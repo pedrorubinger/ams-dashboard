@@ -102,7 +102,7 @@ export const PartnerReports: React.FC<Props> = () => {
 						</Flex>
 
 						<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
-							{partners?.length ? `${partners.length} associados` : "-"}
+							{partners?.length ? `${partners.length} associado(s)` : "-"}
 						</Text>
 					</ContentSection>
 
