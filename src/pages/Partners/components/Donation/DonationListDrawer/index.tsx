@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useRef } from "react"
 import {
 	Accordion,
 	AccordionButton,
@@ -32,6 +32,7 @@ export const DonationListDrawer: React.FC<DonationListDrawerProps> = ({
 	onClose,
 }) => {
 	const isMounted = useIsMounted()
+	const hasRendered = useRef(true)
 	const partnerName: string = partner?.name || "associado"
 	const { isFetching, records, error, fetchDonations } =
 		useContext(DonationContext)
@@ -151,7 +152,9 @@ export const DonationListDrawer: React.FC<DonationListDrawerProps> = ({
 	)
 
 	useEffect(() => {
-		if (partner) {
+		if (hasRendered.current && partner) {
+			hasRendered.current = false
+
 			void fetchDonations({ partnerId: partner.id })
 		}
 	}, [partner])

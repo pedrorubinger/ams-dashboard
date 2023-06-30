@@ -67,9 +67,6 @@ export const PartnerReports: React.FC<Props> = () => {
 		)
 	}
 
-	console.log("upToDatePartners", upToDatePartners)
-	console.log("arrearsPartners", arrearsPartners)
-
 	const onCloseDetailsModal = () => setDetailsModal(null)
 
 	return (
