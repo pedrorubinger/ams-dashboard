@@ -7,6 +7,8 @@ import {
 
 interface GetGroupedValuesResponse {
 	/** value in cents */
+	average: number
+	/** value in cents */
 	annualySum: number
 	/** value in cents */
 	totalSum: number
@@ -16,13 +18,9 @@ interface GetGroupedValuesResponse {
 	monthlySumWholePeriod: DonationPerMonth[][]
 }
 
-const d = new Date()
-const currentYear: number = d.getFullYear()
-const currentDay: number = d.getDate()
-
 const getDonationsPerBillingMonth = (
 	records: Donation[],
-	targetYear = currentYear
+	targetYear = new Date().getFullYear()
 ): DonationPerMonth[] => {
 	return new Array(12).fill(undefined).map((_: undefined, i: number) => {
 		const month = (i + 1) as DonationBillingMonth
@@ -107,6 +105,16 @@ const getDailyBillingMonthDonationsSum = (
 		.reduce((curr, prev) => curr + prev.value, 0)
 }
 
+const getPartnerAverageDonation = (records: Donation[]) => {
+	const monthlySum: DonationPerMonth[] = getDonationsPerBillingMonth(records)
+	const monthsWithValue = monthlySum.filter((month) => month.value)
+
+	return (
+		monthsWithValue.reduce((prev, curr) => prev + curr.value, 0) /
+		monthsWithValue.length
+	)
+}
+
 const getBillingMonthDonationGroupedValues = (
 	records: Donation[]
 ): GetGroupedValuesResponse => {
@@ -114,9 +122,20 @@ const getBillingMonthDonationGroupedValues = (
 	const monthlySumWholePeriod = getWholePeriodDonationsPerBillingMonth(records)
 	const monthlySum: DonationPerMonth[] = getDonationsPerBillingMonth(records)
 	const annualySum = getAnuallyDonationsPerBillingMonth(monthlySum)
-	const dailySum = getDailyBillingMonthDonationsSum(records, currentDay)
+	const dailySum = getDailyBillingMonthDonationsSum(
+		records,
+		new Date().getDate()
+	)
+	const average = getPartnerAverageDonation(records)
 
-	return { annualySum, monthlySum, totalSum, monthlySumWholePeriod, dailySum }
+	return {
+		annualySum,
+		average,
+		dailySum,
+		monthlySum,
+		monthlySumWholePeriod,
+		totalSum,
+	}
 }
 
 export {
@@ -127,4 +146,5 @@ export {
 	getDailyBillingMonthDonationsSum,
 	getDonationsTotalSum,
 	getBillingMonthDonationGroupedValues,
+	getPartnerAverageDonation,
 }

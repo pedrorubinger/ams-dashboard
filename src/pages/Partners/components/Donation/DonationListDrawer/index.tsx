@@ -36,7 +36,7 @@ export const DonationListDrawer: React.FC<DonationListDrawerProps> = ({
 	const partnerName: string = partner?.name || "associado"
 	const { isFetching, records, error, fetchDonations } =
 		useContext(DonationContext)
-	const { annualySum, monthlySum, totalSum, monthlySumWholePeriod } =
+	const { average, annualySum, monthlySum, totalSum, monthlySumWholePeriod } =
 		getBillingMonthDonationGroupedValues(records)
 	const haveValuesFromOtherYears: boolean =
 		monthlySumWholePeriod.flat().length > 12
@@ -142,6 +142,14 @@ export const DonationListDrawer: React.FC<DonationListDrawerProps> = ({
 								<Tooltip label="Corresponde à somatória de todos os lançamentos feitos para o associado durante todo o período." />
 							</Flex>
 							:&nbsp;<strong>{priceFormatter.format(totalSum / 100)}</strong>
+						</Flex>
+
+						<Flex>
+							<Flex alignItems="center">
+								<Text>Valor médio</Text>&nbsp;
+								<Tooltip label="Corresponde à somatória de todos os lançamentos feitos para o associado por mês dividido pela quantidade de meses em que houve contribuição." />
+							</Flex>
+							:&nbsp;<strong>{priceFormatter.format(average / 100)}</strong>
 						</Flex>
 
 						<DonationListTable records={records} isLoading={false} />
