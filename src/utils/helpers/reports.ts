@@ -1,3 +1,5 @@
+import { isAfter } from "date-fns"
+
 import {
 	Donation,
 	DonationCategory,
@@ -137,14 +139,20 @@ const getFirstBillingDate = (dates: string[]) => {
 	return sorted[0]
 }
 
-const getPassedMonths = (firstDate: string) => {
+const getPassedMonths = (firstDate: string): string[] => {
 	const d = new Date()
 	const lastDate = `${String(d.getMonth() + 1).padStart(
 		2,
 		"0"
 	)}/${d.getFullYear()}`
 	const passed: string[] = []
+	const isFirstDateGreaterThanLast = isAfter(
+		new Date(`01/${firstDate}`),
+		new Date(`01/${lastDate}`)
+	)
 	let currentDate = firstDate
+
+	if (isFirstDateGreaterThanLast) return []
 
 	while (currentDate !== lastDate) {
 		const currentMonth = Number(currentDate.split("/")[0])
