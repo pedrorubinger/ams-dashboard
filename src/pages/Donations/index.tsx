@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from "react"
+import React, {
+	useCallback,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from "react"
 import { Box, Flex, Link, Text, useToast } from "@chakra-ui/react"
 import { Link as RouterLink } from "react-router-dom"
 import { FormProvider, useForm } from "react-hook-form"
@@ -25,6 +31,7 @@ interface Props {}
 
 export const Donations: React.FC<Props> = () => {
 	const toast = useToast()
+	const hasRendered = useRef(true)
 	const { error, isFetching, fetchDonations } = useContext(DonationContext)
 	const {
 		error: partnersError,
@@ -86,7 +93,10 @@ export const Donations: React.FC<Props> = () => {
 	]
 
 	useEffect(() => {
-		void fetchDonations()
+		if (hasRendered.current) {
+			hasRendered.current = false
+			void fetchDonations({ size: 1000 })
+		}
 	}, [])
 
 	useEffect(() => {
