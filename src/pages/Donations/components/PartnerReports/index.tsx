@@ -16,7 +16,7 @@ interface DetailsModal
 	extends Pick<PartnerReportDetailsModalProps, "title" | "mode" | "partners"> {}
 
 export const PartnerReports: React.FC<Props> = () => {
-	const { arrearsPartners, upToDatePartners } = usePartnerReports()
+	const { arrearsPartners, partners, upToDatePartners } = usePartnerReports()
 	const [detailsModal, setDetailsModal] = useState<DetailsModal | null>(null)
 
 	const getUpdateToDatePartnersLabel = () => {
@@ -92,6 +92,23 @@ export const PartnerReports: React.FC<Props> = () => {
 					<ContentSection mt={4}>
 						<Flex alignItems="center">
 							<Text color="gray.500" fontSize={15}>
+								Total
+							</Text>
+							&nbsp;
+							<Tooltip
+								label="Total de associados cadastrados"
+								placement="top-start"
+							/>
+						</Flex>
+
+						<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
+							{partners?.length ? `${partners.length} associados` : "-"}
+						</Text>
+					</ContentSection>
+
+					<ContentSection mt={4}>
+						<Flex alignItems="center">
+							<Text color="gray.500" fontSize={15}>
 								Em dia
 							</Text>
 							&nbsp;
@@ -120,23 +137,6 @@ export const PartnerReports: React.FC<Props> = () => {
 
 						<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
 							{getArrearsPartnersLabel()}
-						</Text>
-					</ContentSection>
-
-					<ContentSection mt={4}>
-						<Flex alignItems="center">
-							<Text color="gray.500" fontSize={15}>
-								Valor médio
-							</Text>
-							&nbsp;
-							<Tooltip
-								label="Valor médio de contribuição por associado"
-								placement="top-start"
-							/>
-						</Flex>
-
-						<Text fontWeight="bold" fontSize={18} color="blackAlpha.700">
-							-
 						</Text>
 					</ContentSection>
 				</ReportsSection>

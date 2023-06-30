@@ -1,10 +1,11 @@
 import { useContext, useMemo } from "react"
 
 import { DonationContext, PartnerContext } from "~/contexts"
-import { PartnerReportRecord } from "~/interfaces"
+import { PartnerRecord, PartnerReportRecord } from "~/interfaces"
 import { getPartnerPayments } from "~/utils"
 
 interface Response {
+	partners: PartnerRecord[]
 	records: PartnerReportRecord[]
 	upToDatePartners: PartnerReportRecord[]
 	arrearsPartners: PartnerReportRecord[]
@@ -27,5 +28,5 @@ export const usePartnerReports = (): Response => {
 		[records]
 	)
 
-	return { records, upToDatePartners, arrearsPartners }
+	return { records, partners, upToDatePartners, arrearsPartners }
 }
