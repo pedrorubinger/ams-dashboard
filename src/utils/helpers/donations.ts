@@ -110,8 +110,8 @@ const getPartnerAverageDonation = (records: Donation[]) => {
 	const monthsWithValue = monthlySum.filter((month) => month.value)
 
 	return (
-		monthsWithValue.reduce((prev, curr) => prev + curr.value, 0) /
-		monthsWithValue.length
+		(monthsWithValue.reduce((prev, curr) => prev + curr.value, 0) || 0) /
+			monthsWithValue.length || 0
 	)
 }
 
