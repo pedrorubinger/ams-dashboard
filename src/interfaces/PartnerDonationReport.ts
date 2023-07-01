@@ -9,3 +9,7 @@ export interface PartnerReportDetailsDrawerProps {
 	mode: DetailsModalMode
 	onClose: () => void
 }
+
+export interface PartnerReportDetailsDrawerFilterProps {
+	name?: string
+}
