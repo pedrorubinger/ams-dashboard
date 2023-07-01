@@ -1,19 +1,22 @@
 import React, { useState } from "react"
 import { Box, Flex, Text } from "@chakra-ui/react"
 
-import { PartnerReportDetailsModalProps } from "~/interfaces"
+import { PartnerReportDetailsDrawerProps } from "~/interfaces"
 import { ContentSection, Tooltip } from "~/components"
 import { usePartnerReports } from "~/pages/Donations/hooks"
 import {
 	ReportsSection,
 	PartnerReportsDetailsButton,
-	PartnerReportDetailsModal,
+	PartnerReportDetailsDrawer,
 } from "~/pages/Donations/components"
 
 interface Props {}
 
 interface DetailsModal
-	extends Pick<PartnerReportDetailsModalProps, "title" | "mode" | "partners"> {}
+	extends Pick<
+		PartnerReportDetailsDrawerProps,
+		"title" | "mode" | "partners"
+	> {}
 
 export const PartnerReports: React.FC<Props> = () => {
 	const { arrearsPartners, partners, upToDatePartners } = usePartnerReports()
@@ -72,7 +75,7 @@ export const PartnerReports: React.FC<Props> = () => {
 	return (
 		<>
 			{!!detailsModal && (
-				<PartnerReportDetailsModal
+				<PartnerReportDetailsDrawer
 					title={detailsModal.title}
 					mode={detailsModal.mode}
 					partners={detailsModal.partners}

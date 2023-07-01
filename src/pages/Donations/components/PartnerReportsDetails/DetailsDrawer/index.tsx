@@ -1,47 +1,36 @@
 import React from "react"
 import {
-	Button,
-	Modal,
-	ModalBody,
-	ModalCloseButton,
-	ModalContent,
-	ModalFooter,
-	ModalHeader,
-	ModalOverlay,
+	Drawer,
+	DrawerBody,
+	DrawerCloseButton,
+	DrawerContent,
+	DrawerHeader,
+	DrawerOverlay,
 	Table,
 	Tbody,
 	Td,
-	Text,
 	Th,
 	Thead,
 	Tr,
 } from "@chakra-ui/react"
 
-import { PartnerReportDetailsModalProps } from "~/interfaces"
+import { PartnerReportDetailsDrawerProps } from "~/interfaces"
 import { TableWrapper } from "~/components"
 
-export const PartnerReportDetailsModal: React.FC<
-	PartnerReportDetailsModalProps
+export const PartnerReportDetailsDrawer: React.FC<
+	PartnerReportDetailsDrawerProps
 > = ({ isVisible, title, mode, partners, onClose }) => {
 	const isUpToDateMode = mode === "UP-TO-DATE"
 	const isArrear = mode === "ARREAR"
 
 	return (
-		<Modal
-			isOpen={isVisible}
-			size="xl"
-			scrollBehavior="inside"
-			onClose={onClose}
-		>
-			<ModalOverlay />
-			<ModalContent>
-				<ModalHeader>
-					<Text>{title}</Text>
-				</ModalHeader>
+		<Drawer isOpen={isVisible} onClose={onClose} size="xl">
+			<DrawerOverlay />
+			<DrawerContent>
+				<DrawerCloseButton />
+				<DrawerHeader>{title}</DrawerHeader>
 
-				<ModalCloseButton />
-
-				<ModalBody>
+				<DrawerBody>
 					{!!isUpToDateMode && (
 						<TableWrapper>
 							<Table>
@@ -101,20 +90,8 @@ export const PartnerReportDetailsModal: React.FC<
 							</Table>
 						</TableWrapper>
 					)}
-				</ModalBody>
-
-				<ModalFooter>
-					<Button
-						title="Clique para fechar este modal"
-						colorScheme="ghost"
-						color="black"
-						mr={3}
-						onClick={onClose}
-					>
-						Fechar
-					</Button>
-				</ModalFooter>
-			</ModalContent>
-		</Modal>
+				</DrawerBody>
+			</DrawerContent>
+		</Drawer>
 	)
 }
