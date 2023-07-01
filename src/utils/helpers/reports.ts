@@ -57,7 +57,11 @@ const getDailyDonationsSum = ({
 
 	return records
 		.filter((donation) => {
-			const isDateValid = new Date(donation[prop] as Date).getDate() === target
+			const isMonthValid =
+				new Date().getMonth() + 1 ===
+				new Date(donation.incomeDate).getMonth() + 1
+			const isDayValid = new Date(donation[prop] as Date).getDate() === target
+			const isDateValid = isDayValid && isMonthValid
 
 			if (category) {
 				return isDateValid && donation.category === DonationCategory[category]
