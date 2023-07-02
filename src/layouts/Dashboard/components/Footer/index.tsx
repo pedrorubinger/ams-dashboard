@@ -1,4 +1,7 @@
 import { Link, Flex, Text } from "@chakra-ui/react"
+import { Tooltip } from "~/components"
+
+import { isDevEnv } from "~/utils"
 
 interface Props {}
 
@@ -10,13 +13,33 @@ export const DashboardFooter: React.FC<Props> = () => {
 
 	return (
 		<Flex flex={1} alignItems="flex-end" justifyContent="center" mt={3}>
-			<Text fontSize="sm" color="gray.400">
-				AMS by{" "}
-				<Link href={CREATOR_GITHUB_URL} target="_blank" color="primary.200">
-					Pedro Rubinger
-				</Link>{" "}
-				&copy; v{APPLICATION_VERSION} ~ {year} <br />
-			</Text>
+			<Flex
+				flexDirection="column"
+				justifyContent="center"
+				width="100%"
+				alignItems="center"
+			>
+				{!!isDevEnv && (
+					<Flex alignItems="center" gap="1">
+						<Text fontSize="lg" color="blackAlpha.600" fontWeight="bold">
+							AMBIENTE DE TESTES
+						</Text>
+
+						<Tooltip
+							label="Este é um ambiente para validação e testes das funcionalidades. Os dados aqui cadastrados poderão ser excluídos a qualquer momento."
+							placement="top-start"
+						/>
+					</Flex>
+				)}
+
+				<Text fontSize="sm" color="gray.400">
+					AMS by&nbsp;
+					<Link href={CREATOR_GITHUB_URL} target="_blank" color="primary.200">
+						Pedro Rubinger
+					</Link>
+					&nbsp;&copy; v{APPLICATION_VERSION} ~ {year} <br />
+				</Text>
+			</Flex>
 		</Flex>
 	)
 }
