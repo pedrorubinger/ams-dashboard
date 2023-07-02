@@ -80,6 +80,7 @@ export interface NewDonationDrawerProps {
 export interface Donation {
 	id: string
 	partnerId: string
+	userId: string
 	billingDate: string[]
 	category: DonationCategory
 	incomeDate: string
