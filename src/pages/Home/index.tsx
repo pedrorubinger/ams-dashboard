@@ -14,7 +14,8 @@ export const Home: React.FC = () => {
 			<Text>
 				Utilize o menu lateral para navegar pelo sistema. Uma seção de&nbsp;
 				<strong>Ajuda</strong> estará disponível em breve! <br /> Algumas das
-				funcionalidades ainda estão em desenvolvimento.
+				funcionalidades ainda estão em desenvolvimento. Verifique no fim da
+				página se este é um ambiente de testes.
 			</Text>
 		</ContentSection>
 	)
