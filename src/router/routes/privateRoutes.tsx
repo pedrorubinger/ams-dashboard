@@ -80,7 +80,9 @@ export const privateRoutes: RouteItem[] = [
 		permissions: ["admin"],
 		element: (
 			<DonationProvider>
-				<Donations />
+				<PartnerProvider>
+					<Donations />
+				</PartnerProvider>
 			</DonationProvider>
 		),
 	},

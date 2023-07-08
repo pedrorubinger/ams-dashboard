@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from "react"
+import React, {
+	useCallback,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from "react"
 import { Box, Flex, Link, Text, useToast } from "@chakra-ui/react"
 import { Link as RouterLink } from "react-router-dom"
 import { FormProvider, useForm } from "react-hook-form"
@@ -18,21 +24,28 @@ import {
 	SearchDonationSchema,
 } from "~/pages/Donations/components"
 import { ContentSection, PageTitle, TableActionsMenu } from "~/components"
-import { DonationContext } from "~/contexts"
+import { DonationContext, PartnerContext } from "~/contexts"
 import { TOAST_OPTIONS } from "~/utils"
 
 interface Props {}
 
 export const Donations: React.FC<Props> = () => {
 	const toast = useToast()
-	const { error, isFetching, fetchDonations } = useContext(DonationContext)
+	const hasRendered = useRef(true)
+	const { error, isFetching, fetchDonations, clearRecords } =
+		useContext(DonationContext)
+	const {
+		error: partnersError,
+		isFetching: isFetchingPartners,
+		fetchPartners,
+	} = useContext(PartnerContext)
 	const form = useForm<SearchValues>({
 		defaultValues: { date: "" },
 		resolver: yupResolver(SearchDonationSchema),
 	})
 	const isMounted = useIsMounted()
 	const [activeFilter, setActiveFilter] = useState<string[] | undefined>()
-	const isLoading = isFetching || !isMounted
+	const isLoading = isFetching || !isMounted || isFetchingPartners
 	const hasFilter = !!activeFilter
 
 	// const [instance] = usePDF({
@@ -66,7 +79,10 @@ export const Donations: React.FC<Props> = () => {
 			label: "Recarregar registros",
 			title: "Clique para atualizar a listagem de contribuições",
 			Icon: <ArrowClockwise />,
-			onClick: () => void fetchDonations(),
+			onClick: () => {
+				clearRecords()
+				void fetchDonations()
+			},
 		},
 		// {
 		// 	id: "download",
@@ -81,8 +97,15 @@ export const Donations: React.FC<Props> = () => {
 	]
 
 	useEffect(() => {
-		void fetchDonations()
-	}, [fetchDonations])
+		if (hasRendered.current) {
+			hasRendered.current = false
+			void fetchDonations()
+		}
+	}, [])
+
+	useEffect(() => {
+		void fetchPartners()
+	}, [])
 
 	useEffect(() => {
 		if (error) {
@@ -94,6 +117,17 @@ export const Donations: React.FC<Props> = () => {
 			})
 		}
 	}, [error])
+
+	useEffect(() => {
+		if (partnersError) {
+			toast({
+				...TOAST_OPTIONS,
+				description: partnersError,
+				title: "Erro ao buscar os associados",
+				status: "error",
+			})
+		}
+	}, [partnersError])
 
 	return (
 		<Box mb={3}>

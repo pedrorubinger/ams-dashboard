@@ -127,7 +127,7 @@ export const usePartnerUpdater = (params: UsePartnerUpdaterParams) => {
 			  })
 			: await update({
 					autoRegistration: autoRegistrationId,
-					registrationId: id,
+					registrationId: id || undefined,
 					name,
 			  })
 

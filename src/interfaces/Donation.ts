@@ -1,4 +1,5 @@
 import { PartnerRecord } from "~/interfaces/Partner"
+import { Pagination } from "./ServerResponse"
 
 export enum DonationCategory {
 	PIX = "PIX",
@@ -114,9 +115,11 @@ export interface CreateDonationResponse {
 export interface GetDonationsParams {
 	partnerId?: string
 	category?: DonationCategory
+	size?: number
+	startAt?: string | null
 }
 
-export interface GetDonationsResponse {
+export interface GetDonationsResponse extends Pagination {
 	donations: Donation[]
 }
 

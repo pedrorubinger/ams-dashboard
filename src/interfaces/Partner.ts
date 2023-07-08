@@ -1,3 +1,5 @@
+import { GetDataResponse } from "~/interfaces/ServerResponse"
+
 export interface Partner {
 	id: string
 	registrationId: string // Matrícula
@@ -12,6 +14,10 @@ export enum FindPartnerField {
 }
 
 export interface PartnerRecord extends Partner {}
+
+export interface PartnerReportRecord extends PartnerRecord {
+	arrears: string[]
+}
 
 export interface PartnerValues extends Pick<Partner, "name"> {
 	autoRegistrationId: boolean
@@ -69,4 +75,8 @@ export interface PartnerDrawerProps {
 	mode: PartnerDrawerMode
 	partner?: Partner
 	onClose: () => void
+}
+
+export interface GetPartnersResponse extends GetDataResponse {
+	partners: Partner[]
 }

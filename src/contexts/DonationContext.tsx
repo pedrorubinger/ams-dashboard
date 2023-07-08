@@ -35,22 +35,43 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
 		setIsFetching(true)
 		setError(null)
 
+		const isPaginating = !!values?.size
 		const params: GetDonationsParams = {
 			category: values?.category,
 			partnerId: values?.partnerId,
+			size: values?.size,
+			startAt: values?.startAt || null,
 		}
 		const response = await getDonations(params)
 
-		setIsFetching(false)
-
 		if (response.error) {
+			setIsFetching(false)
 			setError(response.error)
 			return
 		}
 
 		if (response.data) {
+			if (isPaginating) {
+				setData((prev) => {
+					const donations = prev?.donations || []
+					const resDonations = response?.data?.donations || []
+
+					return { ...prev, donations: [...donations, ...resDonations] }
+				})
+
+				if (response?.data.lastKey) {
+					await fetchDonations({ ...values, startAt: response.data.lastKey })
+					return
+				}
+
+				setIsFetching(false)
+				return
+			}
+
 			setData(response.data)
 		}
+
+		setIsFetching(false)
 	}, [])
 
 	const clearRecords = () => setData(null)

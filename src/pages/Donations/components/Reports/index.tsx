@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { Flex, Text } from "@chakra-ui/react"
 
 import { DonationCategory } from "~/interfaces"
-import { DonationContext } from "~/contexts"
+import { DonationContext, PartnerContext } from "~/contexts"
 import { ReportsSection } from "~/pages/Donations/components/Reports/styles"
 import {
 	CategoryDonationsReport,
@@ -28,16 +28,17 @@ export const DonationsReport: React.FC<Props> = ({
 	hasFilter,
 	isLoading,
 }) => {
-	const { error } = useContext(DonationContext)
+	const { error: donationsError } = useContext(DonationContext)
+	const { error: partnersError } = useContext(PartnerContext)
 
-	if (error) {
+	if (donationsError && partnersError) {
 		return (
 			<Flex mt={7} justifyContent="center">
 				<Text
 					fontWeight="bold"
 					color="blackAlpha.600"
-					fontSize={18}
 					textAlign="center"
+					fontSize={18}
 				>
 					Desculpe, não foi possível gerar os seus relatórios neste momento. Por
 					favor, tente novamente mais tarde.
@@ -49,6 +50,11 @@ export const DonationsReport: React.FC<Props> = ({
 	return (
 		<>
 			<Flex>
+				{!!isLoading && <ReportCardsSkeleton hasFilter={false} />}
+				{!isLoading && <PartnerReports />}
+			</Flex>
+
+			<Flex>
 				{!!isLoading && <ReportCardsSkeleton hasFilter={hasFilter} />}
 				{!isLoading && (
 					<IncomeDateDonationsReports
@@ -56,11 +62,6 @@ export const DonationsReport: React.FC<Props> = ({
 						dateRange={activeFilter}
 					/>
 				)}
-			</Flex>
-
-			<Flex>
-				{!!isLoading && <ReportCardsSkeleton hasFilter={false} />}
-				{!isLoading && <PartnerReports />}
 			</Flex>
 
 			{CATEGORIES.map((category) => {

@@ -12,12 +12,16 @@ import { handleError } from "~/utils"
 export const getDonations = async ({
 	category,
 	partnerId,
+	size,
+	startAt,
 }: GetDonationsParams): Promise<ServerResponse<GetDonationsResponse>> => {
 	try {
 		const config: AxiosRequestConfig<GetDonationsParams> = {
 			params: {
 				category,
 				partnerId,
+				size,
+				startAt,
 			},
 		}
 		const { data } = await Api.get<GetDonationsResponse>("/donations", config)

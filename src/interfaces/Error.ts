@@ -43,6 +43,7 @@ export enum ErrorCode {
 	"400_TENANT_IS_REQUIRED" = "Informe uma instituição.",
 	"400_REGISTRATION_ID_MUST_BE_TEXT" = "A matrícula possui um formato inválido.",
 	"400_REGISTRATION_ID_IS_REQUIRED" = "Informe a matrícula.",
+	"400_REGISTRATION_ID_MUST_BE_NUMERIC" = "A matrícula deve ser um número válido.",
 	"400_CONTENT_MUST_BE_TEXT" = "O conteúdo da pesquisa deve ser um texto.",
 	"400_CONTENT_EXCEEDS_LENGTH_100" = "O conteúdo da pesquisa não pode exceder 100 caracteres.",
 	"400_CONTENT_IS_REQUIRED" = "Informe o conteúdo.",
@@ -66,6 +67,7 @@ export enum ErrorCode {
 	"400_AUTO_REGISTRATION_MUST_BE_BOOLEAN" = "Informe corretamente se deseja gerar uma matrícula automaticamente.",
 	"400_DONATION_INCOME_DATE_MUST_BE_DATE" = "A data de pagamento deve ser estar no formato correto de data!",
 	"400_DONATION_INCOME_DATE_IS_REQUIRED" = "Informe a data de pagamento da contribuição.",
+	"400_REGISTRATION_ID_IS_ALREADY_REGISTERED" = "Este número de matrícula já está cadastrado.",
 }
 
 export interface ServerErrorResponse {

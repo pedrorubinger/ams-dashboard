@@ -7,7 +7,7 @@ import {
 	PartnerRecord,
 	SearchPartnerValues,
 } from "~/interfaces"
-import { getPartner } from "~/services"
+import { getPartner, getPartners } from "~/services"
 
 type Error = ErrorCode | null
 type Data = GetPartnerResponse | null
@@ -21,6 +21,7 @@ interface PartnerContextType {
 	records: PartnerRecord[]
 	error: Error
 	findPartner: (values: SearchPartnerValues) => Promise<void>
+	fetchPartners: () => Promise<void>
 	clearRecords: () => void
 }
 
@@ -34,8 +35,7 @@ export const PartnerProvider = ({ children }: PartnerProviderProps) => {
 
 	const findPartner = useCallback(async (values: SearchPartnerValues) => {
 		setIsFetching(true)
-
-		if (error) setError(null)
+		setError(null)
 
 		const params: GetPartnerParams = {
 			field: values.field,
@@ -50,16 +50,37 @@ export const PartnerProvider = ({ children }: PartnerProviderProps) => {
 			return
 		}
 
-		if (response.data) {
-			setData(response.data)
+		if (response.data) setData(response.data)
+	}, [])
+
+	const fetchPartners = useCallback(async () => {
+		setIsFetching(true)
+		setError(null)
+
+		const response = await getPartners()
+
+		setIsFetching(false)
+
+		if (response.error) {
+			setError(response.error)
+			return
 		}
+
+		if (response.data) setData(response.data)
 	}, [])
 
 	const clearRecords = () => setData(null)
 
 	return (
 		<PartnerContext.Provider
-			value={{ findPartner, clearRecords, error, isFetching, records }}
+			value={{
+				fetchPartners,
+				findPartner,
+				clearRecords,
+				error,
+				isFetching,
+				records,
+			}}
 		>
 			{children}
 		</PartnerContext.Provider>

@@ -1,19 +1,28 @@
+import { isAfter } from "date-fns"
+
 import {
 	Donation,
 	DonationCategory,
 	DonationReportDateMode,
+	PartnerRecord,
+	PartnerReportRecord,
 } from "~/interfaces"
 
-const getPropName = (mode: DonationReportDateMode): keyof Donation => {
-	if (mode === "INCOME") return "incomeDate" as keyof Donation
-	return "createdAt" as keyof Donation
-}
-
-interface DefaultParams {
+interface DefaultDonationParams {
 	records: Donation[]
 	target: number
 	mode: DonationReportDateMode
 	category?: DonationCategory
+}
+
+interface DefaultPartnerParams {
+	partners: PartnerRecord[]
+	donations: Donation[]
+}
+
+const getPropName = (mode: DonationReportDateMode): keyof Donation => {
+	if (mode === "INCOME") return "incomeDate" as keyof Donation
+	return "createdAt" as keyof Donation
 }
 
 const getMonthlyDonationsSum = ({
@@ -21,7 +30,7 @@ const getMonthlyDonationsSum = ({
 	target,
 	mode,
 	category,
-}: DefaultParams): number => {
+}: DefaultDonationParams): number => {
 	const prop = getPropName(mode)
 
 	return records
@@ -43,12 +52,16 @@ const getDailyDonationsSum = ({
 	target,
 	mode,
 	category,
-}: DefaultParams): number => {
+}: DefaultDonationParams): number => {
 	const prop = getPropName(mode)
 
 	return records
 		.filter((donation) => {
-			const isDateValid = new Date(donation[prop] as Date).getDate() === target
+			const isMonthValid =
+				new Date().getMonth() + 1 ===
+				new Date(donation.incomeDate).getMonth() + 1
+			const isDayValid = new Date(donation[prop] as Date).getDate() === target
+			const isDateValid = isDayValid && isMonthValid
 
 			if (category) {
 				return isDateValid && donation.category === DonationCategory[category]
@@ -64,7 +77,7 @@ const getAnnuallyDonationsSum = ({
 	target,
 	mode,
 	category,
-}: DefaultParams): number => {
+}: DefaultDonationParams): number => {
 	const prop = getPropName(mode)
 
 	return records
@@ -81,7 +94,7 @@ const getAnnuallyDonationsSum = ({
 		.reduce((curr, prev) => curr + prev.value, 0)
 }
 
-interface GetByRangeParams extends Omit<DefaultParams, "target"> {
+interface GetByRangeParams extends Omit<DefaultDonationParams, "target"> {
 	range?: string[]
 }
 
@@ -111,9 +124,89 @@ const getDonationsSumByRange = ({
 		.reduce((total, { value }) => total + value, 0)
 }
 
+const getFirstBillingDate = (dates: string[]) => {
+	const customComparator = (first: string, second: string): number => {
+		const [month1, year1] = first.split("/")
+		const [month2, year2] = second.split("/")
+
+		/* Compare years first */
+		if (year1 !== year2) {
+			return Number(year1) - Number(year2)
+		}
+
+		/* If years are the same, compare months */
+		return Number(month1) - Number(month2)
+	}
+
+	const sorted = dates.sort(customComparator)
+
+	return sorted[0]
+}
+
+const getPassedMonths = (firstDate: string): string[] => {
+	const d = new Date()
+	const lastDate = `${String(d.getMonth() + 1).padStart(
+		2,
+		"0"
+	)}/${d.getFullYear()}`
+	const passed: string[] = []
+	const isFirstDateGreaterThanLast = isAfter(
+		new Date(`01/${firstDate}`),
+		new Date(`01/${lastDate}`)
+	)
+	let currentDate = firstDate
+
+	if (isFirstDateGreaterThanLast) return []
+
+	while (currentDate !== lastDate) {
+		const currentMonth = Number(currentDate.split("/")[0])
+		const currentYear = Number(currentDate.split("/")[1])
+		const isLastMonth = currentMonth === 12
+
+		currentDate = `${
+			isLastMonth ? "01" : String(currentMonth + 1).padStart(2, "0")
+		}/${isLastMonth ? currentYear + 1 : currentYear}`
+
+		passed.push(currentDate)
+	}
+
+	return passed
+}
+
+const getPartnerPayments = ({
+	partners,
+	donations,
+}: DefaultPartnerParams): PartnerReportRecord[] => {
+	const records = partners.map((partner) => {
+		const partnerDonations = donations.filter(
+			(donation) => donation.partnerId === partner.id
+		)
+		const billingMonths = Array.from(
+			new Set(partnerDonations.map((donation) => donation.billingDate).flat())
+		)
+		const firstBillingDate = getFirstBillingDate(billingMonths)
+		const firstMonth = Number(firstBillingDate?.split("/")?.[0])
+		const firstYear = Number(firstBillingDate?.split("/")?.[1])
+
+		if (!firstMonth || !firstYear) return false
+
+		const passedMonths: string[] = getPassedMonths(firstBillingDate)
+
+		return {
+			...partner,
+			arrears: passedMonths.filter((month) => !billingMonths.includes(month)),
+		}
+	}) as PartnerReportRecord[]
+
+	return records.filter(Boolean)
+}
+
 export {
+	/* Donation Reports */
 	getMonthlyDonationsSum,
 	getDailyDonationsSum,
 	getAnnuallyDonationsSum,
 	getDonationsSumByRange,
+	/* Partner Reports */
+	getPartnerPayments,
 }
