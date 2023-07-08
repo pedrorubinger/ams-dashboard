@@ -84,9 +84,13 @@ export const USER_BAD_REQUEST_ERRORS: BadRequestErrorCode<UserFields>[] = [
 	// { code: ErrorCode["400_ROLE_IS_INVALID"], field: "" },
 ]
 
-/** TO DO: Add list of errors for the entity... */
 export const PARTNER_BAD_REQUEST_ERRORS: BadRequestErrorCode<PartnerFields>[] =
-	[]
+	[
+		{
+			code: ErrorCode["400_REGISTRATION_ID_IS_ALREADY_REGISTERED"],
+			field: "id",
+		},
+	]
 
 /** TO DO: Add list of errors for the entity... */
 export const PARTNER_DONATION_BAD_REQUEST_ERRORS: BadRequestErrorCode<DonationFields>[] =

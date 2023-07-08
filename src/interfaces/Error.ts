@@ -67,6 +67,7 @@ export enum ErrorCode {
 	"400_AUTO_REGISTRATION_MUST_BE_BOOLEAN" = "Informe corretamente se deseja gerar uma matrícula automaticamente.",
 	"400_DONATION_INCOME_DATE_MUST_BE_DATE" = "A data de pagamento deve ser estar no formato correto de data!",
 	"400_DONATION_INCOME_DATE_IS_REQUIRED" = "Informe a data de pagamento da contribuição.",
+	"400_REGISTRATION_ID_IS_ALREADY_REGISTERED" = "Este número de matrícula já está cadastrado.",
 }
 
 export interface ServerErrorResponse {
