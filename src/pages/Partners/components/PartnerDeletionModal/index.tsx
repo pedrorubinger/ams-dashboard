@@ -29,7 +29,7 @@ export const PartnerDeletionModal: React.FC<PartnerDeletionModalProps> = ({
 	data,
 	onClose,
 }) => {
-	const { clearRecords } = useContext(PartnerContext)
+	const { clearRecords, fetchPartners } = useContext(PartnerContext)
 	const toast = useToast()
 	const [isDeleting, setIsDeleting] = useState(false)
 	const { name, id, registrationId } = data
@@ -64,6 +64,7 @@ export const PartnerDeletionModal: React.FC<PartnerDeletionModalProps> = ({
 				description: `O associado ${name} foi excluído com sucesso!`,
 			})
 			clearRecords()
+			void fetchPartners({ hasPagination: true })
 			closeModal()
 		}
 	}

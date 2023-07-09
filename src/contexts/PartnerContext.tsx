@@ -45,6 +45,7 @@ export const PartnerProvider = ({ children }: PartnerProviderProps) => {
 	const findPartner = useCallback(async (values: SearchPartnerValues) => {
 		setIsFetching(true)
 		setError(null)
+		setPagination(null)
 
 		const params: GetPartnerParams = {
 			field: values.field,
