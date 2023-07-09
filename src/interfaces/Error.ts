@@ -16,6 +16,7 @@ export enum ErrorCode {
 	"404_TENANT_NOT_FOUND" = "Não encontramos esta instituição.",
 	"404_REGISTRATION_ID_NOT_FOUND" = "Não encontramos o último registro de matrícula do associado.",
 	"400_PARTNER_NOT_FOUND" = "Não encontramos este associado.",
+	"400_DONATION_NOT_FOUND" = "Não encontramos esta contribuição.",
 	/** 400 */
 	"400_EMAIL_ALREADY_REGISTERED" = "Este email já está sendo utilizado.",
 	"400_INVALID_CREDENTIALS" = "Usuário ou senha incorretos.",
