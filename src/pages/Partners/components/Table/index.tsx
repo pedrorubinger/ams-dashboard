@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
 
 import { PartnerContext } from "~/contexts"
@@ -34,8 +34,12 @@ export const PartnersTable: React.FC<Props> = ({
 	onDeletePartner,
 }) => {
 	const { user } = useUserStore()
-	const { isFetching, records } = useContext(PartnerContext)
+	const { pagination, isFetching, records, fetchPartners } =
+		useContext(PartnerContext)
+	const [isPaginating, setIsPaginating] = useState(false)
+	const isTableBodyVisible: boolean = isFetching ? isPaginating : true
 	const count = records?.length || 0
+	const total = pagination?.total
 
 	const getActions = (record: PartnerRecord): TableRowAction[] => {
 		const isDisabled = user?.id === record.id
@@ -68,12 +72,23 @@ export const PartnersTable: React.FC<Props> = ({
 		]
 	}
 
+	const onClickToGetMore = async () => {
+		setIsPaginating(true)
+		await fetchPartners({ hasPagination: true, startAt: pagination?.lastKey })
+		setIsPaginating(false)
+	}
+
 	return (
 		<TableWrapper>
 			<TableActionsMenu items={actionItems} isDisabled={isFetching} />
 
 			<Table>
-				<TableStatus count={count} total={count} isLoading={isFetching} />
+				<TableStatus
+					count={count}
+					total={total}
+					isLoading={isFetching}
+					onClickToGetMore={() => void onClickToGetMore()}
+				/>
 
 				<Thead>
 					<Tr>
@@ -83,7 +98,7 @@ export const PartnersTable: React.FC<Props> = ({
 					</Tr>
 				</Thead>
 
-				{!isFetching && (
+				{!!isTableBodyVisible && (
 					<Tbody width="100%">
 						{records.map((record) => {
 							return (

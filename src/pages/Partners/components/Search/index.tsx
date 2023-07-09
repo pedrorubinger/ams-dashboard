@@ -6,17 +6,19 @@ import {
 	FormErrorMessage,
 	Input,
 	InputGroup,
+	InputLeftElement,
 	InputRightElement,
 	Select,
+	Tooltip,
 } from "@chakra-ui/react"
 import { useFormContext } from "react-hook-form"
-import { MagnifyingGlass } from "phosphor-react"
+import { Eraser, MagnifyingGlass } from "phosphor-react"
 
 import { PartnerContext } from "~/contexts"
 import { SearchPartnerValues } from "~/interfaces"
 import { DefaultAlert, Form, InputLabel } from "~/components"
 import { searchOptions } from "~/pages/Partners/utils/constants"
-import { SearchButton } from "~/pages/Partners/components/Search/styles"
+import { SearchButton as FilterButton } from "~/pages/Partners/components/Search/styles"
 
 interface Props {}
 
@@ -29,10 +31,18 @@ export const SearchPartner: React.FC<Props> = () => {
 		formState: { defaultValues, errors, isDirty },
 	} = useFormContext<SearchPartnerValues>()
 	const type = watch("field")
-	const { error, isFetching, findPartner } = useContext(PartnerContext)
+	const { error, isFetching, clearRecords, findPartner, fetchPartners } =
+		useContext(PartnerContext)
+	const isClearButtonDisabled = isFetching || !!error
 
 	const onSubmit = async (values: SearchPartnerValues): Promise<void> => {
 		await findPartner(values)
+	}
+
+	const onReset = async () => {
+		setValue("content", defaultValues?.content || "")
+		clearRecords()
+		await fetchPartners({ hasPagination: true })
 	}
 
 	useEffect(() => {
@@ -77,6 +87,22 @@ export const SearchPartner: React.FC<Props> = () => {
 						<InputLabel htmlFor="content">Pesquisar por</InputLabel>
 
 						<InputGroup>
+							<InputLeftElement>
+								<Tooltip
+									label="Clique para limpar os filtros e recarregar a listagem"
+									placement="top-start"
+								>
+									<FilterButton
+										isDisabled={isClearButtonDisabled}
+										icon={<Eraser size={14} />}
+										marginBottom={2}
+										aria-label="Desfazer filtros"
+										type="button"
+										size="sm"
+										onClick={onReset}
+									/>
+								</Tooltip>
+							</InputLeftElement>
 							<Input
 								id="content"
 								type="text"
@@ -86,10 +112,11 @@ export const SearchPartner: React.FC<Props> = () => {
 								borderRadius="none"
 								size="sm"
 								_focus={{ border: "inherit" }}
+								paddingLeft="50px"
 								isDisabled={isFetching}
 							/>
 							<InputRightElement>
-								<SearchButton
+								<FilterButton
 									isDisabled={isFetching}
 									icon={<MagnifyingGlass size={14} />}
 									marginBottom={2}

@@ -104,7 +104,7 @@ export const Donations: React.FC<Props> = () => {
 	}, [])
 
 	useEffect(() => {
-		void fetchPartners()
+		void fetchPartners({ hasPagination: false })
 	}, [])
 
 	useEffect(() => {
