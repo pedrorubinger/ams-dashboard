@@ -123,3 +123,16 @@ export interface GetDonationsResponse extends Pagination {
 }
 
 export type DonationReportDateMode = "INCOME" | "BILLING"
+
+export interface DeleteDonationPayload {
+	id: string
+}
+
+export interface DeleteDonationResponse {
+	success: boolean
+}
+
+export interface DeleteDonationModalData {
+	id: string
+	value: number // in cents
+}

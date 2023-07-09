@@ -32,6 +32,7 @@ export const partnerDonationColumns: TableColumn[] = [
 	{ id: 3, label: "Valor" },
 	{ id: 4, label: "Pago em" },
 	{ id: 5, label: "Lançado em" },
+	{ id: 6, label: "Ações" },
 ]
 
 export const partnerDonationPerMonthColumns: TableColumn[] = [
