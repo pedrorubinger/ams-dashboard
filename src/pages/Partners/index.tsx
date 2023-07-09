@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { Text } from "@chakra-ui/react"
 import { PlusCircle } from "phosphor-react"
 import { FormProvider, useForm } from "react-hook-form"
@@ -14,6 +14,7 @@ import {
 	FindPartnerField,
 	PartnerDeletionModalData,
 } from "~/interfaces"
+import { DonationProvider, PartnerContext } from "~/contexts"
 import {
 	PartnersTable,
 	SearchPartner,
@@ -24,7 +25,6 @@ import {
 	PartnerDeletionModal,
 } from "~/pages/Partners/components"
 import { ContentSection, PageTitle } from "~/components"
-import { DonationProvider } from "~/contexts"
 
 type PartnerDrawerType = null | Omit<PartnerDrawerProps, "onClose">
 type INewDonationDrawer = null | Omit<NewDonationDrawerProps, "onClose">
@@ -37,10 +37,13 @@ const searchDefaultValues: SearchPartnerValues = {
 }
 
 export const Partners: React.FC = () => {
+	const hasRendered = useRef(true)
 	const form = useForm<SearchPartnerValues>({
 		defaultValues: searchDefaultValues,
 		resolver: yupResolver(SearchPartnersSchema),
 	})
+
+	const { fetchPartners } = useContext(PartnerContext)
 
 	const [partnerDonationListDrawer, setDonationListDrawer] =
 		useState<ListSupportsDrawer>(null)
@@ -86,6 +89,13 @@ export const Partners: React.FC = () => {
 			onClick: onAddNewPartner,
 		},
 	]
+
+	useEffect(() => {
+		if (hasRendered.current) {
+			hasRendered.current = false
+			void fetchPartners({ hasPagination: true })
+		}
+	}, [])
 
 	return (
 		<>

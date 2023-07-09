@@ -1,4 +1,4 @@
-import { GetDataResponse } from "~/interfaces/ServerResponse"
+import { GetDataParams, GetDataResponse } from "~/interfaces/ServerResponse"
 
 export interface Partner {
 	id: string
@@ -75,6 +75,12 @@ export interface PartnerDrawerProps {
 	mode: PartnerDrawerMode
 	partner?: Partner
 	onClose: () => void
+}
+
+export interface GetPartnersApiParams extends GetDataParams {}
+
+export interface GetPartnersParams extends GetPartnersApiParams {
+	hasPagination?: boolean
 }
 
 export interface GetPartnersResponse extends GetDataResponse {
