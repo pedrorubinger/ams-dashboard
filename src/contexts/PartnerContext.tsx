@@ -38,11 +38,14 @@ export const PartnerProvider = ({ children }: PartnerProviderProps) => {
 	const [pagination, setPagination] = useState<Pagination | null>(null)
 	const [data, setData] = useState<Data>(null)
 	const [error, setError] = useState<Error>(null)
-	const records = data?.partners || []
+	const records = data?.partners
+		? data.partners.sort((a, b) => a.name.localeCompare(b.name))
+		: []
 
 	const findPartner = useCallback(async (values: SearchPartnerValues) => {
 		setIsFetching(true)
 		setError(null)
+		setPagination(null)
 
 		const params: GetPartnerParams = {
 			field: values.field,
@@ -81,8 +84,6 @@ export const PartnerProvider = ({ children }: PartnerProviderProps) => {
 				total: response.data.total || response.data.partners.length,
 				lastKey: response.data.lastKey,
 			})
-
-			// setData({ partners: result })
 
 			if (response.data) {
 				setData((prev) => {

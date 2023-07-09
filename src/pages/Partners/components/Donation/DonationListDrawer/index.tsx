@@ -152,7 +152,11 @@ export const DonationListDrawer: React.FC<DonationListDrawerProps> = ({
 							:&nbsp;<strong>{priceFormatter.format(average / 100)}</strong>
 						</Flex>
 
-						<DonationListTable records={records} isLoading={false} />
+						<DonationListTable
+							records={records}
+							isLoading={false}
+							partner={partner}
+						/>
 					</AccordionPanel>
 				</AccordionItem>
 			</Accordion>

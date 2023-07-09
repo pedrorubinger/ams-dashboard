@@ -31,7 +31,8 @@ export const usePartnerUpdater = (params: UsePartnerUpdaterParams) => {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [errorMessage, setErrorMessage] = useState("")
 	const toast = useToast()
-	const { findPartner } = useContext(PartnerContext)
+	const { findPartner, clearRecords, fetchPartners } =
+		useContext(PartnerContext)
 
 	const fireSuccessToast = (name: string) => {
 		const title = isCreating ? "Associado cadastrado!" : "Dados atualizados!"
@@ -72,10 +73,12 @@ export const usePartnerUpdater = (params: UsePartnerUpdaterParams) => {
 
 		if (success && data) {
 			fireSuccessToast(name)
-			void findPartner({
-				field: FindPartnerField.ID,
-				content: data.partner.registrationId,
-			})
+			clearRecords()
+			void fetchPartners({ hasPagination: true })
+			// void findPartner({
+			// 	field: FindPartnerField.ID,
+			// 	content: data.partner.registrationId,
+			// })
 			return { success: true }
 		}
 

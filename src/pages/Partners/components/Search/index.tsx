@@ -36,6 +36,7 @@ export const SearchPartner: React.FC<Props> = () => {
 	const isClearButtonDisabled = isFetching || !!error
 
 	const onSubmit = async (values: SearchPartnerValues): Promise<void> => {
+		clearRecords()
 		await findPartner(values)
 	}
 

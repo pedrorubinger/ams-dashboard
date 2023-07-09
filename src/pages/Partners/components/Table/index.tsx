@@ -39,7 +39,7 @@ export const PartnersTable: React.FC<Props> = ({
 	const [isPaginating, setIsPaginating] = useState(false)
 	const isTableBodyVisible: boolean = isFetching ? isPaginating : true
 	const count = records?.length || 0
-	const total = pagination?.total
+	const total = pagination?.total || count
 
 	const getActions = (record: PartnerRecord): TableRowAction[] => {
 		const isDisabled = user?.id === record.id
