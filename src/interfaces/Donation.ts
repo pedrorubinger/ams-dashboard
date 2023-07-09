@@ -74,7 +74,6 @@ export interface NewDonationDrawerProps {
 	mode: DonationDrawerMode
 	partner: PartnerRecord
 	onClose: () => void
-	// fetchRecords: (params?: GetUsersParams) => Promise<void>
 }
 
 export interface Donation {

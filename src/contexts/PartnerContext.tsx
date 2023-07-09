@@ -84,8 +84,6 @@ export const PartnerProvider = ({ children }: PartnerProviderProps) => {
 				lastKey: response.data.lastKey,
 			})
 
-			// setData({ partners: result })
-
 			if (response.data) {
 				setData((prev) => {
 					let result: Partner[] = []
